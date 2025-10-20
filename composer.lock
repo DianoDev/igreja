@@ -216,12 +216,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DianoDev/LaravelVueCrud.git",
-                "reference": "ff057a61b543f17da1140a32ef5a92db4e4928d2"
+                "reference": "18c10250f1ccd8f7a11d12a4a34848f4735e0b1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DianoDev/LaravelVueCrud/zipball/ff057a61b543f17da1140a32ef5a92db4e4928d2",
-                "reference": "ff057a61b543f17da1140a32ef5a92db4e4928d2",
+                "url": "https://api.github.com/repos/DianoDev/LaravelVueCrud/zipball/18c10250f1ccd8f7a11d12a4a34848f4735e0b1e",
+                "reference": "18c10250f1ccd8f7a11d12a4a34848f4735e0b1e",
                 "shasum": ""
             },
             "require": {
@@ -256,7 +256,7 @@
                 "issues": "https://github.com/DianoDev/LaravelVueCrud/issues",
                 "source": "https://github.com/DianoDev/LaravelVueCrud/tree/main"
             },
-            "time": "2025-10-20T18:57:38+00:00"
+            "time": "2025-10-20T20:06:34+00:00"
         },
         {
             "name": "doctrine/inflector",

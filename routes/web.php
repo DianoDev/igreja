@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PessoaController;
 use App\Http\Controllers\PessoasController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -27,11 +28,11 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::group(['prefix' => 'pessoas'], function () {
-    Route::get('/', [PessoasController::class, 'index'])->name('pessoas.index');
-    Route::get('/list', [PessoasController::class, 'list'])->name('pessoas.list');
-    Route::get('/{id}', [PessoasController::class, 'edit'])->name('pessoas.edit');
-    Route::post('/', [PessoasController::class, 'create'])->name('pessoas.create');
-    Route::post('/{id}', [PessoasController::class, 'update'])->name('pessoas.update');
-    Route::delete('/{id}', [PessoasController::class, 'delete'])->name('pessoas.delete');
+Route::group(['prefix' => 'admin/pessoas'], function () {
+    Route::get('/', [PessoaController::class, 'index'])->name('admin.pessoas.index');
+    Route::get('/list', [PessoaController::class, 'list'])->name('admin.pessoas.list');
+    Route::get('/{id}', [PessoaController::class, 'edit'])->name('admin.pessoas.edit');
+    Route::post('/', [PessoaController::class, 'create'])->name('admin.pessoas.create');
+    Route::post('/{id}', [PessoaController::class, 'update'])->name('admin.pessoas.update');
+    Route::delete('/{id}', [PessoaController::class, 'delete'])->name('admin.pessoas.delete');
 });
