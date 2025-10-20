@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa715b4183fb30d40dbf87a9f5da20c6",
+    "content-hash": "9e034ce45fab82df652cf47d0ba791ea",
     "packages": [
         {
             "name": "brick/math",
@@ -209,6 +209,54 @@
                 "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.3"
             },
             "time": "2024-07-08T12:26:09+00:00"
+        },
+        {
+            "name": "dianodev/laravel-vue-crud",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DianoDev/LaravelVueCrud.git",
+                "reference": "ff057a61b543f17da1140a32ef5a92db4e4928d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DianoDev/LaravelVueCrud/zipball/ff057a61b543f17da1140a32ef5a92db4e4928d2",
+                "reference": "ff057a61b543f17da1140a32ef5a92db4e4928d2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "DianoDev\\app\\Providers\\GenerateModuleServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DianoDev\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "DianoDev",
+                    "email": "adrianomellocolombo@gmail.com"
+                }
+            ],
+            "description": "Uma biblioteca para gerar módulos em Laravel com Componentes Form e Grid em Vue.js.",
+            "support": {
+                "issues": "https://github.com/DianoDev/LaravelVueCrud/issues",
+                "source": "https://github.com/DianoDev/LaravelVueCrud/tree/main"
+            },
+            "time": "2025-10-20T18:57:38+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -8655,7 +8703,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "dianodev/laravel-vue-crud": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
