@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Vite;
+use App\Databases\Contracts\EstatutoContract;
+use App\Databases\Repositories\EstatutoRepository;
 use App\Databases\Contracts\RegimeInternoContract;
 use App\Databases\Repositories\RegimeInternoRepository;
 use App\Databases\Contracts\CargoContract;
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        app()->bind(EstatutoContract::class, EstatutoRepository::class);
         app()->bind(RegimeInternoContract::class, RegimeInternoRepository::class);
         app()->bind(CargoContract::class, CargoRepository::class);
         app()->bind(PessoaContract::class, PessoaRepository::class);

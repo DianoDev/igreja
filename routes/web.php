@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EstatutoController;
 use App\Http\Controllers\Admin\RegimeInternoController;
 use App\Http\Controllers\Admin\CargoController;
 use App\Http\Controllers\Admin\PessoaController;
@@ -54,4 +55,12 @@ Route::group(['prefix' => 'admin/regime-interno'], function () {
     Route::post('/', [RegimeInternoController::class, 'create'])->name('admin.regime_interno.create');
     Route::post('/{id}', [RegimeInternoController::class, 'update'])->name('admin.regime_interno.update');
     Route::delete('/{id}', [RegimeInternoController::class, 'delete'])->name('admin.regime_interno.delete');
+});
+Route::group(['prefix' => 'admin/estatuto'], function () {
+    Route::get('/', [EstatutoController::class, 'index'])->name('admin.estatuto.index');
+    Route::get('/list', [EstatutoController::class, 'list'])->name('admin.estatuto.list');
+    Route::get('/{id}', [EstatutoController::class, 'edit'])->name('admin.estatuto.edit');
+    Route::post('/', [EstatutoController::class, 'create'])->name('admin.estatuto.create');
+    Route::post('/{id}', [EstatutoController::class, 'update'])->name('admin.estatuto.update');
+    Route::delete('/{id}', [EstatutoController::class, 'delete'])->name('admin.estatuto.delete');
 });
