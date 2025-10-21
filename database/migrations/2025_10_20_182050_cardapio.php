@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('cardapio', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 255);
+            $table->float('valor_total');
             $table->text('descricao')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 255);
-            $table->text('cardapio')->nullable();
             $table->date('data');
             $table->string('hora')->nullable();
             $table->decimal('valor_gasto', 15, 2)->nullable();
