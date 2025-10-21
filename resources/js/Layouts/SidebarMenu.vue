@@ -18,101 +18,22 @@
 
                 <nav class="mt-5 menu">
                     <ul>
-                        <li class="menu-item" :class="{ 'active': isActive('dashboard') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/dashboard`)" class="menu-link"
+                        <li class="menu-item" :class="{ 'active': isActive('pessoas') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/pessoas`)" class="menu-link"
                                 :data-tooltip="collapsed ? 'Dashboard' : ''">
                                 <span class="menu-icon">
-                                    <i class="fa fa-chart-bar"></i>
+                                    <i class="fa fa-people-group"></i>
                                 </span>
-                                <span class="menu-title">Dashboard</span>
+                                <span class="menu-title">Pessoas</span>
                             </a>
                         </li>
-
-                        <li v-if="hasPermission('csc-dados-entidade')" class="menu-item"
-                            :class="{ 'active': isActive('dados-entidade') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/dados-entidade`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Dados da Entidade' : ''">
+                        <li class="menu-item" :class="{ 'active': isActive('cargo') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/cargo`)" class="menu-link"
+                               :data-tooltip="collapsed ? 'Cargo' : ''">
                                 <span class="menu-icon">
-                                    <i class="fa fa-building"></i>
+                                    <i class="fa fa-pencil"></i>
                                 </span>
-                                <span class="menu-title">Dados da Entidade</span>
-                            </a>
-                        </li>
-
-                        <li v-if="hasPermission('csc-categorias')" class="menu-item"
-                            :class="{ 'active': isActive('categorias') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/categorias`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Categorias de Serviço' : ''">
-                                <span class="menu-icon">
-                                    <i class="fa fa-folder-open"></i>
-                                </span>
-                                <span class="menu-title">Categorias de Serviço</span>
-                            </a>
-                        </li>
-
-                        <li v-if="hasPermission('csc-servicos')" class="menu-item"
-                            :class="{ 'active': isActive('servicos') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/servicos`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Serviços' : ''">
-                                <span class="menu-icon">
-                                    <i class="fa fa-hands-helping"></i>
-                                </span>
-                                <span class="menu-title">Serviços</span>
-                            </a>
-                        </li>
-
-                        <li v-if="hasPermission('csc-formularios')" class="menu-item"
-                            :class="{ 'active': isActive('formulario') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/formulario`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Formulários' : ''">
-                                <span class="menu-icon">
-                                    <i class="fa fa-envelope "></i>
-                                </span>
-                                <span class="menu-title">Formulários</span>
-                            </a>
-                        </li>
-
-                        <li v-if="hasPermission('csc-arquivos')" class="menu-item"
-                            :class="{ 'active': isActive('tipo-arquivo') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/tipo-arquivo`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Arquivos' : ''">
-                                <span class="menu-icon">
-                                    <i class="fa fa-folder"></i>
-                                </span>
-                                <span class="menu-title">Arquivos</span>
-                            </a>
-                        </li>
-
-                        <li v-if="hasPermission('csc-usuarios')" class="menu-item sub-menu"
-                            :class="{ 'active': isActive('usuarios') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/usuarios`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Usuários' : ''">
-                                <span class="menu-icon">
-                                    <i class="fa fa-users"></i>
-                                </span>
-                                <span class="menu-title">Usuários</span>
-                            </a>
-                        </li>
-
-                        <li v-if="hasPermission('csc-solicitacoes')" class="menu-item"
-                            :class="{ 'active': isActive('solicitacoes') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/solicitacoes`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Solicitações' : ''">
-                                <span class="menu-icon">
-                                    <i class="fa fa-comment"></i>
-                                </span>
-                                <span class="menu-title">Solicitações</span>
-                            </a>
-                        </li>
-
-                        <li v-if="hasPermission('csc-super-usuario')" class="menu-item"
-                            :class="{ 'active': isActive('entidade') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/entidade`)" class="menu-link"
-                                :data-tooltip="collapsed ? 'Entidades' : ''">
-                                <span class="menu-icon">
-                                    <i class="fa fa-comment-alt"></i>
-                                </span>
-                                <span class="menu-title">Entidades</span>
+                                <span class="menu-title">Cargo</span>
                             </a>
                         </li>
                     </ul>
@@ -138,51 +59,7 @@ const toggled = ref(false);
 const activeItem = ref('dashboard');
 const openSubmenus = ref([]);
 const submenuHeights = ref({});
-const page = usePage();
-const user = computed(() => page.props.auth.user);
-const permissoes = computed(() => page.props.auth.permissoes || []);
 
-const hasPermission = (permission) => {
-    if (!permissoes.value || !Array.isArray(permissoes.value)) {
-        return false;
-    }
-
-
-    const superUserOnlyPermissions = ['csc-super-usuario'];
-
-
-    if (superUserOnlyPermissions.includes(permission)) {
-        return permissoes.value.includes(permission);
-    }
-
-
-    if (permissoes.value.includes('csc-admin')) {
-        return true;
-    }
-
-
-    return permissoes.value.includes(permission);
-};
-
-const hasAnyPermission = computed(() => {
-
-    if (permissoes.value?.includes('csc-admin') || permissoes.value?.includes('csc-super-usuario')) {
-        return true;
-    }
-
-    const requiredPermissions = [
-        'csc-dashboard',
-        'csc-dados-entidade',
-        'csc-categorias',
-        'csc-servicos',
-        'csc-formularios',
-        'csc-arquivos',
-        'csc-usuarios',
-        'csc-solicitacoes'
-    ];
-
-    return requiredPermissions.some(permission => hasPermission(permission));
-});
 
 const toggleCollapse = () => {
     collapsed.value = !collapsed.value;
@@ -228,26 +105,9 @@ const calculateSubmenuHeight = (submenuName) => {
     }
 };
 
-const getSubmenuStyle = (submenuName) => {
-    if (openSubmenus.value.includes(submenuName)) {
-        return {
-            height: submenuHeights.value[submenuName] || 'auto',
-            visibility: 'visible',
-            opacity: '1'
-        };
-    } else {
-        return {
-            height: '0',
-            visibility: 'hidden',
-            opacity: '0'
-        };
-    }
-}
-
 defineExpose({
     toggleCollapse,
     toggleSidebar,
-    hasPermission,
     openSubmenu: (submenuName) => {
         if (!openSubmenus.value.includes(submenuName)) {
             openSubmenus.value.push(submenuName);
@@ -273,37 +133,10 @@ onMounted(() => {
 
     const path = window.location.pathname;
 
-    if (path.includes('dashboard')) {
-        activeItem.value = 'dashboard';
-    } else if (path.includes('minha-conta')) {
-        activeItem.value = 'minha-conta';
-        openSubmenus.value.push('minha-conta');
-    } else if (path.includes('dados-entidade')) {
-        activeItem.value = 'dados-entidade';
-    } else if (path.includes('tipo-arquivo')) {
-        activeItem.value = 'tipo-arquivo';
-    } else if (path.includes('categorias')) {
-        activeItem.value = 'categorias';
-    } else if (path.includes('servicos')) {
-        activeItem.value = 'servicos';
-    } else if (path.includes('formulario')) {
-        activeItem.value = 'formulario';
-    } else if (path.includes('usuarios')) {
-        activeItem.value = 'usuarios';
-        openSubmenus.value.push('usuarios');
-    } else if (path.includes('solicitacoes')) {
-        activeItem.value = 'solicitacoes';
-    } else if (path.includes('entidade')) {
-        activeItem.value = 'entidade';
-    } else if (path.includes('usuarios/listar')) {
-        activeItem.value = 'listar-usuarios';
-        openSubmenus.value.push('usuarios');
-    } else if (path.includes('usuarios/novo')) {
-        activeItem.value = 'criar-usuario';
-        openSubmenus.value.push('usuarios');
-    } else if (path.includes('usuarios/permissoes')) {
-        activeItem.value = 'permissoes';
-        openSubmenus.value.push('usuarios');
+    if (path.includes('pessoas')) {
+        activeItem.value = 'pessoas';
+    } else if (path.includes('cargo')) {
+        activeItem.value = 'cargo';
     }
 
     nextTick(() => {

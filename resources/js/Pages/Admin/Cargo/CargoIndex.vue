@@ -2,23 +2,23 @@
     <LayoutPrincipal>
         <div class="page-content">
             <div class="flex items-center justify-between mb-4 w-100">
-                <h2 class="text-2xl font-semibold text-primary"> </h2>
+                <h2 class="text-2xl font-semibold text-primary"></h2>
                 <div class="flex">
                     <popup-button
-                        id="novo-pessoas"
-                        title="Novo  Pessoa"
+                        id="novo-cargo"
+                        title="Novo  Cargo"
                         size="xl"
-                        component="PessoaForm"
+                        component="CargoForm"
                         variant="secondary"
                     >
                         <i class="mr-2 fa fa-plus"></i>
-                        Novo  Pessoa
+                        Novo  Cargo
                     </popup-button>
                 </div>
             </div>
             <div>
                 <datatable
-                    id="pessoas"
+                    id="cargo"
                     :columns="columns"
                     :source="source"
                 ></datatable>
@@ -36,12 +36,10 @@ import { useToast } from 'vue-toastification';
 
 const toast = useToast();
 const events = inject('events');
-const source = ref('/admin/pessoas/list');
+const source = ref('/admin/cargo/list');
 
 const columns = ref([
     {name: 'nome', title: 'Nome', width: '20%', sort: 'nome', nowrap: true},
-    {name: 'cpf', title: 'Cpf', width: '20%', sort: 'cpf', nowrap: true},
-    {name: 'telefone', title: 'Telefone', width: '20%', sort: 'telefone', nowrap: true},
     {
         name: 'id',
         title: 'Ações',
@@ -55,8 +53,8 @@ const columns = ref([
                 type: 'modal',
                 icon: 'fa-edit',
                 dataSize: 'xl',
-                dataComponent: 'PessoaForm',
-                dataTitle: 'Editar  Pessoa',
+                dataComponent: 'CargoForm',
+                dataTitle: 'Editar  Cargo',
                 dataJson: { id: row.id },
                 text: 'Editar'
             },
@@ -64,7 +62,7 @@ const columns = ref([
                 type: 'delete',
                 icon: 'fa-trash',
                 text: 'Remover',
-                deleteUrl: `/admin/pessoas/${row.id}`,
+                deleteUrl: `/admin/cargo/${row.id}`,
                 dataTitle: 'Confirmação de Remoção',
                 dataMessage: 'Você deseja realmente excluir este registro?'
             }
