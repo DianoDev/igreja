@@ -86,7 +86,10 @@ Route::group(['prefix' => 'admin/eventos'], function () {
 Route::group(['prefix' => 'admin/cardapio'], function () {
     Route::get('/', [CardapioController::class, 'index'])->name('admin.cardapio.index');
     Route::get('/list', [CardapioController::class, 'list'])->name('admin.cardapio.list');
+    Route::get('/{id}/ingredientes', [CardapioController::class, 'ingredientes'])->name('admin.cardapio.edit');
     Route::get('/{id}', [CardapioController::class, 'edit'])->name('admin.cardapio.edit');
+    Route::get('/{id}/ingredientes/edit', [CardapioController::class, 'getIngredientes']);
+    Route::post('/{id}/ingredientes', [CardapioController::class, 'saveIngredientes']);
     Route::post('/', [CardapioController::class, 'create'])->name('admin.cardapio.create');
     Route::post('/{id}', [CardapioController::class, 'update'])->name('admin.cardapio.update');
     Route::delete('/{id}', [CardapioController::class, 'delete'])->name('admin.cardapio.delete');

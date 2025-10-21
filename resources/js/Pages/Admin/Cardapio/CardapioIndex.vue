@@ -41,6 +41,7 @@ const source = ref('/admin/cardapio/list');
 const columns = ref([
     {name: 'nome', title: 'Nome', width: '20%', sort: 'nome', nowrap: true},
     {name: 'descricao', title: 'Descricao', width: '20%', sort: 'descricao', nowrap: true},
+    {name: 'valor_total', title: 'Valor Total', width: '20%', sort: 'valor_total', nowrap: true},
     {
         name: 'id',
         title: 'Ações',
@@ -50,6 +51,12 @@ const columns = ref([
         headerClass: 'text-center',
         template: 'dropdown',
         formatter: (val, row) => [
+            {
+                type: 'anchor',
+                icon: 'fa-tag',
+                href: `/admin/cardapio/${row.id}/ingredientes`,
+                text: 'Ingredientes',
+            },
             {
                 type: 'modal',
                 icon: 'fa-edit',

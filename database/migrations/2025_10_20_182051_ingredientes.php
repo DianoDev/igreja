@@ -8,10 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('cardapio_ingredientes', function (Blueprint $table) {
+        Schema::create('ingredientes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_ingrediente')->constrained('ingredientes')->onDelete('cascade');
             $table->foreignId('id_cardapio')->constrained('cardapio')->onDelete('cascade');
+            $table->string('nome', 255);
+            $table->string('quantidade')->nullable();
+            $table->string('unidade_medida');
+            $table->decimal('valor_unitario', 15, 2);
+            $table->decimal('valor_total', 15, 2);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -19,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('cardapio_ingredientes');
+        Schema::dropIfExists('ingredientes');
     }
 };
