@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Vite;
+use App\Databases\Contracts\EventosContract;
+use App\Databases\Repositories\EventosRepository;
 use App\Databases\Contracts\AtaContract;
 use App\Databases\Repositories\AtaRepository;
 use App\Databases\Contracts\EstatutoContract;
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        app()->bind(EventosContract::class, EventosRepository::class);
         app()->bind(AtaContract::class, AtaRepository::class);
         app()->bind(EstatutoContract::class, EstatutoRepository::class);
         app()->bind(RegimeInternoContract::class, RegimeInternoRepository::class);

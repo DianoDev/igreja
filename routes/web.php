@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EventosController;
 use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\EstatutoController;
 use App\Http\Controllers\Admin\RegimeInternoController;
@@ -72,4 +73,12 @@ Route::group(['prefix' => 'admin/atas'], function () {
     Route::post('/', [AtaController::class, 'create'])->name('admin.atas.create');
     Route::post('/{id}', [AtaController::class, 'update'])->name('admin.atas.update');
     Route::delete('/{id}', [AtaController::class, 'delete'])->name('admin.atas.delete');
+});
+Route::group(['prefix' => 'admin/eventos'], function () {
+    Route::get('/', [EventosController::class, 'index'])->name('admin.eventos.index');
+    Route::get('/list', [EventosController::class, 'list'])->name('admin.eventos.list');
+    Route::get('/{id}', [EventosController::class, 'edit'])->name('admin.eventos.edit');
+    Route::post('/', [EventosController::class, 'create'])->name('admin.eventos.create');
+    Route::post('/{id}', [EventosController::class, 'update'])->name('admin.eventos.update');
+    Route::delete('/{id}', [EventosController::class, 'delete'])->name('admin.eventos.delete');
 });

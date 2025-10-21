@@ -36,6 +36,15 @@
                                 <span class="menu-title">Cargo</span>
                             </a>
                         </li>
+                        <li class="menu-item" :class="{ 'active': isActive('eventos') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/eventos`)" class="menu-link"
+                               :data-tooltip="collapsed ? 'Eventos' : ''">
+                                <span class="menu-icon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <span class="menu-title">Eventos</span>
+                            </a>
+                        </li>
                         <li class="menu-item" :class="{ 'active': isActive('regime-interno') }">
                             <a href="#" @click.prevent="router.visit(`/admin/regime-interno`)" class="menu-link"
                                :data-tooltip="collapsed ? 'Regime Interno' : ''">
@@ -169,6 +178,8 @@ onMounted(() => {
     }else if (path.includes('estatuto')) {
         activeItem.value = 'estatuto';
     }else if (path.includes('atas')) {
+        activeItem.value = 'atas';
+    }else if (path.includes('eventos')) {
         activeItem.value = 'atas';
     }
 
