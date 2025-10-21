@@ -36,6 +36,15 @@
                                 <span class="menu-title">Cargo</span>
                             </a>
                         </li>
+                        <li class="menu-item" :class="{ 'active': isActive('cardapio') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/cardapio`)" class="menu-link"
+                               :data-tooltip="collapsed ? 'Cardapio' : ''">
+                                <span class="menu-icon">
+                                    <i class="fa fa-utensils"></i>
+                                </span>
+                                <span class="menu-title">Cardápio</span>
+                            </a>
+                        </li>
                         <li class="menu-item" :class="{ 'active': isActive('eventos') }">
                             <a href="#" @click.prevent="router.visit(`/admin/eventos`)" class="menu-link"
                                :data-tooltip="collapsed ? 'Eventos' : ''">
@@ -181,6 +190,8 @@ onMounted(() => {
         activeItem.value = 'atas';
     }else if (path.includes('eventos')) {
         activeItem.value = 'atas';
+    }else if (path.includes('cardapio')) {
+        activeItem.value = 'cardapio';
     }
 
     nextTick(() => {

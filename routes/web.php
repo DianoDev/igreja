@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CardapioController;
 use App\Http\Controllers\Admin\EventosController;
 use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\EstatutoController;
@@ -81,4 +82,12 @@ Route::group(['prefix' => 'admin/eventos'], function () {
     Route::post('/', [EventosController::class, 'create'])->name('admin.eventos.create');
     Route::post('/{id}', [EventosController::class, 'update'])->name('admin.eventos.update');
     Route::delete('/{id}', [EventosController::class, 'delete'])->name('admin.eventos.delete');
+});
+Route::group(['prefix' => 'admin/cardapio'], function () {
+    Route::get('/', [CardapioController::class, 'index'])->name('admin.cardapio.index');
+    Route::get('/list', [CardapioController::class, 'list'])->name('admin.cardapio.list');
+    Route::get('/{id}', [CardapioController::class, 'edit'])->name('admin.cardapio.edit');
+    Route::post('/', [CardapioController::class, 'create'])->name('admin.cardapio.create');
+    Route::post('/{id}', [CardapioController::class, 'update'])->name('admin.cardapio.update');
+    Route::delete('/{id}', [CardapioController::class, 'delete'])->name('admin.cardapio.delete');
 });
