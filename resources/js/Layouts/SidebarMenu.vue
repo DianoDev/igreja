@@ -36,6 +36,15 @@
                                 <span class="menu-title">Cargo</span>
                             </a>
                         </li>
+                        <li class="menu-item" :class="{ 'active': isActive('regime-interno') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/regime-interno`)" class="menu-link"
+                               :data-tooltip="collapsed ? 'Regime Interno' : ''">
+                                <span class="menu-icon">
+                                    <i class="fa fa-file-contract"></i>
+                                </span>
+                                <span class="menu-title">Regime Interno</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -137,6 +146,8 @@ onMounted(() => {
         activeItem.value = 'pessoas';
     } else if (path.includes('cargo')) {
         activeItem.value = 'cargo';
+    } else if (path.includes('regime-interno')) {
+        activeItem.value = 'regime-interno';
     }
 
     nextTick(() => {
