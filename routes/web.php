@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\EstatutoController;
 use App\Http\Controllers\Admin\RegimeInternoController;
 use App\Http\Controllers\Admin\CargoController;
@@ -63,4 +64,12 @@ Route::group(['prefix' => 'admin/estatuto'], function () {
     Route::post('/', [EstatutoController::class, 'create'])->name('admin.estatuto.create');
     Route::post('/{id}', [EstatutoController::class, 'update'])->name('admin.estatuto.update');
     Route::delete('/{id}', [EstatutoController::class, 'delete'])->name('admin.estatuto.delete');
+});
+Route::group(['prefix' => 'admin/atas'], function () {
+    Route::get('/', [AtaController::class, 'index'])->name('admin.atas.index');
+    Route::get('/list', [AtaController::class, 'list'])->name('admin.atas.list');
+    Route::get('/{id}', [AtaController::class, 'edit'])->name('admin.atas.edit');
+    Route::post('/', [AtaController::class, 'create'])->name('admin.atas.create');
+    Route::post('/{id}', [AtaController::class, 'update'])->name('admin.atas.update');
+    Route::delete('/{id}', [AtaController::class, 'delete'])->name('admin.atas.delete');
 });

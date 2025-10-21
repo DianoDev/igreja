@@ -54,8 +54,8 @@
                                 <span class="menu-title">Estatuto</span>
                             </a>
                         </li>
-                        <li class="menu-item" :class="{ 'active': isActive('ata') }">
-                            <a href="#" @click.prevent="router.visit(`/admin/ata`)" class="menu-link"
+                        <li class="menu-item" :class="{ 'active': isActive('atas') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/atas`)" class="menu-link"
                                :data-tooltip="collapsed ? 'Regime Interno' : ''">
                                 <span class="menu-icon">
                                     <i class="fa fa-file-image"></i>
@@ -168,8 +168,8 @@ onMounted(() => {
         activeItem.value = 'regime-interno';
     }else if (path.includes('estatuto')) {
         activeItem.value = 'estatuto';
-    }else if (path.includes('ata')) {
-        activeItem.value = 'ata';
+    }else if (path.includes('atas')) {
+        activeItem.value = 'atas';
     }
 
     nextTick(() => {
