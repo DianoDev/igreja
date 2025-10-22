@@ -5,14 +5,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Databases\Contracts\EventosContract;
+use App\Databases\Contracts\CargoContract;
+use App\Databases\Contracts\CargoEventoContract;
+use App\Databases\Contracts\DoacaoEventoContract;
 use App\Http\Requests\EventosRequest;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class EventosController extends Controller
 {
-    public function __construct(private readonly EventosContract $eventosRepository)
-    {
+    public function __construct(
+        private readonly EventosContract $eventosRepository,
+        private readonly CargoContract $cargoRepository,
+        private readonly CargoEventoContract $cargoEventoRepository,
+        private readonly DoacaoEventoContract $doacaoEventoRepository
+    ) {
     }
 
     public function index(): Response
@@ -23,7 +30,16 @@ class EventosController extends Controller
     public function info($id): Response
     {
         $registro = $this->eventosRepository->getById($id);
-        return Inertia::render('Admin/Eventos/EventosInfo',['evento'=>$registro]);
+        $cargos = $this->cargoRepository->getAll();
+        $cargosEvento = $this->cargoEventoRepository->getByEvento($id);
+        $doacoesEvento = $this->doacaoEventoRepository->getByEvento($id);
+
+        return Inertia::render('Admin/Eventos/EventosInfo', [
+            'evento' => $registro,
+            'cargos' => $cargos,
+            'cargosEvento' => $cargosEvento,
+            'doacoesEvento' => $doacoesEvento
+        ]);
     }
 
     public function list(Request $request): JsonResponse

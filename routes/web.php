@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\CardapioController;
+use App\Http\Controllers\Admin\CargoEventoController;
+use App\Http\Controllers\Admin\DoacaoEventoController;
 use App\Http\Controllers\Admin\EventosController;
 use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\EstatutoController;
@@ -94,4 +96,19 @@ Route::group(['prefix' => 'admin/cardapio'], function () {
     Route::post('/', [CardapioController::class, 'create'])->name('admin.cardapio.create');
     Route::post('/{id}', [CardapioController::class, 'update'])->name('admin.cardapio.update');
     Route::delete('/{id}', [CardapioController::class, 'delete'])->name('admin.cardapio.delete');
+});
+Route::prefix('admin/cargo-evento')->group(function () {
+    Route::get('/buscar-pessoa', [CargoEventoController::class, 'buscarPessoa'])->name('cargo-evento.buscar-pessoa');
+    Route::get('/evento/{idEvento}', [CargoEventoController::class, 'listarPorEvento'])->name('cargo-evento.listar-evento');
+    Route::post('/adicionar', [CargoEventoController::class, 'adicionar'])->name('cargo-evento.adicionar');
+    Route::delete('/{id}', [CargoEventoController::class, 'remover'])->name('cargo-evento.remover');
+});
+
+// Rotas para Doação Evento
+Route::prefix('admin/doacao-evento')->group(function () {
+    Route::get('/buscar-pessoa', [DoacaoEventoController::class, 'buscarPessoa'])->name('doacao-evento.buscar-pessoa');
+    Route::get('/evento/{idEvento}', [DoacaoEventoController::class, 'listarPorEvento'])->name('doacao-evento.listar-evento');
+    Route::post('/adicionar', [DoacaoEventoController::class, 'adicionar'])->name('doacao-evento.adicionar');
+    Route::put('/{id}', [DoacaoEventoController::class, 'atualizar'])->name('doacao-evento.atualizar');
+    Route::delete('/{id}', [DoacaoEventoController::class, 'remover'])->name('doacao-evento.remover');
 });
