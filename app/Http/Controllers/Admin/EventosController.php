@@ -20,6 +20,12 @@ class EventosController extends Controller
         return Inertia::render('Admin/Eventos/EventosIndex');
     }
 
+    public function info($id): Response
+    {
+        $registro = $this->eventosRepository->getById($id);
+        return Inertia::render('Admin/Eventos/EventosInfo',['evento'=>$registro]);
+    }
+
     public function list(Request $request): JsonResponse
     {
         $dados = $this->eventosRepository->paginate($request->all())->toArray();

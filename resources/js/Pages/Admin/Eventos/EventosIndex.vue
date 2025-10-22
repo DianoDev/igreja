@@ -59,6 +59,12 @@ const columns = ref([
         template: 'dropdown',
         formatter: (val, row) => [
             {
+                type: 'anchor',
+                icon: 'fa-tag',
+                href: `/admin/eventos/${row.id}/info`,
+                text: 'Eventos',
+            },
+            {
                 type: 'modal',
                 icon: 'fa-edit',
                 dataSize: 'xl',

@@ -189,7 +189,7 @@ onMounted(() => {
     }else if (path.includes('atas')) {
         activeItem.value = 'atas';
     }else if (path.includes('eventos')) {
-        activeItem.value = 'atas';
+        activeItem.value = 'eventos';
     }else if (path.includes('cardapio')) {
         activeItem.value = 'cardapio';
     }
