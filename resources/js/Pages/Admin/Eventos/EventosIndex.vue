@@ -62,7 +62,7 @@ const columns = ref([
                 type: 'anchor',
                 icon: 'fa-tag',
                 href: `/admin/eventos/${row.id}/info`,
-                text: 'Eventos',
+                text: 'Responsáveis e Doações',
             },
             {
                 type: 'modal',
