@@ -4,9 +4,31 @@
             <!-- Cabeçalho com informações do evento -->
             <div class="mb-6">
                 <h2 class="text-2xl font-semibold text-primary mb-2">{{ props.evento.nome }}</h2>
-                <div class="text-gray-600">
+                <div class="text-gray-600 mb-4">
                     <p><strong>Data:</strong> {{ formatarData(props.evento.data) }}</p>
                     <p><strong>Hora:</strong> {{ props.evento.hora }}</p>
+                </div>
+
+                <!-- Card de resumo financeiro -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-sm text-red-700 font-medium">Valor Gasto</p>
+                        <p class="text-2xl font-bold text-red-900">
+                            R$ {{ formatarValor(props.evento.valor_gasto || 0) }}
+                        </p>
+                    </div>
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <p class="text-sm text-green-700 font-medium">Valor Arrecadado</p>
+                        <p class="text-2xl font-bold text-green-900">
+                            R$ {{ formatarValor(props.evento.valor_arrecadado || 0) }}
+                        </p>
+                    </div>
+                    <div class="p-4 border rounded-lg" :class="saldoClass">
+                        <p class="text-sm font-medium" :class="saldoTextClass">Saldo</p>
+                        <p class="text-2xl font-bold" :class="saldoTextClass">
+                            R$ {{ formatarValor(saldo) }}
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -244,6 +266,26 @@ const totalDoacoes = computed(() => {
     }, 0);
 });
 
+// Computed para saldo (arrecadado - gasto)
+const saldo = computed(() => {
+    const arrecadado = parseFloat(props.evento.valor_arrecadado || 0);
+    const gasto = parseFloat(props.evento.valor_gasto || 0);
+    return arrecadado - gasto;
+});
+
+// Classes CSS para o card de saldo
+const saldoClass = computed(() => {
+    if (saldo.value > 0) return 'bg-blue-50 border-blue-200';
+    if (saldo.value < 0) return 'bg-yellow-50 border-yellow-200';
+    return 'bg-gray-50 border-gray-200';
+});
+
+const saldoTextClass = computed(() => {
+    if (saldo.value > 0) return 'text-blue-900';
+    if (saldo.value < 0) return 'text-yellow-900';
+    return 'text-gray-900';
+});
+
 // Callbacks para seleção de pessoa
 function onPessoaCargoSelecionada(pessoa) {
     novoCargo.value.id_pessoa = pessoa ? pessoa.id : null;
@@ -274,9 +316,7 @@ async function adicionarCargo() {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            // Recarregar a lista
             await recarregarCargos();
-            // Limpar formulário
             novoCargo.value = {
                 id_pessoa: null,
                 id_cargo: '',
@@ -332,9 +372,9 @@ async function adicionarDoacao() {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            // Recarregar a lista
             await recarregarDoacoes();
-            // Limpar formulário
+            // Recarregar página para atualizar os valores
+            router.reload({ only: ['evento'] });
             novaDoacao.value = {
                 id_pessoa: null,
                 valor: '',
@@ -348,10 +388,28 @@ async function adicionarDoacao() {
         processing.value = false;
     }
 }
+const formatarData = (data) => {
+    if (!data) return '-';
 
+    try {
+        // Se a data vier como string ISO (YYYY-MM-DD ou YYYY-MM-DD HH:mm:ss)
+        const date = new Date(data);
+
+        // Verificar se a data é válida
+        if (isNaN(date.getTime())) return data;
+
+        const dia = String(date.getDate()).padStart(2, '0');
+        const mes = String(date.getMonth() + 1).padStart(2, '0');
+        const ano = date.getFullYear();
+
+        return `${dia}/${mes}/${ano}`;
+    } catch (error) {
+        console.error('Erro ao formatar data:', error);
+        return data;
+    }
+};
 // Remover doação
 async function removerDoacao(id) {
-
     processing.value = true;
 
     try {
@@ -360,6 +418,8 @@ async function removerDoacao(id) {
         if (response.data.success) {
             toast.success(response.data.message);
             await recarregarDoacoes();
+            // Recarregar página para atualizar os valores
+            router.reload({ only: ['evento'] });
         }
     } catch (error) {
         toast.error('Erro ao remover doação');
@@ -386,13 +446,6 @@ async function recarregarDoacoes() {
     } catch (error) {
         console.error('Erro ao recarregar doações:', error);
     }
-}
-
-// Formatadores
-function formatarData(data) {
-    if (!data) return '';
-    const partes = data.split('-');
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
 function formatarValor(valor) {

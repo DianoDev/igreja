@@ -2,6 +2,7 @@
 namespace App\Databases\Repositories;
 
 use App\Databases\Contracts\CardapioEventoContract;
+use App\Databases\Contracts\EventosContract;
 use App\Databases\Models\CardapioEvento;
 use App\Databases\Models\Cardapio;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,8 +11,10 @@ use Exception;
 
 class CardapioEventoRepository implements CardapioEventoContract
 {
-    public function __construct(private CardapioEvento $cardapioEvento)
-    {
+    public function __construct(
+        private CardapioEvento $cardapioEvento,
+        private EventosContract $eventosRepository
+    ) {
     }
 
     public function getByEvento(int $idEvento): Collection
@@ -36,6 +39,10 @@ class CardapioEventoRepository implements CardapioEventoContract
                     'id_cardapio' => $cardapioId
                 ]);
             }
+
+            // Atualiza o valor_gasto do evento
+            $valorTotal = $this->getValorTotalEvento($idEvento);
+            $this->eventosRepository->updateValorGasto($idEvento, $valorTotal);
 
             DB::commit();
             return true;

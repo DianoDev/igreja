@@ -2,6 +2,7 @@
 namespace App\Databases\Repositories;
 
 use App\Databases\Contracts\DoacaoEventoContract;
+use App\Databases\Contracts\EventosContract;
 use App\Databases\Models\DoacaoEvento;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -10,8 +11,10 @@ use Exception;
 
 class DoacaoEventoRepository implements DoacaoEventoContract
 {
-    public function __construct(private DoacaoEvento $doacaoEvento)
-    {
+    public function __construct(
+        private DoacaoEvento $doacaoEvento,
+        private EventosContract $eventosRepository
+    ) {
     }
 
     public function getById(int $id): Model
@@ -48,6 +51,9 @@ class DoacaoEventoRepository implements DoacaoEventoContract
             ]);
             $doacaoEvento->save();
 
+            // Atualiza o valor_arrecadado do evento
+            $this->atualizarValorArrecadado($params['id_evento']);
+
             $autoCommit && DB::commit();
             return true;
         } catch (Exception $ex) {
@@ -61,7 +67,11 @@ class DoacaoEventoRepository implements DoacaoEventoContract
         $autoCommit && DB::beginTransaction();
         try {
             $doacaoEvento = $this->getById($id);
+            $idEvento = $doacaoEvento->id_evento;
             $doacaoEvento->update($params);
+
+            // Atualiza o valor_arrecadado do evento
+            $this->atualizarValorArrecadado($idEvento);
 
             $autoCommit && DB::commit();
             return true;
@@ -76,7 +86,12 @@ class DoacaoEventoRepository implements DoacaoEventoContract
         $autoCommit && DB::beginTransaction();
         try {
             $doacaoEvento = $this->getById($id);
+            $idEvento = $doacaoEvento->id_evento;
             $doacaoEvento->delete();
+
+            // Atualiza o valor_arrecadado do evento
+            $this->atualizarValorArrecadado($idEvento);
+
             $autoCommit && DB::commit();
         } catch (Exception $ex) {
             $autoCommit && DB::rollBack();
@@ -84,5 +99,17 @@ class DoacaoEventoRepository implements DoacaoEventoContract
         }
 
         return true;
+    }
+
+    /**
+     * Atualiza o valor_arrecadado do evento com base na soma das doações
+     */
+    private function atualizarValorArrecadado(int $idEvento): void
+    {
+        $valorTotal = DoacaoEvento::query()
+            ->where('id_evento', $idEvento)
+            ->sum('valor');
+
+        $this->eventosRepository->updateValorArrecadado($idEvento, $valorTotal);
     }
 }

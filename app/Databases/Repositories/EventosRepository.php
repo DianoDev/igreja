@@ -55,7 +55,9 @@ class EventosRepository implements EventosContract
             $eventos = new Eventos([
                 'nome' => $params['nome'],
                 'data' => $params['data'],
-                'hora' => $params['hora']
+                'hora' => $params['hora'],
+                'valor_gasto' => 0,
+                'valor_arrecadado' => 0
             ]);
             $eventos->save();
 
@@ -95,5 +97,27 @@ class EventosRepository implements EventosContract
         }
 
         return true;
+    }
+
+    public function updateValorGasto(int $id, float $valor): bool
+    {
+        try {
+            $eventos = $this->getById($id);
+            $eventos->update(['valor_gasto' => $valor]);
+            return true;
+        } catch (Exception $ex) {
+            throw new Exception($ex);
+        }
+    }
+
+    public function updateValorArrecadado(int $id, float $valor): bool
+    {
+        try {
+            $eventos = $this->getById($id);
+            $eventos->update(['valor_arrecadado' => $valor]);
+            return true;
+        } catch (Exception $ex) {
+            throw new Exception($ex);
+        }
     }
 }
