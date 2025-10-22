@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CardapioController;
+use App\Http\Controllers\Admin\CardapioEventoController;
 use App\Http\Controllers\Admin\CargoEventoController;
 use App\Http\Controllers\Admin\DoacaoEventoController;
 use App\Http\Controllers\Admin\EventosController;
@@ -111,4 +112,9 @@ Route::prefix('admin/doacao-evento')->group(function () {
     Route::post('/adicionar', [DoacaoEventoController::class, 'adicionar'])->name('doacao-evento.adicionar');
     Route::put('/{id}', [DoacaoEventoController::class, 'atualizar'])->name('doacao-evento.atualizar');
     Route::delete('/{id}', [DoacaoEventoController::class, 'remover'])->name('doacao-evento.remover');
+});
+
+Route::prefix('admin/cardapio-evento')->group(function () {
+    Route::get('/{idEvento}/edit', [CardapioEventoController::class, 'edit'])->name('cardapio-evento.edit');
+    Route::post('/{idEvento}', [CardapioEventoController::class, 'salvar'])->name('cardapio-evento.salvar');
 });

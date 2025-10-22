@@ -66,6 +66,15 @@ const columns = ref([
             },
             {
                 type: 'modal',
+                icon: 'fa-utensils',
+                dataSize: 'lg',
+                dataComponent: 'EventoCardapioForm',
+                dataTitle: 'Cardápios do Evento',
+                dataJson: { id: row.id },
+                text: 'Gerenciar Cardápios'
+            },
+            {
+                type: 'modal',
                 icon: 'fa-edit',
                 dataSize: 'xl',
                 dataComponent: 'EventosForm',
