@@ -40,7 +40,14 @@ const source = ref('/admin/eventos/list');
 
 const columns = ref([
     {name: 'nome', title: 'Nome', width: '20%', sort: 'nome', nowrap: true},
-    {name: 'data', title: 'Data', width: '20%', sort: 'data', nowrap: true},
+    {
+        name: 'data',
+        title: 'Data',
+        width: '20%',
+        sort: 'data',
+        nowrap: true,
+        formatter: (val) => formatarData(val)
+    },
     {name: 'hora', title: 'Hora', width: '20%', sort: 'hora', nowrap: true},
     {
         name: 'id',
@@ -71,4 +78,26 @@ const columns = ref([
         ]
     }
 ]);
+
+
+const formatarData = (data) => {
+    if (!data) return '-';
+
+    try {
+        // Se a data vier como string ISO (YYYY-MM-DD ou YYYY-MM-DD HH:mm:ss)
+        const date = new Date(data);
+
+        // Verificar se a data é válida
+        if (isNaN(date.getTime())) return data;
+
+        const dia = String(date.getDate()).padStart(2, '0');
+        const mes = String(date.getMonth() + 1).padStart(2, '0');
+        const ano = date.getFullYear();
+
+        return `${dia}/${mes}/${ano}`;
+    } catch (error) {
+        console.error('Erro ao formatar data:', error);
+        return data;
+    }
+};
 </script>

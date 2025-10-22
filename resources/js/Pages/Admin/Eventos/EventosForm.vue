@@ -1,7 +1,31 @@
 <template>
     <div class="m-2" v-if="ready">
         <form @submit.prevent="submit">
-            <div class="mb-4">
+
+            <div class="mb-10">
+                <InputLabel
+                    for="data_desejada"
+                    value="Data Desejada"
+                    class="required"
+                    :class="{'text-gray-400': readOnly}"
+                />
+                <VueDatePicker
+                    id="data_desejada"
+                    v-model="form.data"
+                    locale="pt-BR"
+                    :disabled="readOnly"
+                    format="dd/MM/yyyy"
+                    :enable-time-picker="false"
+                    auto-apply
+                    :clearable="false"
+                    placeholder="Selecione uma data"
+                    :class="{'opacity-50': readOnly}"
+                    class="w-full"
+                />
+                <InputError :message="errors.data"/>
+            </div>
+
+            <div class="mb-10">
                 <InputLabel for="nome" value="Nome" class="required"/>
                 <TextInput
                     id="nome"
@@ -12,25 +36,25 @@
                 <InputError :message="errors.nome"/>
             </div>
 
-            <div class="mb-4">
-                <InputLabel for="data" value="Data" class="required"/>
-                <TextInput
-                    id="data"
-                    class="w-full"
-                    v-model="form.data"
-                    :disabled="readOnly"
+            <div class="mb-10">
+                <InputLabel
+                    for="hora"
+                    value="Horário"
+                    class="required"
+                    :class="{'text-gray-400': readOnly}"
                 />
-                <InputError :message="errors.data"/>
-            </div>
-
-            <div class="mb-4">
-                <InputLabel for="hora" value="Hora" class="required"/>
-                <TextInput
+                <select
                     id="hora"
-                    class="w-full"
                     v-model="form.hora"
                     :disabled="readOnly"
-                />
+                    class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    :class="{'opacity-50 bg-gray-100': readOnly}"
+                >
+                    <option value="">Selecione um horário</option>
+                    <option v-for="horario in horariosDisponiveis" :key="horario" :value="horario">
+                        {{ horario }}
+                    </option>
+                </select>
                 <InputError :message="errors.hora"/>
             </div>
 
@@ -68,10 +92,12 @@
 </template>
 
 <script setup>
-import { inject, onMounted, ref } from 'vue';
+import { inject, onMounted, ref, computed } from 'vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import { useToast } from 'vue-toastification';
 
 const props = defineProps({
@@ -97,8 +123,22 @@ const form = ref({
     hora: '',
 });
 
+// Gerar horários de 30 em 30 minutos
+const horariosDisponiveis = computed(() => {
+    const horarios = [];
+    for (let hora = 0; hora < 24; hora++) {
+        for (let minuto = 0; minuto < 60; minuto += 30) {
+            const horaFormatada = String(hora).padStart(2, '0');
+            const minutoFormatado = String(minuto).padStart(2, '0');
+            horarios.push(`${horaFormatada}:${minutoFormatado}`);
+        }
+    }
+    return horarios;
+});
+
 function submit() {
     processing.value = true;
+
     axios.post(acao.value, form.value)
         .then(response => {
             events.emit('table-reload');
@@ -114,7 +154,7 @@ function submit() {
                 if (data.errors) {
                     errors.value = data.errors;
                 }
-                const message = data.message || "Ocorreu um erro ao salvar  Eventos.";
+                const message = data.message || "Ocorreu um erro ao salvar Eventos.";
                 handleError(message);
             } else {
                 handleError("Erro de conexão com o servidor.");
@@ -127,9 +167,9 @@ function submit() {
 
 function handleSuccess() {
     if(props.data?.id) {
-        toast.success(" Eventos editado com sucesso!");
+        toast.success("Eventos editado com sucesso!");
     } else {
-        toast.success(" Eventos criado com sucesso!");
+        toast.success("Eventos criado com sucesso!");
     }
     close();
 }
@@ -149,7 +189,7 @@ const loadData = async () => {
         readOnly.value = Boolean(props.data.readOnly);
     } catch (err) {
         console.error('Error loading data:', err);
-        toast.error('Não foi possível recuperar os dados do  Eventos.');
+        toast.error('Não foi possível recuperar os dados do Eventos.');
     } finally {
         ready.value = true;
     }
