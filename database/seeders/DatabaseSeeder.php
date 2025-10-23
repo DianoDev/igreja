@@ -2,24 +2,39 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            // Tabelas básicas
+            PessoaSeeder::class,
+            CargoSeeder::class,
+            CardapioSeeder::class,
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            // Eventos
+            EventosSeeder::class,
+
+            // Documentos
+            RegimeInternoSeeder::class,
+            EstatutoSeeder::class,
+            AtasSeeder::class,
         ]);
+
+        $this->command->info('✅ Seeders executados com sucesso!');
+        $this->command->info('');
+        $this->command->info('📊 Dados populados:');
+        $this->command->info('  • ' . \App\Databases\Models\Pessoa::count() . ' Pessoas');
+        $this->command->info('  • ' . \App\Databases\Models\Cargo::count() . ' Cargos');
+        $this->command->info('  • ' . \App\Databases\Models\Cardapio::count() . ' Cardápios');
+        $this->command->info('  • ' . \App\Databases\Models\Eventos::count() . ' Eventos');
+        $this->command->info('  • ' . \App\Databases\Models\RegimeInterno::count() . ' Regimes Internos');
+        $this->command->info('  • ' . \App\Databases\Models\Estatuto::count() . ' Estatutos');
+        $this->command->info('  • ' . \App\Databases\Models\Ata::count() . ' Atas');
     }
 }
