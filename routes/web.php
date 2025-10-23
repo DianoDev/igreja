@@ -10,24 +10,11 @@ use App\Http\Controllers\Admin\EstatutoController;
 use App\Http\Controllers\Admin\RegimeInternoController;
 use App\Http\Controllers\Admin\CargoController;
 use App\Http\Controllers\Admin\PessoaController;
-use App\Http\Controllers\PessoasController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Publico\PublicoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -118,3 +105,34 @@ Route::prefix('admin/cardapio-evento')->group(function () {
     Route::get('/{idEvento}/edit', [CardapioEventoController::class, 'edit'])->name('cardapio-evento.edit');
     Route::post('/{idEvento}', [CardapioEventoController::class, 'salvar'])->name('cardapio-evento.salvar');
 });
+
+
+// Página inicial pública
+Route::get('/', [PublicoController::class, 'index'])->name('publico.index');
+
+// Eventos públicos
+Route::prefix('publico/eventos')->group(function () {
+    Route::get('/', [PublicoController::class, 'eventos'])->name('publico.eventos');
+    Route::get('/{id}', [PublicoController::class, 'eventoDetalhes'])->name('publico.eventos.detalhes');
+});
+
+// Atas públicas
+Route::prefix('publico/atas')->group(function () {
+    Route::get('/', [PublicoController::class, 'atas'])->name('publico.atas');
+    Route::get('/{id}', [PublicoController::class, 'ataDetalhes'])->name('publico.atas.detalhes');
+});
+
+// Regimes Internos públicos
+Route::prefix('publico/regimes-internos')->group(function () {
+    Route::get('/', [PublicoController::class, 'regimesInternos'])->name('publico.regimes_internos');
+    Route::get('/{id}', [PublicoController::class, 'regimeInternoDetalhes'])->name('publico.regimes_internos.detalhes');
+});
+
+// Estatutos públicos
+Route::prefix('publico/estatutos')->group(function () {
+    Route::get('/', [PublicoController::class, 'estatutos'])->name('publico.estatutos');
+    Route::get('/{id}', [PublicoController::class, 'estatutoDetalhes'])->name('publico.estatutos.detalhes');
+});
+
+// Sobre a Paróquia
+Route::get('/publico/sobre', [PublicoController::class, 'sobre'])->name('publico.sobre');
