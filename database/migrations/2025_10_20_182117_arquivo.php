@@ -10,10 +10,14 @@ return new class extends Migration
     {
         Schema::create('arquivo', function (Blueprint $table) {
             $table->id();
-            $table->string('tabela', 255);
-            $table->unsignedBigInteger('chave');
-            $table->string('titulo')->nullable();
-            $table->string('hash')->nullable();
+            $table->string('tabela');
+            $table->string('chave');
+            $table->string('titulo');
+            $table->string('descricao')->nullable();
+            $table->string('nome');
+            $table->string('tamanho');
+            $table->string('content_type');
+            $table->string('hash');
             $table->timestamps();
             $table->softDeletes();
         });
