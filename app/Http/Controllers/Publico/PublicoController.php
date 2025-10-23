@@ -7,6 +7,7 @@ use App\Databases\Models\Eventos;
 use App\Databases\Models\Ata;
 use App\Databases\Models\RegimeInterno;
 use App\Databases\Models\Estatuto;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ class PublicoController extends Controller
         $proximosEventos = Eventos::where('data', '>=', Carbon::now())
             ->orderBy('data', 'asc')
             ->orderBy('hora', 'asc')
-            ->take(10)
+            ->take(5)
             ->get();
 
         return Inertia::render('Publico/Index', [
@@ -44,24 +45,41 @@ class PublicoController extends Controller
     }
 
     /**
-     * Detalhes de um evento específico
+     * Detalhes de um evento específico com arquivos anexos
      */
     public function eventoDetalhes(int $id): Response
     {
-        $evento = Eventos::with(['cargos.pessoa', 'doacoes.pessoa', 'cardapios.cardapio'])
+        $evento = Eventos::with(['cargos.pessoa', 'cargos.cargo', 'doacoes.pessoa', 'cardapios.cardapio'])
             ->findOrFail($id);
 
+        // Buscar arquivos anexos ao evento
+        $arquivos = DB::table('arquivo')
+            ->where('tabela', 'eventos')
+            ->where('chave', $id)
+            ->whereNull('deleted_at')
+            ->get();
+
         return Inertia::render('Publico/EventoDetalhes', [
-            'evento' => $evento
+            'evento' => $evento,
+            'arquivos' => $arquivos
         ]);
     }
 
     /**
-     * Lista todas as atas públicas
+     * Lista todas as atas públicas com arquivos
      */
     public function atas(): Response
     {
         $atas = Ata::orderBy('created_at', 'desc')->get();
+
+        // Buscar quantidade de arquivos para cada ata
+        $atas->each(function($ata) {
+            $ata->total_arquivos = DB::table('arquivo')
+                ->where('tabela', 'ata')
+                ->where('chave', $ata->id)
+                ->whereNull('deleted_at')
+                ->count();
+        });
 
         return Inertia::render('Publico/Atas', [
             'atas' => $atas
@@ -69,14 +87,22 @@ class PublicoController extends Controller
     }
 
     /**
-     * Detalhes de uma ata específica
+     * Detalhes de uma ata específica com arquivos
      */
     public function ataDetalhes(int $id): Response
     {
         $ata = Ata::findOrFail($id);
 
+        // Buscar arquivos anexos à ata
+        $arquivos = DB::table('arquivo')
+            ->where('tabela', 'ata')
+            ->where('chave', $id)
+            ->whereNull('deleted_at')
+            ->get();
+
         return Inertia::render('Publico/AtaDetalhes', [
-            'ata' => $ata
+            'ata' => $ata,
+            'arquivos' => $arquivos
         ]);
     }
 
@@ -87,20 +113,37 @@ class PublicoController extends Controller
     {
         $regimesInternos = RegimeInterno::orderBy('created_at', 'desc')->get();
 
+        // Buscar quantidade de arquivos para cada regime
+        $regimesInternos->each(function($regime) {
+            $regime->total_arquivos = DB::table('arquivo')
+                ->where('tabela', 'regime_interno')
+                ->where('chave', $regime->id)
+                ->whereNull('deleted_at')
+                ->count();
+        });
+
         return Inertia::render('Publico/RegimesInternos', [
             'regimesInternos' => $regimesInternos
         ]);
     }
 
     /**
-     * Detalhes de um regime interno específico
+     * Detalhes de um regime interno específico com arquivos
      */
     public function regimeInternoDetalhes(int $id): Response
     {
         $regimeInterno = RegimeInterno::findOrFail($id);
 
+        // Buscar arquivos anexos ao regime interno
+        $arquivos = DB::table('arquivo')
+            ->where('tabela', 'regime_interno')
+            ->where('chave', $id)
+            ->whereNull('deleted_at')
+            ->get();
+
         return Inertia::render('Publico/RegimeInternoDetalhes', [
-            'regimeInterno' => $regimeInterno
+            'regimeInterno' => $regimeInterno,
+            'arquivos' => $arquivos
         ]);
     }
 
@@ -111,20 +154,37 @@ class PublicoController extends Controller
     {
         $estatutos = Estatuto::orderBy('created_at', 'desc')->get();
 
+        // Buscar quantidade de arquivos para cada estatuto
+        $estatutos->each(function($estatuto) {
+            $estatuto->total_arquivos = DB::table('arquivo')
+                ->where('tabela', 'estatuto')
+                ->where('chave', $estatuto->id)
+                ->whereNull('deleted_at')
+                ->count();
+        });
+
         return Inertia::render('Publico/Estatutos', [
             'estatutos' => $estatutos
         ]);
     }
 
     /**
-     * Detalhes de um estatuto específico
+     * Detalhes de um estatuto específico com arquivos
      */
     public function estatutoDetalhes(int $id): Response
     {
         $estatuto = Estatuto::findOrFail($id);
 
+        // Buscar arquivos anexos ao estatuto
+        $arquivos = DB::table('arquivo')
+            ->where('tabela', 'estatuto')
+            ->where('chave', $id)
+            ->whereNull('deleted_at')
+            ->get();
+
         return Inertia::render('Publico/EstatutoDetalhes', [
-            'estatuto' => $estatuto
+            'estatuto' => $estatuto,
+            'arquivos' => $arquivos
         ]);
     }
 
@@ -134,5 +194,28 @@ class PublicoController extends Controller
     public function sobre(): Response
     {
         return Inertia::render('Publico/Sobre');
+    }
+
+    /**
+     * Download de arquivo anexo
+     */
+    public function downloadArquivo(int $id)
+    {
+        $arquivo = DB::table('arquivo')
+            ->where('id', $id)
+            ->whereNull('deleted_at')
+            ->first();
+
+        if (!$arquivo) {
+            abort(404, 'Arquivo não encontrado');
+        }
+
+        $caminho = storage_path('app/public/' . $arquivo->hash);
+
+        if (!file_exists($caminho)) {
+            abort(404, 'Arquivo não encontrado no servidor');
+        }
+
+        return response()->download($caminho, $arquivo->titulo ?: 'arquivo');
     }
 }
