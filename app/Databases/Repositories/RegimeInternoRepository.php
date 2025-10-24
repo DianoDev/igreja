@@ -2,12 +2,14 @@
 namespace App\Databases\Repositories;
 
 use App\Databases\Contracts\RegimeInternoContract;
+use App\Databases\Models\Arquivo;
 use App\Databases\Models\RegimeInterno;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Str;
 
 class RegimeInternoRepository implements RegimeInternoContract
 {
@@ -19,6 +21,7 @@ class RegimeInternoRepository implements RegimeInternoContract
     {
         return RegimeInterno::query()
             ->where('id', '=', $id)
+            ->with('arquivo')
             ->firstOrFail();
     }
 
@@ -54,6 +57,10 @@ class RegimeInternoRepository implements RegimeInternoContract
             ]);
             $regimeInterno->save();
 
+            if (isset($params['arquivo'])) {
+                $this->uploadArquivo($params, $regimeInterno->id);
+            }
+
             $autoCommit && DB::commit();
             return true;
         } catch (Exception $ex) {
@@ -62,11 +69,51 @@ class RegimeInternoRepository implements RegimeInternoContract
         }
     }
 
+    /**
+     * Realiza upload do arquivo e salva no banco
+     */
+    private function uploadArquivo(array $params, int $regimeInternoId): void
+    {
+        $hash = Str::uuid();
+        $name = $params['arquivo']->getClientOriginalName();
+        $mime = $params['arquivo']->getClientMimeType();
+        $size = $params['arquivo']->getSize();
+        $extension = $params['arquivo']->getClientOriginalExtension();
+        $destino = sprintf("public/uploads/%s", date("Y/m/d"));
+        $filename = sprintf("%s.%s", $hash, strtolower($extension));
+        $params['arquivo']->storeAs($destino, $filename);
+
+        $arquivo = new Arquivo([
+            'tabela' => 'regime_interno',
+            'chave' => $regimeInternoId,
+            'titulo' => $params['titulo_arquivo'] ?? $name,
+            'nome' => $name,
+            'tamanho' => $size,
+            'content_type' => $mime,
+            'hash' => "{$destino}/{$filename}",
+        ]);
+        $arquivo->save();
+    }
+
     public function update(int $id, array $params, bool $autoCommit = true): bool
     {
         $autoCommit && DB::beginTransaction();
         try {
             $regimeInterno = $this->getById($id);
+
+            // Verificar se deve excluir arquivo existente
+            if (isset($params['remover_arquivo']) && $params['remover_arquivo'] == true) {
+                $this->excluirArquivo($id);
+                unset($params['remover_arquivo']);
+            }
+
+            // Upload de arquivo se existir
+            if (isset($params['arquivo'])) {
+                $this->uploadArquivo($params, $id);
+                unset($params['titulo_arquivo']);
+                unset($params['arquivo']);
+            }
+
             $regimeInterno->update($params);
 
             $autoCommit && DB::commit();
@@ -90,5 +137,21 @@ class RegimeInternoRepository implements RegimeInternoContract
         }
 
         return true;
+    }
+
+    /**
+     * Exclui arquivo(s) associado(s) ao registro
+     */
+    private function excluirArquivo(int $regimeInternoId): void
+    {
+        // Buscar arquivos associados
+        $arquivo = Arquivo::where('tabela', 'regime_interno')
+            ->where('chave', $regimeInternoId)
+            ->whereNull('deleted_at')
+            ->first();
+
+        if ($arquivo) {
+            $arquivo->delete();
+        }
     }
 }

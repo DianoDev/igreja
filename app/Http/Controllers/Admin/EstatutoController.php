@@ -49,7 +49,7 @@ class EstatutoController extends Controller
 
     public function update(EstatutoRequest $request, int $id): JsonResponse
     {
-        $params = $request->validated();
+        $params = $request->except('_token');
         $this->estatutoRepository->update($id, $params);
         return response()->json(['success' => true, 'message' => 'Estatuto atualizado com sucesso!']);
     }
