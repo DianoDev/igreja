@@ -49,7 +49,7 @@ class AtaController extends Controller
 
     public function update(AtaRequest $request, int $id): JsonResponse
     {
-        $params = $request->validated();
+        $params = $request->except('_token');
         $this->ataRepository->update($id, $params);
         return response()->json(['success' => true, 'message' => 'Ata atualizado com sucesso!']);
     }
