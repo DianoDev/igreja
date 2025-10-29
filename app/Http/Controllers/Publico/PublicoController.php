@@ -49,10 +49,16 @@ class PublicoController extends Controller
      */
     public function eventoDetalhes(int $id): Response
     {
-        $evento = Eventos::with(['cargos.pessoa', 'cargos.cargo', 'doacoes.pessoa', 'cardapios.cardapio'])
-            ->findOrFail($id);
+        // Carregar evento com todos os relacionamentos
+        $evento = Eventos::with([
+            'cargos.pessoa',
+            'cargos.cargo',
+            'doacoes.pessoa',
+            'cardapios.cardapio',
+            'fotos'
+        ])->findOrFail($id);
 
-        // Buscar arquivos anexos ao evento
+        // Buscar arquivos anexos ao evento (documentos, não fotos da galeria)
         $arquivos = DB::table('arquivo')
             ->where('tabela', 'eventos')
             ->where('chave', $id)

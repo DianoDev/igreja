@@ -25,7 +25,7 @@
         <div class="flex space-x-1">
             <button
                 type="button"
-                class="flex-1 px-3 py-1.5  text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-hover transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                class="flex-1 px-3 py-1.5  text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 @click="apply"
             >
                 <i class="fas fa-filter mr-2"></i> Aplicar

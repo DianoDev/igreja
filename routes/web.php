@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\DoacaoEventoController;
 use App\Http\Controllers\Admin\EventosController;
 use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\EstatutoController;
+use App\Http\Controllers\Admin\GaleriaEventoController;
 use App\Http\Controllers\Admin\RegimeInternoController;
 use App\Http\Controllers\Admin\CargoController;
 use App\Http\Controllers\Admin\PessoaController;
+use App\Http\Controllers\Admin\ArquivoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Publico\PublicoController;
 use Illuminate\Foundation\Application;
@@ -51,6 +53,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [RegimeInternoController::class, 'delete'])->name('admin.regime_interno.delete');
     });
 
+    Route::prefix('admin/evento/{idEvento}/galeria')->group(function () {
+        Route::get('/', [GaleriaEventoController::class, 'index'])->name('admin.eventos.galeria');
+        Route::get('/list', [GaleriaEventoController::class, 'listar'])->name('admin.eventos.galeria.list');
+        Route::post('/upload', [GaleriaEventoController::class, 'upload'])->name('admin.eventos.galeria.upload');
+        Route::delete('/{idFoto}', [GaleriaEventoController::class, 'excluir'])->name('admin.eventos.galeria.excluir');
+        Route::put('/{idFoto}', [GaleriaEventoController::class, 'atualizar'])->name('admin.eventos.galeria.atualizar');
+        Route::post('/excluir-multiplas', [GaleriaEventoController::class, 'excluirMultiplas'])->name('admin.eventos.galeria.excluir-multiplas');
+    });
+
     // Rotas Admin - Estatuto
     Route::group(['prefix' => 'admin/estatuto'], function () {
         Route::get('/', [EstatutoController::class, 'index'])->name('admin.estatuto.index');
@@ -76,7 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [EventosController::class, 'index'])->name('admin.eventos.index');
         Route::get('/list', [EventosController::class, 'list'])->name('admin.eventos.list');
         Route::get('/{id}', [EventosController::class, 'edit'])->name('admin.eventos.edit');
-        Route::get('/{id}/info', [EventosController::class, 'info'])->name('admin.eventos.edit');
+        Route::get('/{id}/info', [EventosController::class, 'info'])->name('admin.eventos.info');
         Route::post('/', [EventosController::class, 'create'])->name('admin.eventos.create');
         Route::post('/{id}', [EventosController::class, 'update'])->name('admin.eventos.update');
         Route::delete('/{id}', [EventosController::class, 'delete'])->name('admin.eventos.delete');
@@ -86,7 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'admin/cardapio'], function () {
         Route::get('/', [CardapioController::class, 'index'])->name('admin.cardapio.index');
         Route::get('/list', [CardapioController::class, 'list'])->name('admin.cardapio.list');
-        Route::get('/{id}/ingredientes', [CardapioController::class, 'ingredientes'])->name('admin.cardapio.edit');
+        Route::get('/{id}/ingredientes', [CardapioController::class, 'ingredientes'])->name('admin.cardapio.ingredientes');
         Route::get('/{id}', [CardapioController::class, 'edit'])->name('admin.cardapio.edit');
         Route::get('/{id}/ingredientes/edit', [CardapioController::class, 'getIngredientes']);
         Route::post('/{id}/ingredientes', [CardapioController::class, 'saveIngredientes']);
@@ -153,3 +164,9 @@ Route::get('/publico/sobre', [PublicoController::class, 'sobre'])->name('publico
 
 // Download de Arquivos Anexos
 Route::get('/publico/arquivo/{id}', [PublicoController::class, 'downloadArquivo'])->name('publico.arquivo.download');
+
+Route::group(['prefix' => 'storage'], function () {
+    Route::get('/uploads/{ano}/{mes}/{dia}/{hash}',
+        [App\Http\Controllers\Admin\ArquivoController::class, 'download']
+    )->name('storage.download');
+});
