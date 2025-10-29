@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [EventosController::class, 'index'])->name('admin.eventos.index');
         Route::get('/list', [EventosController::class, 'list'])->name('admin.eventos.list');
         Route::get('/{id}', [EventosController::class, 'edit'])->name('admin.eventos.edit');
-        Route::get('/{id}/info', [EventosController::class, 'info'])->name('admin.eventos.edit');
+        Route::get('/{id}/info', [EventosController::class, 'info'])->name('admin.eventos.info');
         Route::post('/', [EventosController::class, 'create'])->name('admin.eventos.create');
         Route::post('/{id}', [EventosController::class, 'update'])->name('admin.eventos.update');
         Route::delete('/{id}', [EventosController::class, 'delete'])->name('admin.eventos.delete');
