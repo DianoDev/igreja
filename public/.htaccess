@@ -1,4 +1,15 @@
 <IfModule mod_rewrite.c>
+
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+
+        # Redireciona domínio principal para subdomínio
+        RewriteCond %{HTTP_HOST} ^festeirosaobeneditocuiaba\.com\.br$ [OR]
+        RewriteCond %{HTTP_HOST} ^www\.festeirosaobeneditocuiaba\.com\.br$
+        RewriteRule ^(.*)$ https://paroquia.festeirosaobeneditocuiaba.com.br/$1 [R=301,L]
+
+        # Resto das regras do Laravel...
+    </IfModule>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
