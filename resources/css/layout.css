@@ -1,0 +1,30 @@
+.hero-content {
+    align-items: center;
+    width: 90%;
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+
+.destina-se {
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 0.25rem;
+}
+
+/* Layout styles */
+.page-content {
+    padding: 1.75rem;
+    margin: 1.5rem;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.page-content-no-bg {
+    margin: 1.5rem;
+    border-radius: 12px;
+}
+
+.app-layout {
+    font-family: 'Poppins', 'Roboto', sans-serif !important;
+}

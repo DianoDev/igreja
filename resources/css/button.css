@@ -1,0 +1,277 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-width: 100px;
+    text-align: center;
+    color: white !important;
+    line-height: 1;
+}
+
+.btn-sm {
+    padding: 0.700rem 1.5rem;
+    font-size: 0.900rem;
+    min-width: 100px;
+}
+
+.btn-xs {
+    padding: 0.500rem 1.25rem;
+    font-size: 0.750rem;
+    min-width: 80px;
+}
+
+
+
+.btn-lg {
+    padding: 1.125rem 2.5rem;
+    font-size: 1.125rem;
+    min-width: 200px;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ============================================
+   BUTTON VARIANTS
+   ============================================ */
+
+/* 1. FAZER LOGIN - Ghost/Outline Button */
+.btn-ghost {
+    background: transparent;
+    color: var(--dark-gray);
+    border-color: var(--very-light-blue);
+    background: var(--very-light-blue);
+    position: relative;
+}
+
+.btn-ghost::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.btn-ghost:hover {
+    color: var(--dark-gray);
+    border-color: var(--very-light-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--very-light-blue) 30%, transparent);
+}
+
+.btn-ghost:hover::before {
+    left: 0;
+}
+
+
+/* 2. SAIBA MAIS - Yellow Button */
+.btn-accent {
+    background: var(--accent);
+    color: black;
+    border-color: var(--accent);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 5px color-mix(in srgb, black 40%, transparent);
+}
+
+.btn-accent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    border-color: #174E77;
+    background: #174E77;
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.btn-accent:hover {
+    color: #174E77;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.btn-accent:hover::before {
+    left: 0;
+}
+
+/* 3. SAIBA MAIS - Teal Button */
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 5px color-mix(in srgb, black 40%, transparent);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    border-color: #174E77;
+    background: #174E77;
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.btn-primary:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--primary) 40%, transparent);
+}
+
+.btn-primary:hover::before {
+    left: 0;
+}
+
+/* 4. SECONDARY - Light Blue Button */
+.btn-secondary {
+    background: var(--secondary);
+    color: var(--neutral);
+    border-color: var(--secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #d1e5ea 0%, #b5d4db 100%);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.btn-secondary:hover {
+    color: var(--neutral);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--secondary) 40%, transparent);
+}
+
+.btn-secondary:hover::before {
+    left: 0;
+}
+/* 5. CANCEL - Light red button */
+
+.btn-cancel {
+    background: #E7F3F5;
+    color: #333 !important;
+    border: 1px solid #E7F3F5;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 5px color-mix(in srgb, black 40%, transparent);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.btn-cancel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f4f9fa 0%, #E7F3F5 100%);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.btn-cancel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 25px color-mix(in srgb, black 40%, transparent);
+}
+
+.btn-cancel:hover::before {
+    left: 0;
+}
+
+
+.btn-icon {
+    margin-left: 0.5rem;
+}
+
+/* Mobile Login Button - Versão mobile do btn-accent */
+.btn-mobile-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+
+    background: var(--accent);
+    color: black;
+    border: 2px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px color-mix(in srgb, black 30%, transparent);
+    font-size: 0.75rem;
+}
+
+.btn-mobile-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #174E77;
+    transition: left 0.3s ease;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.btn-mobile-login:hover {
+    color: #174E77;
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 3px 12px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.btn-mobile-login:hover::before {
+    left: 0;
+}
+
+.btn-mobile-login:active {
+    transform: translateY(0) scale(1.02);
+}
+
+.btn-mobile-login:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
+}

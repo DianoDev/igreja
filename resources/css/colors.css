@@ -1,0 +1,60 @@
+/* Design system: Colors */
+:root {
+    --blue: #EFEF7E;
+    --dark-gray: #313131;
+    --light-blue: #C4DCE1;
+    --very-light-blue: #E7F3F5;
+    --azul: #2595D8;
+}
+
+/* Base styles */
+* {
+    font-family: 'Poppins', serif;
+}
+
+.primary-color{
+    color: var(--azul);
+}
+
+.text-primary{
+    color: var(--azul) !important;
+}
+
+.primary-bg-color{
+    background-color: var(--azul);
+}
+
+.secondary-color{
+    color: #6cbca4;
+}
+
+.secondary--color{
+    color: #6cbca4;
+}
+
+
+
+
+.accent-bg-color{
+    background-color: #EFEF7E;
+}
+
+.filter-bg-color{
+    background-color: #A6CADF;
+}
+
+
+/* Design System Variables (se ainda não estiverem definidas) */
+:root {
+    --blue: var(--azul);
+    --dark-gray: #313131;
+    --light-blue: #C4DCE1;
+    --very-light-blue: #E7F3F5;
+    --teal: #6dc4a6;
+
+    /* Semantic variables */
+    --primary: var(--blue);
+    --secondary: var(--light-blue);
+    --accent: var(--blue);
+    --neutral: var(--dark-gray);
+}
