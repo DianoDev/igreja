@@ -75,10 +75,13 @@ class GaleriaEventoController extends Controller
                 $mime = $foto->getClientMimeType();
                 $size = $foto->getSize();
                 $extension = $foto->getClientOriginalExtension();
-                $destino = sprintf("public/uploads/%s", date("Y/m/d"));
+
+                // Caminho dentro do storage/app/public
+                $destino = sprintf("uploads/%s", date("Y/m/d"));
                 $filename = sprintf("%s.%s", $hash, strtolower($extension));
 
-                $foto->storeAs($destino, $filename);
+                // CORREÇÃO: Especificar explicitamente o disco 'public'
+                $foto->storeAs($destino, $filename, 'public');
 
                 $arquivo = new Arquivo([
                     'tabela' => 'eventos',
@@ -87,7 +90,8 @@ class GaleriaEventoController extends Controller
                     'nome' => $name,
                     'tamanho' => $size,
                     'content_type' => $mime,
-                    'hash' => "{$destino}/{$filename}",
+                    // Hash salvo com 'public/' para manter compatibilidade
+                    'hash' => "public/{$destino}/{$filename}",
                 ]);
                 $arquivo->save();
 
@@ -124,8 +128,10 @@ class GaleriaEventoController extends Controller
                 ->whereNull('deleted_at')
                 ->firstOrFail();
 
-            // Excluir arquivo físico (soft delete mantém registro no banco)
-            // Storage::delete($foto->hash);
+            // Excluir arquivo físico do storage
+            if ($foto->hash) {
+                Storage::disk('public')->delete(str_replace('public/', '', $foto->hash));
+            }
 
             $foto->delete();
 
@@ -204,6 +210,10 @@ class GaleriaEventoController extends Controller
                 ->get();
 
             foreach ($fotos as $foto) {
+                // Excluir arquivo físico do storage
+                if ($foto->hash) {
+                    Storage::disk('public')->delete(str_replace('public/', '', $foto->hash));
+                }
                 $foto->delete();
             }
 

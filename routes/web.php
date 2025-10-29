@@ -165,6 +165,8 @@ Route::get('/publico/sobre', [PublicoController::class, 'sobre'])->name('publico
 // Download de Arquivos Anexos
 Route::get('/publico/arquivo/{id}', [PublicoController::class, 'downloadArquivo'])->name('publico.arquivo.download');
 
-Route::group(['prefix' => 'storage/public'], function () {
-    Route::get('/uploads/{ano}/{mes}/{dia}/{hash}', [ArquivoController::class, 'download'])->name('storage.download');
+Route::group(['prefix' => 'storage'], function () {
+    Route::get('/uploads/{ano}/{mes}/{dia}/{hash}',
+        [App\Http\Controllers\Admin\ArquivoController::class, 'download']
+    )->name('storage.download');
 });

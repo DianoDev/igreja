@@ -37,4 +37,5 @@ class Eventos extends Model
             ->where('tabela', '=', 'eventos')
             ->orderBy('created_at', 'desc');
     }
+
 }

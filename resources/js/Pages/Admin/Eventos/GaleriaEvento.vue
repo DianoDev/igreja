@@ -1,8 +1,25 @@
 <template>
     <Head title="Galeria de Fotos"/>
     <LayoutPrincipal>
+
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-10">
+                    <div>
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            📸 Galeria de Fotos
+                        </h2>
+                        <p class="text-sm text-gray-600 mt-1" v-if="evento">
+                            Evento: <strong>{{ evento.nome }}</strong> - {{ formatarData(evento.data) }}
+                        </p>
+                    </div>
+                    <button
+                        @click="voltarParaEvento"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
+                    >
+                        <i class="fa fa-arrow-left mr-2"></i>Voltar
+                    </button>
+                </div>
                 <!-- Área de Upload -->
                 <div class="bg-white rounded-lg shadow-md p-6 mb-6">
                     <h3 class="text-lg font-semibold mb-4 flex items-center">
@@ -87,7 +104,7 @@
 
                 <!-- Estatísticas -->
                 <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
                             <div class="flex items-center">
                                 <i class="fa fa-images text-3xl text-blue-600 mr-3"></i>
@@ -104,16 +121,6 @@
                                 <div>
                                     <p class="text-sm text-gray-600">Selecionadas</p>
                                     <p class="text-2xl font-bold text-gray-800">{{ fotosSelecionadas.length }}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-purple-50 rounded-lg p-4 border border-purple-200">
-                            <div class="flex items-center">
-                                <i class="fa fa-hdd text-3xl text-purple-600 mr-3"></i>
-                                <div>
-                                    <p class="text-sm text-gray-600">Tamanho Total</p>
-                                    <p class="text-2xl font-bold text-gray-800">{{ tamanhoTotal }}</p>
                                 </div>
                             </div>
                         </div>
@@ -352,6 +359,7 @@ const tamanhoTotal = computed(() => {
 });
 
 onMounted(() => {
+    console.log(props)
     carregarGaleria();
 });
 
@@ -551,16 +559,16 @@ function fecharModal() {
 
 function getImageUrl(hash) {
     if (!hash) return '';
-    // Hash vem no formato: public/uploads/2024/01/15/uuid.jpg
-    // Precisamos extrair: ano/mes/dia/hash
     const match = hash.match(/public\/uploads\/(\d{4})\/(\d{2})\/(\d{2})\/(.+)/);
     if (match) {
         const [, ano, mes, dia, filename] = match;
-        return `/storage/public/uploads/${ano}/${mes}/${dia}/${filename}`;
+        return `/storage/uploads/${ano}/${mes}/${dia}/${filename}`;
     }
+
     // Fallback caso o formato seja diferente
     return `/storage/${hash.replace('public/', '')}`;
 }
+
 
 function handleImageError(event) {
     event.target.src = '/images/placeholder.jpg';
@@ -585,7 +593,7 @@ function formatarDataHora(dataHora) {
 }
 
 function voltarParaEvento() {
-    router.visit(`/admin/evento/${props.idEvento}/info`);
+    router.visit(`/admin/eventos`);
 }
 </script>
 
