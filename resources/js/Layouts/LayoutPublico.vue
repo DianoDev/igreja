@@ -70,7 +70,7 @@
 
                 <!-- Menu Mobile -->
                 <nav v-if="menuMobileAberto" class="lg:hidden mt-4 pb-4 space-y-2 animate-fadeIn">
-                    <Link href="/publico" class="block py-3 px-4 bg-blue-700 hover:bg-amber-500 rounded-lg transition-all">
+                    <Link href="/" class="block py-3 px-4 bg-blue-700 hover:bg-amber-500 rounded-lg transition-all">
                         🏠 Início
                     </Link>
                     <Link href="/publico/eventos" class="block py-3 px-4 bg-blue-700 hover:bg-amber-500 rounded-lg transition-all">
