@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\DoacaoEventoController;
 use App\Http\Controllers\Admin\EventosController;
 use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\EstatutoController;
+use App\Http\Controllers\Admin\GaleriaEventoController;
 use App\Http\Controllers\Admin\RegimeInternoController;
 use App\Http\Controllers\Admin\CargoController;
 use App\Http\Controllers\Admin\PessoaController;
+use App\Http\Controllers\Admin\ArquivoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Publico\PublicoController;
 use Illuminate\Foundation\Application;
@@ -49,6 +51,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [RegimeInternoController::class, 'create'])->name('admin.regime_interno.create');
         Route::post('/{id}', [RegimeInternoController::class, 'update'])->name('admin.regime_interno.update');
         Route::delete('/{id}', [RegimeInternoController::class, 'delete'])->name('admin.regime_interno.delete');
+    });
+
+    Route::prefix('admin/evento/{idEvento}/galeria')->group(function () {
+        Route::get('/', [GaleriaEventoController::class, 'index'])->name('admin.eventos.galeria');
+        Route::get('/list', [GaleriaEventoController::class, 'listar'])->name('admin.eventos.galeria.list');
+        Route::post('/upload', [GaleriaEventoController::class, 'upload'])->name('admin.eventos.galeria.upload');
+        Route::delete('/{idFoto}', [GaleriaEventoController::class, 'excluir'])->name('admin.eventos.galeria.excluir');
+        Route::put('/{idFoto}', [GaleriaEventoController::class, 'atualizar'])->name('admin.eventos.galeria.atualizar');
+        Route::post('/excluir-multiplas', [GaleriaEventoController::class, 'excluirMultiplas'])->name('admin.eventos.galeria.excluir-multiplas');
     });
 
     // Rotas Admin - Estatuto
@@ -153,3 +164,7 @@ Route::get('/publico/sobre', [PublicoController::class, 'sobre'])->name('publico
 
 // Download de Arquivos Anexos
 Route::get('/publico/arquivo/{id}', [PublicoController::class, 'downloadArquivo'])->name('publico.arquivo.download');
+
+Route::group(['prefix' => 'storage/public'], function () {
+    Route::get('/uploads/{ano}/{mes}/{dia}/{hash}', [ArquivoController::class, 'download'])->name('storage.download');
+});

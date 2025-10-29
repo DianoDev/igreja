@@ -65,6 +65,12 @@ const columns = ref([
                 text: 'Responsáveis e Doações',
             },
             {
+                type: 'anchor',
+                icon: 'fa-tag',
+                href: `/admin/evento/${row.id}/galeria`,
+                text: 'Galeria de Fotos',
+            },
+            {
                 type: 'modal',
                 icon: 'fa-utensils',
                 dataSize: 'lg',
