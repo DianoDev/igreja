@@ -38,4 +38,27 @@ class Eventos extends Model
             ->orderBy('created_at', 'desc');
     }
 
+    /**
+     * Relacionamento com cargos do evento
+     */
+    public function cargos(): HasMany
+    {
+        return $this->hasMany(CargoEvento::class, 'id_evento', 'id');
+    }
+
+    /**
+     * Relacionamento com doações do evento
+     */
+    public function doacoes(): HasMany
+    {
+        return $this->hasMany(DoacaoEvento::class, 'id_evento', 'id');
+    }
+
+    /**
+     * Relacionamento com cardápios do evento
+     */
+    public function cardapios(): HasMany
+    {
+        return $this->hasMany(CardapioEvento::class, 'id_evento', 'id');
+    }
 }
