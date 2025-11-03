@@ -3,17 +3,17 @@
         <!-- Header com estilo de igreja -->
         <header class="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white shadow-2xl relative overflow-hidden">
             <!-- Padrão decorativo -->
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-0 left-0 w-full h-full" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cpath d=&quot;M30 0l5 15h15l-12 9 5 15-13-9-13 9 5-15-12-9h15z&quot; fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.4&quot;/%3E%3C/svg%3E');"></div>
-            </div>
+
 
             <div class="container mx-auto px-4 py-6 relative z-10">
                 <div class="flex items-center justify-between">
                     <!-- Logo e Nome da Paróquia -->
                     <div class="flex items-center space-x-4">
-                        <div class="flex flex-col items-center">
-                            <div class="w-20 h-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-lg border-4 border-amber-300">
-                                <span class="text-4xl">✝️</span>
+                        <div class="flex flex-col items-baseline">
+                            <div class="logo-container mx-auto">
+                                <div class="logo">
+                                    <i class="fas fa-cross"></i>
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -34,7 +34,7 @@
                             🏠 Início
                         </Link>
                         <Link href="/publico/eventos"
-                              :class="isActive('/publico/eventos') ? 'bg-amber-500 text-white' : 'text-blue-100 hover:bg-blue-700'"
+                              :class="isActive('/publico/eventos') ? 'bg-amber-300 text-white' : 'text-blue-100 hover:bg-blue-700'"
                               class="px-4 py-2 rounded transition-all duration-200">
                             📅 Eventos
                         </Link>
@@ -109,11 +109,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Sobre -->
                     <div>
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center mr-3">
-                                <span class="text-2xl">✝️</span>
+                        <div class="flex items-baseline mb-4">
+                            <div class="logo-container mr-4">
+                                <div class="logo">
+                                    <i class="fas fa-cross"></i>
+                                </div>
                             </div>
-                            <h3 class="text-xl font-bold text-amber-400">Paróquia São Benedito</h3>
+                            <h3 class="text-xl font-bold text-amber-300">Paróquia São Benedito</h3>
                         </div>
                         <p class="text-gray-300 text-sm leading-relaxed">
                             Arquidiocese de Cuiabá<br>
@@ -206,5 +208,65 @@ const isActive = (path) => {
 /* Fonte mais elegante para textos de igreja */
 h1, h2, h3 {
     font-family: 'Georgia', serif;
+}
+
+.logo-container {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        0 0 0 6px rgba(251, 191, 36, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.logo i {
+    font-size: 30px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsivo */
+@media (max-width: 640px) {
+    .login-card {
+        border-radius: 16px;
+    }
+
+    .login-header {
+        padding: 30px 20px;
+    }
+
+    .logo {
+        width: 75px;
+        height: 75px;
+    }
+
+    .logo i {
+        font-size: 38px;
+    }
+
+    .login-title {
+        font-size: 24px;
+    }
+
+    .login-body {
+        padding: 30px 20px;
+    }
+
+    .login-footer {
+        padding: 20px;
+    }
 }
 </style>

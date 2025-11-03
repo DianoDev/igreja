@@ -8,16 +8,16 @@
                      alt="Paróquia São Benedito"
                      class="w-full h-full object-cover"
                      @error="imagemErro">
-                <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-white/20 to-white/60"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70"></div>
             </div>
 
             <!-- Conteúdo do Banner -->
             <div class="relative z-10 container mx-auto px-4 h-full flex items-center">
                 <div class="text-gray-800 max-w-3xl">
-                    <h1 class="text-5xl md:text-6xl font-bold mb-4" style="text-shadow: 2px 2px 4px rgba(255,255,255,0.8); font-family: Georgia, serif;">
-                        Bem-vindo festeiros da <span class="text-amber-600">Paróquia São Benedito</span>
+                    <h1 class="text-5xl md:text-6xl font-bold text-white mb-4" style="font-family: Georgia, serif;">
+                        Bem-vindo festeiros da <span class="text-amber-400 ">Paróquia São Benedito</span>
                     </h1>
-                    <p class="text-xl md:text-2xl mb-8 leading-relaxed text-gray-700" style="text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                    <p class="text-xl md:text-2xl text-white mb-8 leading-relaxed text-gray-700">
                         Uma comunidade de fé, amor e transparência.<br>
                         Acompanhe nossos eventos, atividades.
                     </p>
