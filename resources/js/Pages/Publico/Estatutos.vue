@@ -3,7 +3,7 @@
         <div class="bg-white rounded-lg shadow-lg p-6">
             <h1 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
                 <span class="mr-3">⚖️</span>
-                Estatutos
+                Estatuto
             </h1>
 
             <p class="text-gray-600 mb-6">

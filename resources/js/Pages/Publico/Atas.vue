@@ -36,13 +36,6 @@
                                 <i class="fa fa-download"></i>
                                 Baixar PDF
                             </button>
-                            <!-- Botão Ver Detalhes -->
-                            <button
-                                @click="verDetalhes(ata.id)"
-                                class="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                            >
-                                Ver ata →
-                            </button>
                         </div>
                     </div>
                 </div>

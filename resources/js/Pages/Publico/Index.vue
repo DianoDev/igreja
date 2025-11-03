@@ -66,7 +66,7 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-2">
                                     <span class="text-2xl">☀️</span>
-                                    <span class="font-bold text-lg">EVENTO DE MANHÃ</span>
+                                    <span class="font-bold text-lg">EVENTO DE DIA</span>
                                 </div>
                                 <span class="bg-white/30 backdrop-blur px-3 py-1 rounded-full text-sm font-medium">
                                     {{ diasAteEvento(eventoManha.data) }}
