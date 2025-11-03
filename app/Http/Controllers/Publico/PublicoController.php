@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Publico;
 
+use App\Databases\Models\Comissao;
 use App\Http\Controllers\Controller;
 use App\Databases\Models\Eventos;
 use App\Databases\Models\Ata;
@@ -25,8 +26,22 @@ class PublicoController extends Controller
             ->take(7)
             ->get();
 
+        // Buscar comissão do ano atual
+        $anoAtual = Carbon::now()->year;
+        $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+            ->where('ano', $anoAtual)
+            ->first();
+
+        // Se não existir comissão do ano atual, buscar do ano anterior
+        if (!$comissao) {
+            $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+                ->where('ano', $anoAtual - 1)
+                ->first();
+        }
+
         return Inertia::render('Publico/Index', [
-            'proximosEventos' => $proximosEventos
+            'proximosEventos' => $proximosEventos,
+            'comissao' => $comissao
         ]);
     }
 

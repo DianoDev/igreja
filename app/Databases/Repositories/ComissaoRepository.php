@@ -18,33 +18,32 @@ class ComissaoRepository implements ComissaoContract
     public function getById(int $id): Model
     {
         return Comissao::query()
+            ->with(['integrantes.pessoa', 'integrantes.cargo'])
             ->where('id', '=', $id)
             ->firstOrFail();
     }
 
     public function getAll(): Collection
     {
-        return Comissao::query()->get();
+        return Comissao::query()
+            ->with(['integrantes.pessoa', 'integrantes.cargo'])
+            ->get();
     }
 
     public function paginate(array $pagination = [], array $columns = ['*']): LengthAwarePaginator
     {
-        $query = Comissao::query();
+        $query = Comissao::query()->with(['integrantes.pessoa', 'integrantes.cargo']);
+
+        if (isset($pagination['nome'])) {
+            $keyword = mb_strtolower($pagination['nome']);
+            $query->whereRaw('lower(nome) like ?', ["%{$keyword}%"]);
+        }
 
         if (isset($pagination['ano'])) {
-            $keyword = mb_strtolower($pagination['ano']);
-            $query->whereRaw('lower(ano) like ?', ["%{$keyword}%"]);
-        }
-        if (isset($pagination['id_pessoa'])) {
-            $keyword = mb_strtolower($pagination['id_pessoa']);
-            $query->whereRaw('lower(id_pessoa) like ?', ["%{$keyword}%"]);
-        }
-        if (isset($pagination['id_cargo'])) {
-            $keyword = mb_strtolower($pagination['id_cargo']);
-            $query->whereRaw('lower(id_cargo) like ?', ["%{$keyword}%"]);
+            $query->where('ano', '=', $pagination['ano']);
         }
 
-        $query->orderBy($pagination['sort'] ?? 'ano', $pagination['sort_direction'] ?? 'asc');
+        $query->orderBy($pagination['sort'] ?? 'ano', $pagination['sort_direction'] ?? 'desc');
         return $query->paginate($pagination['per_page'] ?? 10, $columns, 'page', $pagination['current_page'] ?? 1);
     }
 
@@ -53,9 +52,8 @@ class ComissaoRepository implements ComissaoContract
         $autoCommit && DB::beginTransaction();
         try {
             $comissao = new Comissao([
-                'ano' => $params['ano'],
-                'id_pessoa' => $params['id_pessoa'],
-                'id_cargo' => $params['id_cargo']
+                'nome' => $params['nome'],
+                'ano' => $params['ano']
             ]);
             $comissao->save();
 

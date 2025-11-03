@@ -224,7 +224,41 @@
                 <p class="text-xl text-gray-500">Nenhum evento próximo agendado no momento.</p>
             </div>
         </div>
+        <!-- Comissão do Ano -->
+        <div v-if="comissao" class="bg-white rounded-xl  p-8 mb-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-700 mb-2" style="font-family: Georgia, serif;">
+                    <span class="mr-2">👥</span>
+                    {{ comissao.nome }}
+                </h2>
+                <p class="text-lg text-gray-600">Ano {{ comissao.ano }}</p>
+            </div>
 
+            <div v-if="comissao.integrantes && comissao.integrantes.length > 0"
+                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div v-for="integrante in comissao.integrantes"
+                     :key="integrante.id"
+                     class="bg-gradient-to-br from-amber-50 to-white rounded-lg p-6 border-l-4 border-amber-500 shadow hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-3">
+                        <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-xl mr-4">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 text-lg">
+                                {{ integrante.pessoa.nome }}
+                            </p>
+                            <p class="text-sm text-amber-600 font-medium">
+                                {{ integrante.cargo.nome }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-else class="text-center py-8 text-gray-500">
+                <p>Nenhum integrante cadastrado para esta comissão.</p>
+            </div>
+        </div>
         <!-- Cards de Acesso Rápido -->
         <div class="bg-gradient-to-b from-amber-50 to-white py-12">
             <div class="container mx-auto px-4">
@@ -254,8 +288,8 @@
                     <Link href="/publico/estatutos" class="group">
                         <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-green-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">⚖️</div>
-                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Estatutos</h3>
-                            <p class="text-gray-500">Veja nossos estatutos e documentos oficiais</p>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Estatuto</h3>
+                            <p class="text-gray-500">Veja nosso estatuto e documentos oficiais</p>
                         </div>
                     </Link>
                 </div>
@@ -273,6 +307,10 @@ const props = defineProps({
     proximosEventos: {
         type: Array,
         default: () => []
+    },
+    comissao: {
+        type: Object,
+        default: null
     }
 });
 

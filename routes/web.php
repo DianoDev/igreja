@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ComissaoController;
 use App\Http\Controllers\Admin\CardapioController;
 use App\Http\Controllers\Admin\CardapioEventoController;
 use App\Http\Controllers\Admin\CargoEventoController;
+use App\Http\Controllers\Admin\ComissaoPessoaController;
 use App\Http\Controllers\Admin\DoacaoEventoController;
 use App\Http\Controllers\Admin\EventosController;
 use App\Http\Controllers\Admin\AtaController;
@@ -172,11 +173,21 @@ Route::group(['prefix' => 'storage'], function () {
     )->name('storage.download');
 });
 
+// Rotas Admin - Comissão
 Route::group(['prefix' => 'admin/comissao'], function () {
     Route::get('/', [ComissaoController::class, 'index'])->name('admin.comissao.index');
     Route::get('/list', [ComissaoController::class, 'list'])->name('admin.comissao.list');
     Route::get('/{id}', [ComissaoController::class, 'edit'])->name('admin.comissao.edit');
+    Route::get('/{id}/info', [ComissaoController::class, 'info'])->name('admin.comissao.info');
     Route::post('/', [ComissaoController::class, 'create'])->name('admin.comissao.create');
     Route::post('/{id}', [ComissaoController::class, 'update'])->name('admin.comissao.update');
     Route::delete('/{id}', [ComissaoController::class, 'delete'])->name('admin.comissao.delete');
+});
+
+// Rotas Admin - Integrantes da Comissão
+Route::prefix('admin/comissao-pessoa')->group(function () {
+    Route::get('/buscar-pessoa', [ComissaoPessoaController::class, 'buscarPessoa'])->name('comissao-pessoa.buscar-pessoa');
+    Route::get('/comissao/{idComissao}', [ComissaoPessoaController::class, 'listarPorComissao'])->name('comissao-pessoa.listar-comissao');
+    Route::post('/adicionar', [ComissaoPessoaController::class, 'adicionar'])->name('comissao-pessoa.adicionar');
+    Route::delete('/{id}', [ComissaoPessoaController::class, 'remover'])->name('comissao-pessoa.remover');
 });

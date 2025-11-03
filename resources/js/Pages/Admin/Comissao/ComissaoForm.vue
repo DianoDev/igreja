@@ -1,57 +1,47 @@
 <template>
-    <div class="m-2" v-if="ready">
+    <div class="">
+
         <form @submit.prevent="submit">
-            <div class="mb-4">
-                <InputLabel for="ano" value="Ano" class="required"/>
-                <TextInput
-                    id="ano"
-                    class="w-full"
-                    v-model="form.ano"
-                    :disabled="readOnly"
-                />
-                <InputError :message="errors.ano"/>
-            </div>
-
-            <div class="mb-4">
-                <InputLabel for="id_pessoa" value="Id Pessoa" class="required"/>
-                <TextInput
-                    id="id_pessoa"
-                    class="w-full"
-                    v-model="form.id_pessoa"
-                    :disabled="readOnly"
-                />
-                <InputError :message="errors.id_pessoa"/>
-            </div>
-
-            <div class="mb-4">
-                <InputLabel for="id_cargo" value="Id Cargo" class="required"/>
-                <TextInput
-                    id="id_cargo"
-                    class="w-full"
-                    v-model="form.id_cargo"
-                    :disabled="readOnly"
-                />
-                <InputError :message="errors.id_cargo"/>
-            </div>
-
-            <div class="w-full pt-4 mt-4 border-t border-gray-200">
-                <div class="flex justify-center" v-if="readOnly">
-                    <button
-                        type="button"
-                        class="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
-                        @click="close"
-                    >
-                        <i class="mr-1 fa fa-close"></i> Sair
-                    </button>
+            <div class="space-y-4">
+                <!-- Nome -->
+                <div>
+                    <InputLabel for="nome" value="Nome da Comissão" class="required" />
+                    <TextInput
+                        id="nome"
+                        v-model="form.nome"
+                        type="text"
+                        class="mt-1 block w-full"
+                        :disabled="readOnly"
+                        placeholder="Ex: Comissão de Festas"
+                    />
+                    <InputError :message="errors.nome ? errors.nome[0] : ''" class="mt-2" />
                 </div>
-                <div class="flex justify-center space-x-2" v-if="!readOnly">
+
+                <!-- Ano -->
+                <div>
+                    <InputLabel for="ano" value="Ano" class="required" />
+                    <TextInput
+                        id="ano"
+                        v-model="form.ano"
+                        type="number"
+                        class="mt-1 block w-full"
+                        :disabled="readOnly"
+                        placeholder="Ex: 2025"
+                        min="2000"
+                        max="2100"
+                    />
+                    <InputError :message="errors.ano ? errors.ano[0] : ''" class="mt-2" />
+                </div>
+
+                <!-- Botões -->
+                <div class="flex justify-center gap-3 pt-4">
                     <button
+                        v-if="!readOnly"
                         type="submit"
-                        class="px-4 py-2 text-white rounded-md bg-blue-500 hover:bg-blue-500-hover"
+                        class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-blue-300"
                         :disabled="processing"
                     >
-                        <i v-if="!processing" class="mr-1 fa fa-check"></i>
-                        <i v-else class="mr-1 fa fa-spinner fa-spin"></i>
+                        <i class="mr-1 fa fa-save"></i>
                         {{ processing ? 'Salvando...' : 'Salvar' }}
                     </button>
                     <button
@@ -92,9 +82,8 @@ const ready = ref(false);
 const readOnly = ref(false);
 
 const form = ref({
-    ano: '',
-    id_pessoa: '',
-    id_cargo: '',
+    nome: '',
+    ano: new Date().getFullYear(),
 });
 
 function submit() {
@@ -114,7 +103,7 @@ function submit() {
                 if (data.errors) {
                     errors.value = data.errors;
                 }
-                const message = data.message || "Ocorreu um erro ao salvar  Comissao.";
+                const message = data.message || "Ocorreu um erro ao salvar a comissão.";
                 handleError(message);
             } else {
                 handleError("Erro de conexão com o servidor.");
@@ -127,9 +116,9 @@ function submit() {
 
 function handleSuccess() {
     if(props.data?.id) {
-        toast.success(" Comissao editado com sucesso!");
+        toast.success("Comissão editada com sucesso!");
     } else {
-        toast.success(" Comissao criado com sucesso!");
+        toast.success("Comissão criada com sucesso!");
     }
     close();
 }
@@ -149,22 +138,29 @@ const loadData = async () => {
         readOnly.value = Boolean(props.data.readOnly);
     } catch (err) {
         console.error('Error loading data:', err);
-        toast.error('Não foi possível recuperar os dados do  Comissao.');
+        toast.error('Não foi possível recuperar os dados da comissão.');
     } finally {
         ready.value = true;
     }
-}
+};
 
 const close = () => {
-    events.emit('popup-close', true);
-}
+    emit('close');
+};
 
-onMounted(async () => {
+onMounted(() => {
     if (props.data?.id) {
         acao.value = `/admin/comissao/${props.data.id}`;
-        await loadData();
+        loadData();
     } else {
         ready.value = true;
     }
 });
 </script>
+
+<style scoped>
+.required::after {
+    content: " *";
+    color: red;
+}
+</style>

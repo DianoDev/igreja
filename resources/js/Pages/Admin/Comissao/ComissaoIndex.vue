@@ -39,6 +39,7 @@ const events = inject('events');
 const source = ref('/admin/comissao/list');
 
 const columns = ref([
+    {name: 'nome', title: 'Nome', width: '20%', sort: 'nome', nowrap: true},
     {name: 'ano', title: 'Ano', width: '20%', sort: 'ano', nowrap: true},
     {
         name: 'id',
@@ -49,6 +50,12 @@ const columns = ref([
         headerClass: 'text-center',
         template: 'dropdown',
         formatter: (val, row) => [
+            {
+                type: 'anchor',
+                icon: 'fa-tag',
+                href: `/admin/comissao/${row.id}/info`,
+                text: 'Pessoas e Cargos',
+            },
             {
                 type: 'modal',
                 icon: 'fa-edit',
