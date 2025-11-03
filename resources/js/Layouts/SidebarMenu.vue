@@ -54,6 +54,15 @@
                                 <span class="menu-title">Eventos</span>
                             </a>
                         </li>
+                        <li class="menu-item" :class="{ 'active': isActive('comissao') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/comissao`)" class="menu-link"
+                               :data-tooltip="collapsed ? 'Eventos' : ''">
+                                <span class="menu-icon">
+                                    <i class="fa fa-people-roof"></i>
+                                </span>
+                                <span class="menu-title">Comissão</span>
+                            </a>
+                        </li>
                         <li class="menu-item" :class="{ 'active': isActive('regime-interno') }">
                             <a href="#" @click.prevent="router.visit(`/admin/regime-interno`)" class="menu-link"
                                :data-tooltip="collapsed ? 'Regime Interno' : ''">
@@ -192,6 +201,8 @@ onMounted(() => {
         activeItem.value = 'eventos';
     }else if (path.includes('cardapio')) {
         activeItem.value = 'cardapio';
+    }else if (path.includes('comissao')) {
+        activeItem.value = 'comissao';
     }
 
     nextTick(() => {

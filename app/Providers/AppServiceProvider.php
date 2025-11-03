@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Databases\Contracts\CardapioEventoContract;
+use App\Databases\Contracts\ComissaoContract;
+use App\Databases\Repositories\ComissaoRepository;
 use App\Databases\Contracts\CargoEventoContract;
 use App\Databases\Contracts\DoacaoEventoContract;
 use App\Databases\Repositories\CardapioEventoRepository;
@@ -40,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        app()->bind(ComissaoContract::class, ComissaoRepository::class);
         app()->bind(CardapioContract::class, CardapioRepository::class);
         app()->bind(EventosContract::class, EventosRepository::class);
         app()->bind(AtaContract::class, AtaRepository::class);

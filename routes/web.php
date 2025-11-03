@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ComissaoController;
 use App\Http\Controllers\Admin\CardapioController;
 use App\Http\Controllers\Admin\CardapioEventoController;
 use App\Http\Controllers\Admin\CargoEventoController;
@@ -169,4 +170,13 @@ Route::group(['prefix' => 'storage'], function () {
     Route::get('/uploads/{ano}/{mes}/{dia}/{hash}',
         [App\Http\Controllers\Admin\ArquivoController::class, 'download']
     )->name('storage.download');
+});
+
+Route::group(['prefix' => 'admin/comissao'], function () {
+    Route::get('/', [ComissaoController::class, 'index'])->name('admin.comissao.index');
+    Route::get('/list', [ComissaoController::class, 'list'])->name('admin.comissao.list');
+    Route::get('/{id}', [ComissaoController::class, 'edit'])->name('admin.comissao.edit');
+    Route::post('/', [ComissaoController::class, 'create'])->name('admin.comissao.create');
+    Route::post('/{id}', [ComissaoController::class, 'update'])->name('admin.comissao.update');
+    Route::delete('/{id}', [ComissaoController::class, 'delete'])->name('admin.comissao.delete');
 });

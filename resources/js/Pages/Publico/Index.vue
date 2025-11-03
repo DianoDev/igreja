@@ -8,24 +8,24 @@
                      alt="Paróquia São Benedito"
                      class="w-full h-full object-cover"
                      @error="imagemErro">
-                <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-white/20 to-white/60"></div>
             </div>
 
             <!-- Conteúdo do Banner -->
             <div class="relative z-10 container mx-auto px-4 h-full flex items-center">
-                <div class="text-white max-w-3xl">
-                    <h1 class="text-5xl md:text-6xl font-bold mb-4" style="text-shadow: 3px 3px 6px rgba(0,0,0,0.8); font-family: Georgia, serif;">
-                        Bem-vindo à <span class="text-amber-300">Paróquia São Benedito</span>
+                <div class="text-gray-800 max-w-3xl">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-4" style="text-shadow: 2px 2px 4px rgba(255,255,255,0.8); font-family: Georgia, serif;">
+                        Bem-vindo festeiros da <span class="text-amber-600">Paróquia São Benedito</span>
                     </h1>
-                    <p class="text-xl md:text-2xl mb-8 leading-relaxed" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                    <p class="text-xl md:text-2xl mb-8 leading-relaxed text-gray-700" style="text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
                         Uma comunidade de fé, amor e transparência.<br>
-                        Acompanhe nossos eventos, atividades e a vida paroquial.
+                        Acompanhe nossos eventos, atividades.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <Link href="/publico/eventos" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-xl transform transition hover:scale-105">
+                        <Link href="/publico/eventos" class="bg-amber-400 hover:bg-amber-500 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transform transition hover:scale-105">
                             📅 Ver Eventos
                         </Link>
-                        <Link href="/publico/sobre" class="bg-white/20 backdrop-blur hover:bg-white/30 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-xl border-2 border-white/50 transform transition hover:scale-105">
+                        <Link href="/publico/sobre" class="bg-white/80 backdrop-blur hover:bg-white/90 text-gray-800 px-8 py-4 rounded-lg font-bold text-lg shadow-lg border-2 border-amber-300 transform transition hover:scale-105">
                             ℹ️ Sobre Nós
                         </Link>
                     </div>
@@ -34,7 +34,7 @@
 
             <!-- Scroll Indicator -->
             <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                 </svg>
             </div>
@@ -45,107 +45,149 @@
             <!-- Título da Seção -->
             <div class="text-center mb-12">
                 <div class="inline-block">
-                    <h2 class="text-4xl font-bold text-gray-800 mb-3 relative" style="font-family: Georgia, serif;">
+                    <h2 class="text-4xl font-bold text-gray-700 mb-3 relative" style="font-family: Georgia, serif;">
                         <span class="relative z-10">Próximos Eventos</span>
-                        <div class="absolute bottom-0 left-0 w-full h-3 bg-amber-300 opacity-30 -z-0"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-3 bg-amber-200 opacity-50 -z-0"></div>
                     </h2>
-                    <p class="text-gray-600 italic">Participe das celebrações e atividades da nossa comunidade</p>
+                    <p class="text-gray-500 italic">Participe das celebrações e atividades da nossa equipe</p>
                 </div>
             </div>
 
             <div v-if="proximosEventos && proximosEventos.length > 0">
-                <!-- Evento Principal (Destaque Grande) -->
-                <div v-if="proximosEventos[0]" class="mb-8">
-                    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden transform transition hover:scale-[1.02] cursor-pointer border-4 border-amber-400"
-                         @click="verEvento(proximosEventos[0].id)">
-                        <div class="grid md:grid-cols-2">
-                            <!-- Imagem do Evento -->
-                            <div class="relative h-80 md:h-auto">
-                                <img :src="getImagemEvento(proximosEventos[0], 2)"
-                                     alt="Evento em destaque"
-                                     class="w-full h-full object-cover"
-                                     @error="(e) => imagemEventoErro(e, 2)">
-                                <div class="absolute top-4 left-4">
-                                    <span class="bg-amber-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
-                                        🌟 DESTAQUE
-                                    </span>
+                <!-- Eventos Principais Divididos por Período (Manhã e Noite) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Evento da Manhã -->
+                    <div v-if="eventoManha"
+                         class="bg-gradient-to-br from-blue-50 to-sky-100 rounded-2xl shadow-xl overflow-hidden transform transition hover:scale-[1.02] cursor-pointer border-2 border-blue-200"
+                         @click="verEvento(eventoManha.id)">
+
+                        <!-- Header com Período -->
+                        <div class="bg-gradient-to-r from-blue-400 to-sky-400 p-4 text-white">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl">☀️</span>
+                                    <span class="font-bold text-lg">EVENTO DE MANHÃ</span>
                                 </div>
-                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                                    <div class="text-white">
-                                        <div class="text-5xl font-bold mb-1">{{ getDia(proximosEventos[0].data) }}</div>
-                                        <div class="text-xl">{{ getMesAno(proximosEventos[0].data) }}</div>
-                                    </div>
+                                <span class="bg-white/30 backdrop-blur px-3 py-1 rounded-full text-sm font-medium">
+                                    {{ diasAteEvento(eventoManha.data) }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Imagem do Evento -->
+                        <div class="relative h-48">
+                            <img :src="getImagemEvento(eventoManha, 2)"
+                                 alt="Evento da Manhã"
+                                 class="w-full h-full object-cover"
+                                 @error="(e) => imagemEventoErro(e, 2)">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-900/70 to-transparent p-4">
+                                <div class="text-white">
+                                    <div class="text-3xl font-bold mb-1">{{ getDia(eventoManha.data) }}</div>
+                                    <div class="text-sm">{{ getMesAno(eventoManha.data) }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Conteúdo -->
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4" style="font-family: Georgia, serif;">
+                                {{ eventoManha.nome }}
+                            </h3>
+
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-gray-600">
+                                    <span class="text-blue-500 mr-3">📅</span>
+                                    <span>{{ formatarData(eventoManha.data) }}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <span class="text-blue-500 mr-3">🕐</span>
+                                    <span class="font-medium">{{ eventoManha.hora }}</span>
                                 </div>
                             </div>
 
-                            <!-- Conteúdo -->
-                            <div class="p-8">
-                                <div class="mb-4">
-                                    <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-2">
-                                        {{ diasAteEvento(proximosEventos[0].data) }}
-                                    </span>
+                            <button class="w-full bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-md">
+                                Ver Detalhes →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Evento da Noite -->
+                    <div v-if="eventoNoite"
+                         class="bg-gradient-to-br from-indigo-50 to-purple-100 rounded-2xl shadow-xl overflow-hidden transform transition hover:scale-[1.02] cursor-pointer border-2 border-indigo-200"
+                         @click="verEvento(eventoNoite.id)">
+
+                        <!-- Header com Período -->
+                        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-4 text-white">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl">🌙</span>
+                                    <span class="font-bold text-lg">EVENTO DE NOITE</span>
                                 </div>
-
-                                <h3 class="text-3xl font-bold text-gray-800 mb-4" style="font-family: Georgia, serif;">
-                                    {{ proximosEventos[0].nome }}
-                                </h3>
-
-                                <div class="space-y-3 mb-6">
-                                    <div class="flex items-center text-gray-600">
-                                        <span class="text-amber-500 mr-3 text-xl">📅</span>
-                                        <span class="text-lg">{{ formatarData(proximosEventos[0].data) }}</span>
-                                    </div>
-                                    <div class="flex items-center text-gray-600">
-                                        <span class="text-amber-500 mr-3 text-xl">🕐</span>
-                                        <span class="text-lg">{{ proximosEventos[0].hora }}</span>
-                                    </div>
-                                </div>
-
-                                <!-- Financeiro -->
-                                <div class="grid grid-cols-2 gap-4 mb-6">
-                                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-                                        <p class="text-xs text-green-700 font-medium mb-1">Arrecadado</p>
-                                        <p class="text-2xl font-bold text-green-900">
-                                            R$ {{ formatarValor(proximosEventos[0].valor_arrecadado || 0) }}
-                                        </p>
-                                    </div>
-                                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-                                        <p class="text-xs text-red-700 font-medium mb-1">Gasto</p>
-                                        <p class="text-2xl font-bold text-red-900">
-                                            R$ {{ formatarValor(proximosEventos[0].valor_gasto || 0) }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <button class="w-full bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg">
-                                    Ver Detalhes →
-                                </button>
+                                <span class="bg-white/30 backdrop-blur px-3 py-1 rounded-full text-sm font-medium">
+                                    {{ diasAteEvento(eventoNoite.data) }}
+                                </span>
                             </div>
+                        </div>
+
+                        <!-- Imagem do Evento -->
+                        <div class="relative h-48">
+                            <img :src="getImagemEvento(eventoNoite, 3)"
+                                 alt="Evento da Noite"
+                                 class="w-full h-full object-cover"
+                                 @error="(e) => imagemEventoErro(e, 3)">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-indigo-900/70 to-transparent p-4">
+                                <div class="text-white">
+                                    <div class="text-3xl font-bold mb-1">{{ getDia(eventoNoite.data) }}</div>
+                                    <div class="text-sm">{{ getMesAno(eventoNoite.data) }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Conteúdo -->
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4" style="font-family: Georgia, serif;">
+                                {{ eventoNoite.nome }}
+                            </h3>
+
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-gray-600">
+                                    <span class="text-indigo-500 mr-3">📅</span>
+                                    <span>{{ formatarData(eventoNoite.data) }}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <span class="text-indigo-500 mr-3">🕐</span>
+                                    <span class="font-medium">{{ eventoNoite.hora }}</span>
+                                </div>
+                            </div>
+
+                            <button class="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-md">
+                                Ver Detalhes →
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Eventos Secundários (4 Cards Menores) -->
-                <div v-if="proximosEventos.length > 1">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
+                <!-- Eventos Secundários (Cards Menores) -->
+                <div v-if="outrosEventos.length > 0">
+                    <h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center" style="font-family: Georgia, serif;">
                         <span class="mr-2">📌</span>
                         Outros Eventos Próximos
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div v-for="(evento, index) in proximosEventos.slice(1, 5)"
+                        <div v-for="(evento, index) in outrosEventos"
                              :key="evento.id"
-                             class="bg-white rounded-xl shadow-lg overflow-hidden transform transition hover:scale-105 hover:shadow-2xl cursor-pointer border-2 border-gray-100 hover:border-amber-400"
+                             class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-xl cursor-pointer border-2 border-gray-100 hover:border-amber-300"
                              @click="verEvento(evento.id)">
 
                             <!-- Imagem -->
-                            <div class="relative h-20">
-                                <img :src="getImagemEvento(evento, index + 3)"
+                            <div class="relative h-32">
+                                <img :src="getImagemEvento(evento, index + 4)"
                                      alt="Evento"
                                      class="w-full h-full object-cover"
-                                     @error="(e) => imagemEventoErro(e, index + 3)">
-                                <div class="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/50 to-transparent p-3">
-                                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium">
+                                     @error="(e) => imagemEventoErro(e, index + 4)">
+                                <div class="absolute top-0 left-0 right-0 bg-gradient-to-b from-white/30 to-transparent p-3">
+                                    <span class="bg-amber-400 text-white px-3 py-1 rounded-full text-xs font-medium shadow">
                                         {{ diasAteEvento(evento.data) }}
                                     </span>
                                 </div>
@@ -168,7 +210,7 @@
                                     </div>
                                 </div>
 
-                                <button class="w-full bg-gray-100 hover:bg-amber-500 hover:text-white text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                                <button class="w-full bg-gray-50 hover:bg-amber-400 hover:text-white text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm">
                                     Ver mais →
                                 </button>
                             </div>
@@ -179,41 +221,41 @@
 
             <div v-else class="text-center py-16">
                 <div class="text-6xl mb-4">📅</div>
-                <p class="text-xl text-gray-600">Nenhum evento próximo agendado no momento.</p>
+                <p class="text-xl text-gray-500">Nenhum evento próximo agendado no momento.</p>
             </div>
         </div>
 
         <!-- Cards de Acesso Rápido -->
-        <div class="bg-gradient-to-b from-gray-50 to-white py-12">
+        <div class="bg-gradient-to-b from-amber-50 to-white py-12">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-gray-800" style="font-family: Georgia, serif;">
+                    <h2 class="text-3xl font-bold text-gray-700" style="font-family: Georgia, serif;">
                         Transparência e Informação
                     </h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <Link href="/publico/atas" class="group">
-                        <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all transform hover:-translate-y-2 border-t-4 border-blue-500">
+                        <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-blue-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📝</div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-3" style="font-family: Georgia, serif;">Atas</h3>
-                            <p class="text-gray-600">Acesse as atas das reuniões e assembleias da paróquia</p>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Atas</h3>
+                            <p class="text-gray-500">Acesse as atas das reuniões e assembleias da paróquia</p>
                         </div>
                     </Link>
 
                     <Link href="/publico/regimes-internos" class="group">
-                        <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all transform hover:-translate-y-2 border-t-4 border-amber-500">
+                        <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-amber-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📋</div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-3" style="font-family: Georgia, serif;">Regimes Internos</h3>
-                            <p class="text-gray-600">Consulte nossos regimentos e normas institucionais</p>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Regime Interno</h3>
+                            <p class="text-gray-500">Consulte nossos regimentos e normas institucionais</p>
                         </div>
                     </Link>
 
                     <Link href="/publico/estatutos" class="group">
-                        <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all transform hover:-translate-y-2 border-t-4 border-green-500">
+                        <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-green-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">⚖️</div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-3" style="font-family: Georgia, serif;">Estatutos</h3>
-                            <p class="text-gray-600">Veja nossos estatutos e documentos oficiais</p>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Estatutos</h3>
+                            <p class="text-gray-500">Veja nossos estatutos e documentos oficiais</p>
                         </div>
                     </Link>
                 </div>
@@ -225,6 +267,7 @@
 <script setup>
 import LayoutPublico from '@/Layouts/LayoutPublico.vue';
 import { Link, router } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const props = defineProps({
     proximosEventos: {
@@ -233,18 +276,38 @@ const props = defineProps({
     }
 });
 
+// Função para determinar se é manhã ou noite baseado no horário
+const ehManha = (hora) => {
+    if (!hora) return false;
+    const horaNum = parseInt(hora.split(':')[0]);
+    return horaNum >= 6 && horaNum < 18; // Manhã/Tarde: 6h às 17h59
+};
+
+// Computed para separar eventos por período
+const eventoManha = computed(() => {
+    return props.proximosEventos.find(evento => ehManha(evento.hora));
+});
+
+const eventoNoite = computed(() => {
+    return props.proximosEventos.find(evento => !ehManha(evento.hora));
+});
+
+const outrosEventos = computed(() => {
+    const eventosExibidos = [eventoManha.value?.id, eventoNoite.value?.id].filter(Boolean);
+    return props.proximosEventos
+        .filter(evento => !eventosExibidos.includes(evento.id))
+        .slice(0, 4);
+});
+
 const getImagemEvento = (evento, numero) => {
-    // Usa as imagens em public/images/
     return `/images/${numero}-grande.jpg`;
 };
 
 const imagemErro = (e) => {
-    // Fallback para imagem padrão se não encontrar
     e.target.src = '/images/1-grande.jpg';
 };
 
 const imagemEventoErro = (e, numero) => {
-    // Fallback para imagem padrão
     e.target.src = `/images/${numero % 10 || 1}.jpg`;
 };
 
@@ -298,11 +361,11 @@ const diasAteEvento = (data) => {
     const diffTime = dataEvento - hoje;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return '🔴 Hoje';
-    if (diffDays === 1) return '⭐ Amanhã';
-    if (diffDays < 0) return '✅ Realizado';
-    if (diffDays <= 7) return `🔥 Em ${diffDays} dias`;
-    return `📅 Em ${diffDays} dias`;
+    if (diffDays === 0) return 'Hoje';
+    if (diffDays === 1) return 'Amanhã';
+    if (diffDays < 0) return 'Realizado';
+    if (diffDays <= 7) return `Em ${diffDays} dias`;
+    return `Em ${diffDays} dias`;
 };
 
 const verEvento = (id) => {

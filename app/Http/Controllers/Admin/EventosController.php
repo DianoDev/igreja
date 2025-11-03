@@ -74,7 +74,7 @@ class EventosController extends Controller
 
     public function update(EventosRequest $request, int $id): JsonResponse
     {
-        $params = $request->validated();
+        $params = $request->except('_token');
         $this->eventosRepository->update($id, $params);
         return response()->json(['success' => true, 'message' => 'Eventos atualizado com sucesso!']);
     }

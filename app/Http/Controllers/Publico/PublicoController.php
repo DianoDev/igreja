@@ -22,7 +22,7 @@ class PublicoController extends Controller
         $proximosEventos = Eventos::where('data', '>=', Carbon::now())
             ->orderBy('data', 'asc')
             ->orderBy('hora', 'asc')
-            ->take(5)
+            ->take(7)
             ->get();
 
         return Inertia::render('Publico/Index', [
