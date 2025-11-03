@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 use Illuminate\Support\Str;
 
@@ -77,9 +78,11 @@ class AtaRepository implements AtaContract
         $mime = $params['arquivo']->getClientMimeType();
         $size = $params['arquivo']->getSize();
         $extension = $params['arquivo']->getClientOriginalExtension();
-        $destino = sprintf("public/uploads/%s", date("Y/m/d"));
+        $destino = sprintf("uploads/%s", date("Y/m/d"));
         $filename = sprintf("%s.%s", $hash, strtolower($extension));
-        $params['arquivo']->storeAs($destino, $filename);
+
+        // CORREÇÃO: Especificar explicitamente o disco 'public'
+        $params['arquivo']->storeAs($destino, $filename, 'public');
 
         $arquivo = new Arquivo([
             'tabela' => 'ata',
@@ -102,16 +105,22 @@ class AtaRepository implements AtaContract
             // Verificar se deve excluir arquivo existente
             if (isset($params['remover_arquivo']) && $params['remover_arquivo'] == true) {
                 $this->excluirArquivo($id);
-                unset($params['remover_arquivo']);
             }
-            // Upload de arquivo se existir
-            if (isset($params['arquivo'])) {
-                $this->uploadArquivo($params, $id);
-                unset($params['titulo_arquivo']);
-                unset($params['arquivo']);
-            }
-            $ata->update($params);
 
+            // Upload de arquivo se existir (antes de fazer unset)
+            if (isset($params['arquivo'])) {
+                // Remove arquivo antigo antes de fazer upload do novo
+                $this->excluirArquivo($id);
+                $this->uploadArquivo($params, $id);
+            }
+
+            // Remove parâmetros que não devem ser atualizados na tabela ata
+            unset($params['titulo_arquivo']);
+            unset($params['arquivo']);
+            unset($params['remover_arquivo']);
+
+            // Atualiza apenas os campos da ata
+            $ata->update($params);
 
             $autoCommit && DB::commit();
             return true;
@@ -126,6 +135,10 @@ class AtaRepository implements AtaContract
         $autoCommit && DB::beginTransaction();
         try {
             $ata = $this->getById($id);
+
+            // Excluir arquivo físico e registro antes de deletar a ata
+            $this->excluirArquivo($id, true);
+
             $ata->delete();
             $autoCommit && DB::commit();
         } catch (Exception $ex) {
@@ -139,13 +152,21 @@ class AtaRepository implements AtaContract
     /**
      * Exclui arquivo(s) associado(s) ao registro
      */
-    private function excluirArquivo(int $ataId): void
+    private function excluirArquivo(int $ataId, bool $excluirFisicamente = false): void
     {
         // Buscar arquivos associados
         $arquivo = Arquivo::where('tabela', 'ata')
             ->where('chave', $ataId)
             ->whereNull('deleted_at')
             ->first();
-        $arquivo->delete();
+
+        if ($arquivo) {
+            // Se deve excluir fisicamente, remove o arquivo do storage
+            if ($excluirFisicamente && $arquivo->hash) {
+                Storage::disk('public')->delete($arquivo->hash);
+            }
+
+            $arquivo->delete();
+        }
     }
 }

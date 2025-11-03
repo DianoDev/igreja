@@ -91,16 +91,7 @@ class PublicoController extends Controller
      */
     public function atas(): Response
     {
-        $atas = Ata::orderBy('created_at', 'desc')->get();
-
-        // Buscar quantidade de arquivos para cada ata
-        $atas->each(function($ata) {
-            $ata->total_arquivos = DB::table('arquivo')
-                ->where('tabela', 'ata')
-                ->where('chave', $ata->id)
-                ->whereNull('deleted_at')
-                ->count();
-        });
+        $atas = Ata::query()->with('arquivo')->orderBy('created_at', 'asc')->get();
 
         return Inertia::render('Publico/Atas', [
             'atas' => $atas
@@ -132,16 +123,7 @@ class PublicoController extends Controller
      */
     public function regimesInternos(): Response
     {
-        $regimesInternos = RegimeInterno::orderBy('created_at', 'desc')->get();
-
-        // Buscar quantidade de arquivos para cada regime
-        $regimesInternos->each(function($regime) {
-            $regime->total_arquivos = DB::table('arquivo')
-                ->where('tabela', 'regime_interno')
-                ->where('chave', $regime->id)
-                ->whereNull('deleted_at')
-                ->count();
-        });
+        $regimesInternos =  RegimeInterno::query()->with('arquivo')->orderBy('created_at', 'asc')->get();
 
         return Inertia::render('Publico/RegimesInternos', [
             'regimesInternos' => $regimesInternos
@@ -173,7 +155,7 @@ class PublicoController extends Controller
      */
     public function estatutos(): Response
     {
-        $estatutos = Estatuto::orderBy('created_at', 'desc')->get();
+        $estatutos = Estatuto::query()->with('arquivo')->orderBy('created_at', 'asc')->get();
 
         // Buscar quantidade de arquivos para cada estatuto
         $estatutos->each(function($estatuto) {

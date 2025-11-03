@@ -79,9 +79,11 @@ class RegimeInternoRepository implements RegimeInternoContract
         $mime = $params['arquivo']->getClientMimeType();
         $size = $params['arquivo']->getSize();
         $extension = $params['arquivo']->getClientOriginalExtension();
-        $destino = sprintf("public/uploads/%s", date("Y/m/d"));
+        $destino = sprintf("uploads/%s", date("Y/m/d"));
         $filename = sprintf("%s.%s", $hash, strtolower($extension));
-        $params['arquivo']->storeAs($destino, $filename);
+
+        // CORREÇÃO: Especificar explicitamente o disco 'public'
+        $params['arquivo']->storeAs($destino, $filename, 'public');
 
         $arquivo = new Arquivo([
             'tabela' => 'regime_interno',
