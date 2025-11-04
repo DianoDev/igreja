@@ -79,7 +79,33 @@
                     <span class="text-xl">⚖️</span>
                     <span class="font-medium">Estatuto</span>
                 </Link>
-
+                <Link
+                    href="/publico/fotos"
+                    @click="menuLateralAberto = false"
+                    :class="isActive('/publico/fotos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
+                >
+                    <span class="fa fa-camera-retro"></span>
+                    <span class="font-medium">Fotos</span>
+                </Link>
+                <Link
+                    href="/publico/avisos"
+                    @click="menuLateralAberto = false"
+                    :class="isActive('/publico/avisos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
+                >
+                    <span class="fa fa-message"></span>
+                    <span class="font-medium">Avisos</span>
+                </Link>
+                <Link
+                    href="/publico/comissao"
+                    @click="menuLateralAberto = false"
+                    :class="isActive('/publico/comissao') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
+                >
+                    <span class="fa fa-people-robbery"></span>
+                    <span class="font-medium">Comissão</span>
+                </Link>
                 <Link
                     href="/publico/sobre"
                     @click="menuLateralAberto = false"

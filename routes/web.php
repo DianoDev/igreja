@@ -207,3 +207,12 @@ Route::group(['prefix' => 'admin/avisos'], function () {
     Route::post('/{id}', [AvisosController::class, 'update'])->name('admin.avisos.update');
     Route::delete('/{id}', [AvisosController::class, 'delete'])->name('admin.avisos.delete');
 });
+
+
+Route::get('/publico/avisos', [PublicoController::class, 'avisos'])->name('publico.avisos');
+
+// Comissão pública
+Route::get('/publico/comissao', [PublicoController::class, 'comissao'])->name('publico.comissao');
+
+// Galeria de fotos pública
+Route::get('/publico/fotos', [PublicoController::class, 'fotos'])->name('publico.fotos');

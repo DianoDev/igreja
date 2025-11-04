@@ -285,4 +285,67 @@ class PublicoController extends Controller
 
         return response()->download($caminho, $arquivo->titulo ?: 'arquivo');
     }
+
+    /**
+     * Lista todos os avisos públicos
+     */
+    public function avisos(): Response
+    {
+        $avisos = Avisos::where('ativo', true)
+            ->where(function($query) {
+                $query->where('data_expiração', '>=', Carbon::now())
+                    ->orWhereNull('data_expiração');
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('Publico/Avisos', [
+            'avisos' => $avisos
+        ]);
+    }
+
+    /**
+     * Página da comissão atual
+     */
+    public function comissao(): Response
+    {
+        $anoAtual = Carbon::now()->year;
+        $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+            ->where('ano', $anoAtual)
+            ->first();
+
+        // Se não existir comissão do ano atual, buscar do ano anterior
+        if (!$comissao) {
+            $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+                ->where('ano', $anoAtual - 1)
+                ->first();
+        }
+
+        return Inertia::render('Publico/Comissao', [
+            'comissao' => $comissao
+        ]);
+    }
+
+    /**
+     * Galeria com todas as fotos dos eventos
+     */
+    public function fotos(): Response
+    {
+        // Buscar todos os eventos com fotos
+        $eventos = Eventos::with('fotos')
+            ->whereHas('fotos')
+            ->orderBy('data', 'desc')
+            ->get();
+
+        // Contar total de fotos
+        $totalFotos = 0;
+        foreach ($eventos as $evento) {
+            $totalFotos += $evento->fotos->count();
+        }
+
+        return Inertia::render('Publico/Fotos', [
+            'eventos' => $eventos,
+            'totalFotos' => $totalFotos
+        ]);
+    }
 }
