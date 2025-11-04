@@ -2,10 +2,6 @@
   "\u0000plugin-vue:export-helper": [
     "/build/assets/_plugin-vue_export-helper-1tPrXgE0.js"
   ],
-  "node_modules/@vuepic/vue-datepicker/dist/main.css": [
-    "/build/assets/EventosForm-BZ-aOIXC.js",
-    "/build/assets/EventosForm-CiREL6PF.css"
-  ],
   "node_modules/laravel-vite-plugin/inertia-helpers/index.js": [
     "/build/assets/fa-brands-400-D_cYUPeE.woff2",
     "/build/assets/fa-brands-400-D1LuMI3I.ttf",
@@ -78,12 +74,12 @@
     "/build/assets/Checkbox-CBHLqROi.js"
   ],
   "resources/js/Components/ConfirmationPopup.vue": [
-    "/build/assets/LayoutPrincipal-BdC7ZLUP.js",
-    "/build/assets/LayoutPrincipal-D871dNI2.css"
+    "/build/assets/LayoutPrincipal-m5WNT2c3.js",
+    "/build/assets/LayoutPrincipal-qhqescY8.css"
   ],
   "resources/js/Components/ConfirmationPopup.vue?vue&type=style&index=0&scoped=de148187&lang.css": [
-    "/build/assets/LayoutPrincipal-BdC7ZLUP.js",
-    "/build/assets/LayoutPrincipal-D871dNI2.css"
+    "/build/assets/LayoutPrincipal-m5WNT2c3.js",
+    "/build/assets/LayoutPrincipal-qhqescY8.css"
   ],
   "resources/js/Components/DangerButton.vue": [
     "/build/assets/DangerButton-lQ4n7d9L.js"
@@ -107,8 +103,8 @@
     "/build/assets/NavLink-OTmYlOWh.js"
   ],
   "resources/js/Components/Popup.vue": [
-    "/build/assets/LayoutPrincipal-BdC7ZLUP.js",
-    "/build/assets/LayoutPrincipal-D871dNI2.css"
+    "/build/assets/LayoutPrincipal-m5WNT2c3.js",
+    "/build/assets/LayoutPrincipal-qhqescY8.css"
   ],
   "resources/js/Components/PopupButton.vue": [
     "/build/assets/PopupButton-DLi_hd91.js"
@@ -231,60 +227,86 @@
     "/build/assets/GuestLayout-BG78z4Ni.js"
   ],
   "resources/js/Layouts/LayoutPrincipal.vue": [
-    "/build/assets/LayoutPrincipal-BdC7ZLUP.js",
-    "/build/assets/LayoutPrincipal-D871dNI2.css"
+    "/build/assets/LayoutPrincipal-m5WNT2c3.js",
+    "/build/assets/LayoutPrincipal-qhqescY8.css"
   ],
   "resources/js/Layouts/LayoutPrincipal.vue?vue&type=style&index=0&scoped=80e6a3a1&lang.css": [
-    "/build/assets/LayoutPrincipal-BdC7ZLUP.js",
-    "/build/assets/LayoutPrincipal-D871dNI2.css"
+    "/build/assets/LayoutPrincipal-m5WNT2c3.js",
+    "/build/assets/LayoutPrincipal-qhqescY8.css"
   ],
   "resources/js/Layouts/LayoutPublico.vue": [
-    "/build/assets/LayoutPublico--fxp03tU.js",
-    "/build/assets/LayoutPublico-DiF_CUSa.css"
+    "/build/assets/LayoutPublico-DaOEiv59.js",
+    "/build/assets/LayoutPublico-DTS8GiOQ.css"
   ],
-  "resources/js/Layouts/LayoutPublico.vue?vue&type=style&index=0&scoped=5eab6b7d&lang.css": [
-    "/build/assets/LayoutPublico--fxp03tU.js",
-    "/build/assets/LayoutPublico-DiF_CUSa.css"
+  "resources/js/Layouts/LayoutPublico.vue?vue&type=style&index=0&scoped=25365533&lang.css": [
+    "/build/assets/LayoutPublico-DaOEiv59.js",
+    "/build/assets/LayoutPublico-DTS8GiOQ.css"
   ],
   "resources/js/Layouts/SidebarMenu.vue": [
-    "/build/assets/LayoutPrincipal-BdC7ZLUP.js",
-    "/build/assets/LayoutPrincipal-D871dNI2.css"
+    "/build/assets/LayoutPrincipal-m5WNT2c3.js",
+    "/build/assets/LayoutPrincipal-qhqescY8.css"
   ],
-  "resources/js/Layouts/SidebarMenu.vue?vue&type=style&index=0&scoped=869662ee&lang.css": [
-    "/build/assets/LayoutPrincipal-BdC7ZLUP.js",
-    "/build/assets/LayoutPrincipal-D871dNI2.css"
+  "resources/js/Layouts/SidebarMenu.vue?vue&type=style&index=0&scoped=4dde592a&lang.css": [
+    "/build/assets/LayoutPrincipal-m5WNT2c3.js",
+    "/build/assets/LayoutPrincipal-qhqescY8.css"
   ],
   "resources/js/Pages/Admin/Ata/AtaForm.vue": [
     "/build/assets/AtaForm-BVLfSOhL.js"
   ],
   "resources/js/Pages/Admin/Ata/AtaIndex.vue": [
-    "/build/assets/AtaIndex-DAr_GK17.js"
+    "/build/assets/AtaIndex-C8V2NNHo.js"
+  ],
+  "resources/js/Pages/Admin/Avisos/AvisosForm.vue": [
+    "/build/assets/AvisosForm-DJchKqmU.js",
+    "/build/assets/main-CiREL6PF.css"
+  ],
+  "resources/js/Pages/Admin/Avisos/AvisosIndex.vue": [
+    "/build/assets/AvisosIndex-DYAbNyAS.js"
   ],
   "resources/js/Pages/Admin/Cardapio/CardapioForm.vue": [
     "/build/assets/CardapioForm-BuB59Vzr.js"
   ],
   "resources/js/Pages/Admin/Cardapio/CardapioIndex.vue": [
-    "/build/assets/CardapioIndex-Bk375nov.js"
+    "/build/assets/CardapioIndex-CFqKO_C_.js"
   ],
   "resources/js/Pages/Admin/Cardapio/Ingredientes.vue": [
-    "/build/assets/Ingredientes-f0z2-Dak.js",
+    "/build/assets/Ingredientes-B4XEw65J.js",
     "/build/assets/Ingredientes-sZln-vxl.css"
   ],
   "resources/js/Pages/Admin/Cardapio/Ingredientes.vue?vue&type=style&index=0&scoped=da71b23a&lang.css": [
-    "/build/assets/Ingredientes-f0z2-Dak.js",
+    "/build/assets/Ingredientes-B4XEw65J.js",
     "/build/assets/Ingredientes-sZln-vxl.css"
   ],
   "resources/js/Pages/Admin/Cargo/CargoForm.vue": [
     "/build/assets/CargoForm-iWacf1Z0.js"
   ],
   "resources/js/Pages/Admin/Cargo/CargoIndex.vue": [
-    "/build/assets/CargoIndex-WU3p4IoF.js"
+    "/build/assets/CargoIndex-Ccdu71pe.js"
+  ],
+  "resources/js/Pages/Admin/Comissao/ComissaoForm.vue": [
+    "/build/assets/ComissaoForm-BMO-2C49.js",
+    "/build/assets/ComissaoForm-CWL-_uzh.css"
+  ],
+  "resources/js/Pages/Admin/Comissao/ComissaoForm.vue?vue&type=style&index=0&scoped=78f1b58e&lang.css": [
+    "/build/assets/ComissaoForm-BMO-2C49.js",
+    "/build/assets/ComissaoForm-CWL-_uzh.css"
+  ],
+  "resources/js/Pages/Admin/Comissao/ComissaoIndex.vue": [
+    "/build/assets/ComissaoIndex-C4s7EvSp.js"
+  ],
+  "resources/js/Pages/Admin/Comissao/ComissaoInfo.vue": [
+    "/build/assets/ComissaoInfo-BR9Mjq3s.js",
+    "/build/assets/ComissaoInfo-BdTBgEl_.css"
+  ],
+  "resources/js/Pages/Admin/Comissao/ComissaoInfo.vue?vue&type=style&index=0&scoped=0f3dadea&lang.css": [
+    "/build/assets/ComissaoInfo-BR9Mjq3s.js",
+    "/build/assets/ComissaoInfo-BdTBgEl_.css"
   ],
   "resources/js/Pages/Admin/Estatuto/EstatutoForm.vue": [
     "/build/assets/EstatutoForm-CAgNm48n.js"
   ],
   "resources/js/Pages/Admin/Estatuto/EstatutoIndex.vue": [
-    "/build/assets/EstatutoIndex-CJW-u5xC.js"
+    "/build/assets/EstatutoIndex-972gTmFk.js"
   ],
   "resources/js/Pages/Admin/Eventos/EventoCardapioForm.vue": [
     "/build/assets/EventoCardapioForm-67Po5Bkf.js",
@@ -295,43 +317,43 @@
     "/build/assets/EventoCardapioForm-CbW3BrUp.css"
   ],
   "resources/js/Pages/Admin/Eventos/EventosForm.vue": [
-    "/build/assets/EventosForm-BZ-aOIXC.js",
-    "/build/assets/EventosForm-CiREL6PF.css"
+    "/build/assets/EventosForm-BDUgJpJr.js",
+    "/build/assets/main-CiREL6PF.css"
   ],
   "resources/js/Pages/Admin/Eventos/EventosIndex.vue": [
-    "/build/assets/EventosIndex-DGIsV4dW.js"
+    "/build/assets/EventosIndex-CNDKiDus.js"
   ],
   "resources/js/Pages/Admin/Eventos/EventosInfo.vue": [
-    "/build/assets/EventosInfo-CMduWb5l.js",
+    "/build/assets/EventosInfo-TrEkTz0I.js",
     "/build/assets/EventosInfo-Dzaj20EP.css"
   ],
   "resources/js/Pages/Admin/Eventos/EventosInfo.vue?vue&type=style&index=0&scoped=949978fe&lang.css": [
-    "/build/assets/EventosInfo-CMduWb5l.js",
+    "/build/assets/EventosInfo-TrEkTz0I.js",
     "/build/assets/EventosInfo-Dzaj20EP.css"
   ],
   "resources/js/Pages/Admin/Eventos/GaleriaEvento.vue": [
-    "/build/assets/GaleriaEvento-BfmmfFqF.js",
+    "/build/assets/GaleriaEvento-Blxom3Oa.js",
     "/build/assets/GaleriaEvento-CZumRAbb.css"
   ],
   "resources/js/Pages/Admin/Eventos/GaleriaEvento.vue?vue&type=style&index=0&scoped=92043048&lang.css": [
-    "/build/assets/GaleriaEvento-BfmmfFqF.js",
+    "/build/assets/GaleriaEvento-Blxom3Oa.js",
     "/build/assets/GaleriaEvento-CZumRAbb.css"
   ],
   "resources/js/Pages/Admin/Eventos/GaleriaEvento.vue?vue&type=style&index=1&scoped=92043048&lang.css": [
-    "/build/assets/GaleriaEvento-BfmmfFqF.js",
+    "/build/assets/GaleriaEvento-Blxom3Oa.js",
     "/build/assets/GaleriaEvento-CZumRAbb.css"
   ],
   "resources/js/Pages/Admin/Pessoa/PessoaForm.vue": [
     "/build/assets/PessoaForm-CGbuSKRK.js"
   ],
   "resources/js/Pages/Admin/Pessoa/PessoaIndex.vue": [
-    "/build/assets/PessoaIndex-DEv6xHZj.js"
+    "/build/assets/PessoaIndex-CsXT6KGm.js"
   ],
   "resources/js/Pages/Admin/RegimeInterno/RegimeInternoForm.vue": [
     "/build/assets/RegimeInternoForm-DWXRerh1.js"
   ],
   "resources/js/Pages/Admin/RegimeInterno/RegimeInternoIndex.vue": [
-    "/build/assets/RegimeInternoIndex-C8L4Xvmi.js"
+    "/build/assets/RegimeInternoIndex-B0oaCop_.js"
   ],
   "resources/js/Pages/Auth/ConfirmPassword.vue": [
     "/build/assets/ConfirmPassword-CZeAgt24.js"
@@ -374,64 +396,64 @@
     "/build/assets/UpdateProfileInformationForm-B9WCgNE6.js"
   ],
   "resources/js/Pages/Publico/Atas.vue": [
-    "/build/assets/Atas-DnOpyxgH.js"
+    "/build/assets/Atas-DpH9wsga.js"
   ],
   "resources/js/Pages/Publico/AtasDetalhes.vue": [
-    "/build/assets/AtasDetalhes-D1QxzTwe.js",
+    "/build/assets/AtasDetalhes-tJ0JETdZ.js",
     "/build/assets/AtasDetalhes-D6QZPUjy.css"
   ],
   "resources/js/Pages/Publico/AtasDetalhes.vue?vue&type=style&index=0&scoped=1887b198&lang.css": [
-    "/build/assets/AtasDetalhes-D1QxzTwe.js",
+    "/build/assets/AtasDetalhes-tJ0JETdZ.js",
     "/build/assets/AtasDetalhes-D6QZPUjy.css"
   ],
   "resources/js/Pages/Publico/EstatutoDetalhes.vue": [
-    "/build/assets/EstatutoDetalhes-KBxci9MP.js",
+    "/build/assets/EstatutoDetalhes-C7BiAe3-.js",
     "/build/assets/EstatutoDetalhes-B_rhhHpT.css"
   ],
   "resources/js/Pages/Publico/EstatutoDetalhes.vue?vue&type=style&index=0&scoped=a227b5dc&lang.css": [
-    "/build/assets/EstatutoDetalhes-KBxci9MP.js",
+    "/build/assets/EstatutoDetalhes-C7BiAe3-.js",
     "/build/assets/EstatutoDetalhes-B_rhhHpT.css"
   ],
   "resources/js/Pages/Publico/Estatutos.vue": [
-    "/build/assets/Estatutos-B0HOBS6S.js"
+    "/build/assets/Estatutos-BbNnhSpy.js"
   ],
   "resources/js/Pages/Publico/EventoDetalhes.vue": [
-    "/build/assets/EventoDetalhes-CAvb5oGS.js",
+    "/build/assets/EventoDetalhes-BnfmtEAY.js",
     "/build/assets/EventoDetalhes-CdJouoy6.css"
   ],
   "resources/js/Pages/Publico/EventoDetalhes.vue?vue&type=style&index=0&scoped=276baea9&lang.css": [
-    "/build/assets/EventoDetalhes-CAvb5oGS.js",
+    "/build/assets/EventoDetalhes-BnfmtEAY.js",
     "/build/assets/EventoDetalhes-CdJouoy6.css"
   ],
   "resources/js/Pages/Publico/Eventos.vue": [
-    "/build/assets/Eventos-ByRdSJ9X.js",
+    "/build/assets/Eventos-kuZw4LFc.js",
     "/build/assets/Eventos-CJnGpfSU.css"
   ],
   "resources/js/Pages/Publico/Eventos.vue?vue&type=style&index=0&scoped=25126450&lang.css": [
-    "/build/assets/Eventos-ByRdSJ9X.js",
+    "/build/assets/Eventos-kuZw4LFc.js",
     "/build/assets/Eventos-CJnGpfSU.css"
   ],
   "resources/js/Pages/Publico/Index.vue": [
-    "/build/assets/Index-CanoP0Vo.js",
-    "/build/assets/Index-Bs4gjJ7y.css"
+    "/build/assets/Index-NYMnLEXE.js",
+    "/build/assets/Index-69Sps2NP.css"
   ],
-  "resources/js/Pages/Publico/Index.vue?vue&type=style&index=0&scoped=eadccf3f&lang.css": [
-    "/build/assets/Index-CanoP0Vo.js",
-    "/build/assets/Index-Bs4gjJ7y.css"
+  "resources/js/Pages/Publico/Index.vue?vue&type=style&index=0&scoped=2d8efddf&lang.css": [
+    "/build/assets/Index-NYMnLEXE.js",
+    "/build/assets/Index-69Sps2NP.css"
   ],
   "resources/js/Pages/Publico/RegimeInternoDetalhes.vue": [
-    "/build/assets/RegimeInternoDetalhes-CAKaIG75.js",
+    "/build/assets/RegimeInternoDetalhes-CSpca-qa.js",
     "/build/assets/RegimeInternoDetalhes-IsOwRxbt.css"
   ],
   "resources/js/Pages/Publico/RegimeInternoDetalhes.vue?vue&type=style&index=0&scoped=4aae2305&lang.css": [
-    "/build/assets/RegimeInternoDetalhes-CAKaIG75.js",
+    "/build/assets/RegimeInternoDetalhes-CSpca-qa.js",
     "/build/assets/RegimeInternoDetalhes-IsOwRxbt.css"
   ],
   "resources/js/Pages/Publico/RegimesInternos.vue": [
-    "/build/assets/RegimesInternos-CPJfTch7.js"
+    "/build/assets/RegimesInternos-CysuW2li.js"
   ],
   "resources/js/Pages/Publico/Sobre.vue": [
-    "/build/assets/Sobre-DCSbs-KC.js"
+    "/build/assets/Sobre-Bbknem60.js"
   ],
   "resources/js/Pages/Welcome.vue": [
     "/build/assets/Welcome-DMaBece4.js"
