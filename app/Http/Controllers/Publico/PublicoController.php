@@ -59,12 +59,22 @@ class PublicoController extends Controller
      */
     public function eventos(): Response
     {
-        $eventos = Eventos::orderBy('data', 'desc')
+        $eventos = Eventos::orderBy('data', 'asc')
             ->orderBy('hora', 'desc')
             ->get();
-
+        // Buscar comissão do ano atual
+        $anoAtual = Carbon::now()->year;
+        $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+            ->where('ano', $anoAtual)
+            ->first();
+        if (!$comissao) {
+            $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+                ->where('ano', $anoAtual - 1)
+                ->first();
+        }
         return Inertia::render('Publico/Eventos', [
-            'eventos' => $eventos
+            'eventos' => $eventos,
+            'comissao' => $comissao,
         ]);
     }
 
@@ -73,7 +83,6 @@ class PublicoController extends Controller
      */
     public function eventoDetalhes(int $id): Response
     {
-        // Carregar evento com todos os relacionamentos
         $evento = Eventos::with([
             'cargos.pessoa',
             'cargos.cargo',
@@ -82,17 +91,32 @@ class PublicoController extends Controller
             'fotos'
         ])->findOrFail($id);
 
-        // Buscar arquivos anexos ao evento (documentos, não fotos da galeria)
         $arquivos = DB::table('arquivo')
             ->where('tabela', 'eventos')
             ->where('chave', $id)
             ->whereNull('deleted_at')
             ->get();
 
+        // Usar comissão do ano apenas se o evento não tiver comissão própria
+        $comissao = $evento->cargos->isNotEmpty()
+            ? null
+            : $this->buscarComissaoAno();
+
         return Inertia::render('Publico/EventoDetalhes', [
             'evento' => $evento,
-            'arquivos' => $arquivos
+            'arquivos' => $arquivos,
+            'comissao' => $comissao,
         ]);
+    }
+
+    private function buscarComissaoAno(): ?Comissao
+    {
+        $anoAtual = Carbon::now()->year;
+
+        return Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+            ->whereIn('ano', [$anoAtual, $anoAtual - 1])
+            ->orderBy('ano', 'desc')
+            ->first();
     }
 
     /**

@@ -4,94 +4,157 @@
     <LayoutPublico>
         <div class="container mx-auto px-4 py-8 max-w-7xl">
 
-            <!-- Cabeçalho do Evento -->
-            <div class="bg-gradient-to-r from-amber-600 to-amber-800 rounded-xl shadow-2xl p-8 md:p-12 mb-8 text-white">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="flex-1">
-                        <h1 class="text-4xl md:text-5xl font-bold mb-4" style="font-family: Georgia, serif;">
-                            {{ evento.nome }}
-                        </h1>
-                        <div class="flex flex-wrap gap-4 text-lg">
-                            <div class="flex items-center bg-white/20 rounded-lg px-4 py-2">
-                                <i class="fa fa-calendar mr-2"></i>
-                                <span>{{ formatarData(evento.data) }}</span>
-                            </div>
-                            <div class="flex items-center bg-white/20 rounded-lg px-4 py-2">
-                                <i class="fa fa-clock mr-2"></i>
-                                <span>{{ evento.hora }}</span>
+            <!-- Cabeçalho Moderno e Clean -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+                <!-- Barra Superior -->
+                <div class="bg-gradient-to-r from-amber-500 to-amber-600 h-2"></div>
+
+                <!-- Conteúdo do Cabeçalho -->
+                <div class="p-6 md:p-10">
+                    <div class="flex flex-col md:flex-row justify-between items-start gap-6">
+                        <!-- Info do Evento -->
+                        <div class="flex-1">
+                            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6" style="font-family: Georgia, serif;">
+                                {{ evento.nome }}
+                            </h1>
+
+                            <div class="flex flex-wrap gap-4">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                                        <i class="fa fa-calendar text-amber-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-medium">Data</p>
+                                        <p class="font-semibold">{{ formatarData(evento.data) }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                                        <i class="fa fa-clock text-amber-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-medium">Horário</p>
+                                        <p class="font-semibold">{{ evento.hora }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <Link
-                        href="/publico/eventos"
-                        class="bg-white text-amber-700 hover:bg-amber-50 px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
-                    >
-                        <i class="fa fa-arrow-left"></i>
-                        Voltar aos Eventos
-                    </Link>
+                        <!-- Botão Voltar -->
+                        <Link
+                            href="/publico/eventos"
+                            class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-3 rounded-xl font-medium transition-all flex items-center gap-2 shadow-sm"
+                        >
+                            <i class="fa fa-arrow-left"></i>
+                            <span>Voltar</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
 
-            <!-- Informações Financeiras -->
+            <!-- Cards Financeiros -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- Valor Gasto -->
-                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-400 hover:shadow-lg transition-shadow">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-gray-600 mb-1">Valor Gasto</p>
+                            <p class="text-sm text-gray-500 mb-1 font-medium">Valor Gasto</p>
                             <p class="text-2xl font-bold text-red-600">
                                 {{ formatarMoeda(evento.valor_gasto) }}
                             </p>
                         </div>
-                        <div class="text-4xl text-red-500">
-                            <i class="fa fa-arrow-down"></i>
+                        <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center">
+                            <i class="fa fa-arrow-down text-2xl text-red-500"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Valor Arrecadado -->
-                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-400 hover:shadow-lg transition-shadow">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-gray-600 mb-1">Valor Arrecadado</p>
+                            <p class="text-sm text-gray-500 mb-1 font-medium">Valor Arrecadado</p>
                             <p class="text-2xl font-bold text-green-600">
                                 {{ formatarMoeda(evento.valor_arrecadado) }}
                             </p>
                         </div>
-                        <div class="text-4xl text-green-500">
-                            <i class="fa fa-arrow-up"></i>
+                        <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
+                            <i class="fa fa-arrow-up text-2xl text-green-500"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Saldo -->
-                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4" :class="saldoCorBorda">
+                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 hover:shadow-lg transition-shadow" :class="saldoCorBorda">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-gray-600 mb-1">Saldo</p>
+                            <p class="text-sm text-gray-500 mb-1 font-medium">Saldo</p>
                             <p class="text-2xl font-bold" :class="saldoCorTexto">
                                 {{ formatarMoeda(saldo) }}
                             </p>
                         </div>
-                        <div class="text-4xl" :class="saldoCorIcone">
-                            <i class="fa" :class="saldo >= 0 ? 'fa-check-circle' : 'fa-exclamation-triangle'"></i>
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center"
+                             :class="saldo > 0 ? 'bg-blue-50' : saldo < 0 ? 'bg-yellow-50' : 'bg-gray-50'">
+                            <i class="fa text-2xl" :class="[
+                                saldo >= 0 ? 'fa-check-circle' : 'fa-exclamation-triangle',
+                                saldoCorIcone
+                            ]"></i>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Comissão do Evento (quando não há cargos específicos) -->
+            <div v-if="comissao && (!evento.cargos || evento.cargos.length === 0)" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-lg p-8 mb-8 border border-amber-200">
+                <div class="text-center mb-8">
+                    <div class="inline-block bg-white rounded-full p-4 shadow-md mb-4">
+                        <i class="fa fa-users text-4xl text-amber-600"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2" style="font-family: Georgia, serif;">
+                        {{ comissao.nome }}
+                    </h2>
+                    <p class="text-amber-700 font-medium">Ano {{ comissao.ano }}</p>
+                </div>
+
+                <div v-if="comissao.integrantes && comissao.integrantes.length > 0"
+                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div v-for="integrante in comissao.integrantes"
+                         :key="integrante.id"
+                         class="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-all border border-amber-100">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                                <i class="fa fa-user text-white text-xl"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-bold text-gray-800 text-base truncate">
+                                    {{ integrante.pessoa.nome }}
+                                </p>
+                                <p class="text-sm text-amber-600 font-medium truncate">
+                                    {{ integrante.cargo.nome }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-else class="text-center py-8 text-gray-500">
+                    <i class="fa fa-info-circle text-3xl mb-2"></i>
+                    <p>Nenhum integrante cadastrado nesta comissão</p>
                 </div>
             </div>
 
             <!-- Grid Principal: Cargos e Doações -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
 
-                <!-- Cargos do Evento -->
-                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <!-- Cargos Específicos do Evento -->
+                <div v-if="evento.cargos && evento.cargos.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
                     <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
                         <span class="text-4xl mr-3">👥</span>
                         Cargos e Responsáveis
                     </h2>
 
-                    <div v-if="evento.cargos && evento.cargos.length > 0" class="space-y-4">
+                    <div class="space-y-4">
                         <div
                             v-for="cargo in evento.cargos"
                             :key="cargo.id"
@@ -106,11 +169,6 @@
                             </p>
                         </div>
                     </div>
-
-                    <div v-else class="text-center py-12 text-gray-500">
-                        <div class="text-6xl mb-4">👥</div>
-                        <p class="text-lg">Nenhum cargo atribuído para este evento.</p>
-                    </div>
                 </div>
 
                 <!-- Doações -->
@@ -124,19 +182,19 @@
                         <div
                             v-for="doacao in evento.doacoes"
                             :key="doacao.id"
-                            class="border-l-4 border-green-500 pl-5 py-4 bg-gradient-to-r from-green-50 to-transparent rounded-r-lg hover:shadow-md transition-all"
+                            class="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-transparent border-l-4 border-green-500 rounded-r-lg hover:shadow-md transition-all"
                         >
-                            <div class="flex justify-between items-start">
-                                <div class="flex-1">
-                                    <p class="text-gray-700 flex items-center mb-1">
-                                        <i class="fa fa-user mr-2 text-green-600"></i>
-                                        {{ doacao.pessoa?.nome || 'Doador não identificado' }}
-                                    </p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fa fa-gift text-green-600"></i>
                                 </div>
-                                <p class="text-xl font-bold text-green-600">
-                                    {{ formatarMoeda(doacao.valor) }}
+                                <p class="text-gray-800 font-medium">
+                                    {{ doacao.pessoa?.nome || 'Doador não identificado' }}
                                 </p>
                             </div>
+                            <p class="text-xl font-bold text-green-600">
+                                {{ formatarMoeda(doacao.valor) }}
+                            </p>
                         </div>
 
                         <!-- Total de Doações -->
@@ -155,10 +213,9 @@
                         <p class="text-lg">Nenhuma doação registrada para este evento.</p>
                     </div>
                 </div>
-
             </div>
 
-            <!-- Cardápio do Evento -->
+            <!-- Cardápio -->
             <div v-if="evento.cardapios && evento.cardapios.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
                     <span class="text-4xl mr-3">🍽️</span>
@@ -186,8 +243,8 @@
                 </div>
             </div>
 
-            <!-- Galeria de Fotos do Evento -->
-            <div v-if="evento.fotos && evento.fotos.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+            <!-- Galeria de Fotos -->
+            <div v-if="evento.fotos && evento.fotos.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
                     <span class="text-4xl mr-3">📸</span>
                     Galeria de Fotos
@@ -197,71 +254,72 @@
                     <div
                         v-for="foto in evento.fotos"
                         :key="foto.id"
+                        class="aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity shadow-md hover:shadow-xl"
                         @click="abrirModal(foto)"
-                        class="relative group cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all transform hover:scale-105"
                     >
                         <img
                             :src="getFotoUrl(foto)"
-                            :alt="foto.titulo || 'Foto do evento'"
-                            class="w-full h-64 object-cover"
+                            :alt="foto.descricao || 'Foto do evento'"
+                            class="w-full h-full object-cover"
                         >
-
-                        <!-- Overlay com título -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                            <p class="text-white font-semibold text-sm">
-                                {{ foto.titulo || foto.nome }}
-                            </p>
-                        </div>
-
-                        <!-- Ícone de zoom -->
-                        <div class="absolute top-2 right-2 bg-white/80 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <i class="fa fa-search-plus text-gray-700"></i>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Mensagem quando não há fotos -->
-            <div v-else class="bg-white rounded-xl shadow-lg p-12 text-center">
-                <div class="text-6xl mb-4 text-gray-300">📸</div>
-                <h3 class="text-xl font-semibold text-gray-600 mb-2">Nenhuma foto disponível</h3>
-                <p class="text-gray-500">As fotos deste evento ainda não foram publicadas.</p>
+            <!-- Arquivos Anexos -->
+            <div v-if="arquivos && arquivos.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
+                    <span class="text-4xl mr-3">📎</span>
+                    Arquivos do Evento
+                </h2>
+
+                <div class="space-y-3">
+                    <a
+                        v-for="arquivo in arquivos"
+                        :key="arquivo.id"
+                        :href="`/publico/arquivo/${arquivo.id}`"
+                        target="_blank"
+                        class="flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200"
+                    >
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                                <i class="fa fa-file text-amber-600"></i>
+                            </div>
+                            <span class="font-medium text-gray-800">{{ arquivo.descricao || 'Documento' }}</span>
+                        </div>
+                        <i class="fa fa-download text-amber-600"></i>
+                    </a>
+                </div>
             </div>
 
         </div>
 
-        <!-- Modal para visualização ampliada da foto -->
+        <!-- Modal de Fotos -->
         <Teleport to="body">
             <div
                 v-if="modalAberto"
+                class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
                 @click="fecharModal"
-                class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
             >
-                <div class="relative max-w-7xl max-h-screen" @click.stop>
-                    <!-- Botão fechar -->
+                <div class="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center">
+                    <!-- Botão Fechar -->
                     <button
-                        @click="fecharModal"
-                        class="absolute -top-12 right-0 text-white hover:text-gray-300 text-2xl"
+                        @click.stop="fecharModal"
+                        class="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 transition-colors z-10"
                     >
-                        <i class="fa fa-times-circle"></i>
+                        <i class="fa fa-times text-2xl"></i>
                     </button>
 
-                    <!-- Imagem ampliada -->
+                    <!-- Imagem -->
                     <img
+                        v-if="fotoSelecionada"
                         :src="getFotoUrl(fotoSelecionada)"
-                        :alt="fotoSelecionada.titulo || 'Foto do evento'"
-                        class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                        :alt="fotoSelecionada.descricao || 'Foto do evento'"
+                        class="max-w-full max-h-full object-contain"
+                        @click.stop
                     >
 
-                    <!-- Informações da foto -->
-                    <div class="mt-4 text-white text-center">
-                        <p class="text-xl font-semibold">{{ fotoSelecionada.titulo || fotoSelecionada.nome }}</p>
-                        <p v-if="fotoSelecionada.descricao" class="text-sm text-gray-300 mt-2">
-                            {{ fotoSelecionada.descricao }}
-                        </p>
-                    </div>
-
-                    <!-- Navegação entre fotos -->
+                    <!-- Navegação -->
                     <button
                         v-if="indiceAtual > 0"
                         @click.stop="fotoAnterior"
@@ -280,7 +338,6 @@
                 </div>
             </div>
         </Teleport>
-
     </LayoutPublico>
 </template>
 
@@ -297,26 +354,29 @@ const props = defineProps({
     arquivos: {
         type: Array,
         default: () => []
+    },
+    comissao: {
+        type: Object,
+        default: null
     }
 });
 
-// Estado do modal
+// Estado do modal de fotos
 const modalAberto = ref(false);
 const fotoSelecionada = ref(null);
 const indiceAtual = ref(0);
 
-// Computed: Saldo do evento
+// Computeds financeiros
 const saldo = computed(() => {
     const arrecadado = parseFloat(props.evento.valor_arrecadado || 0);
     const gasto = parseFloat(props.evento.valor_gasto || 0);
     return arrecadado - gasto;
 });
 
-// Computed: Cores do saldo
 const saldoCorBorda = computed(() => {
-    if (saldo.value > 0) return 'border-blue-500';
-    if (saldo.value < 0) return 'border-yellow-500';
-    return 'border-gray-400';
+    if (saldo.value > 0) return 'border-blue-400';
+    if (saldo.value < 0) return 'border-yellow-400';
+    return 'border-gray-300';
 });
 
 const saldoCorTexto = computed(() => {
@@ -331,7 +391,6 @@ const saldoCorIcone = computed(() => {
     return 'text-gray-400';
 });
 
-// Computed: Total de doações
 const totalDoacoes = computed(() => {
     if (!props.evento.doacoes) return 0;
     return props.evento.doacoes.reduce((total, doacao) => {
@@ -368,7 +427,6 @@ function formatarMoeda(valor) {
 // Funções da galeria
 function getFotoUrl(foto) {
     if (!foto || !foto.hash) return '';
-    // Remove o prefixo 'public/' se existir
     const hash = foto.hash.replace('public/', '');
     return `/storage/${hash}`;
 }
@@ -377,16 +435,12 @@ function abrirModal(foto) {
     fotoSelecionada.value = foto;
     indiceAtual.value = props.evento.fotos.findIndex(f => f.id === foto.id);
     modalAberto.value = true;
-
-    // Prevenir scroll do body
     document.body.style.overflow = 'hidden';
 }
 
 function fecharModal() {
     modalAberto.value = false;
     fotoSelecionada.value = null;
-
-    // Restaurar scroll do body
     document.body.style.overflow = '';
 }
 
