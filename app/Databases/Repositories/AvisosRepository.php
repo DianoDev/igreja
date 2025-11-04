@@ -59,7 +59,7 @@ class AvisosRepository implements AvisosContract
             $avisos = new Avisos([
                 'nome' => $params['nome'],
                 'descricao' => $params['descricao'],
-                'data_expiração' => $params['data_expiração'],
+                'data_expiração' => Carbon::parse($params['data_expiração'])->format('Y-m-d H:i:s'),
                 'ativo' => $params['ativo']
             ]);
             $avisos->save();
@@ -76,6 +76,9 @@ class AvisosRepository implements AvisosContract
     {
         $autoCommit && DB::beginTransaction();
         try {
+            if (isset($params['data_expiração'])) {
+                $params['data_expiração'] = Carbon::parse($params['data_expiração'])->format('Y-m-d H:i:s');
+            }
             $avisos = $this->getById($id);
             $avisos->update($params);
 
