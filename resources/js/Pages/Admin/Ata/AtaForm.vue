@@ -350,7 +350,6 @@ function handleError(msg) {
 
 const loadData = async () => {
     try {
-        acao.value = '/admin/atas/'
         const response = await axios.get(`/admin/atas/${props.data.id}`);
         Object.keys(form.value).forEach(key => {
             if (response.data[key] !== undefined) {

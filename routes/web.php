@@ -180,7 +180,7 @@ Route::group(['prefix' => 'admin/comissao'], function () {
     Route::get('/list', [ComissaoController::class, 'list'])->name('admin.comissao.list');
     Route::get('/{id}', [ComissaoController::class, 'edit'])->name('admin.comissao.edit');
     Route::get('/{id}/info', [ComissaoController::class, 'info'])->name('admin.comissao.info');
-    Route::post('/', [ComissaoController::class, 'create'])->name('admin.comissao.create');
+    Route::post('/create', [ComissaoController::class, 'create'])->name('admin.comissao.create');
     Route::post('/{id}', [ComissaoController::class, 'update'])->name('admin.comissao.update');
     Route::delete('/{id}', [ComissaoController::class, 'delete'])->name('admin.comissao.delete');
 });
@@ -197,7 +197,7 @@ Route::group(['prefix' => 'admin/avisos'], function () {
     Route::get('/', [AvisosController::class, 'index'])->name('admin.avisos.index');
     Route::get('/list', [AvisosController::class, 'list'])->name('admin.avisos.list');
     Route::get('/{id}', [AvisosController::class, 'edit'])->name('admin.avisos.edit');
-    Route::post('/', [AvisosController::class, 'create'])->name('admin.avisos.create');
+    Route::post('/create', [AvisosController::class, 'create'])->name('admin.avisos.create');
     Route::post('/{id}', [AvisosController::class, 'update'])->name('admin.avisos.update');
     Route::delete('/{id}', [AvisosController::class, 'delete'])->name('admin.avisos.delete');
 });

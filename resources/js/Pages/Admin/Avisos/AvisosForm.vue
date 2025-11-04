@@ -171,7 +171,6 @@ function handleError(msg) {
 const loadData = async () => {
     try {
         const response = await axios.get(`/admin/avisos/${props.data.id}`);
-        acao.value = '/admin/avisos/'
         // Carrega os dados com conversões necessárias
         Object.keys(form.value).forEach(key => {
             if (response.data[key] !== undefined) {

@@ -348,7 +348,6 @@ function handleError(msg) {
 
 const loadData = async () => {
     try {
-        acao.value = '/admin/regime-interno/'
         const response = await axios.get(`/admin/regime-interno/${props.data.id}`);
         Object.keys(form.value).forEach(key => {
             if (response.data[key] !== undefined) {
