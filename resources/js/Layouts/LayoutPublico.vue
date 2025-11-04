@@ -80,10 +80,10 @@
                         📝 Atas
                     </Link>
                     <Link href="/publico/regimes-internos" class="block py-3 px-4 bg-blue-700 hover:bg-amber-500 rounded-lg transition-all">
-                        📋 Regimes Internos
+                        📋 Regimento Interno
                     </Link>
                     <Link href="/publico/estatutos" class="block py-3 px-4 bg-blue-700 hover:bg-amber-500 rounded-lg transition-all">
-                        ⚖️ Estatutos
+                        ⚖️ Estatuto
                     </Link>
                     <Link href="/publico/sobre" class="block py-3 px-4 bg-blue-700 hover:bg-amber-500 rounded-lg transition-all">
                         ℹ️ Sobre

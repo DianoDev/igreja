@@ -21,14 +21,24 @@
                         Uma comunidade de fé, amor e transparência.<br>
                         Acompanhe nossos eventos, atividades.
                     </p>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-3">
                         <Link href="/publico/eventos"
-                              class="bg-amber-400 hover:bg-amber-500 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transform transition hover:scale-105">
-                            📅 Ver Eventos
+                              class="group bg-white hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium text-base shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:border-gray-300">
+        <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-500 group-hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            Ver Eventos
+        </span>
                         </Link>
                         <Link href="/publico/sobre"
-                              class="bg-white/80 backdrop-blur hover:bg-white/90 text-gray-800 px-8 py-4 rounded-lg font-bold text-lg shadow-lg border-2 border-amber-300 transform transition hover:scale-105">
-                            ℹ️ Sobre Nós
+                              class="group bg-white hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium text-base shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:border-gray-300">
+        <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-500 group-hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Sobre Nós
+        </span>
                         </Link>
                     </div>
                 </div>
@@ -36,14 +46,14 @@
 
             <!-- Scroll Indicator -->
             <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                 </svg>
             </div>
         </div>
         <div v-if="avisos && avisos.length > 0" class="mt-4">
-            <div class="text-center ">
+            <div class="text-center">
                 <div class="inline-block">
                     <h2 class="text-4xl font-bold text-gray-700 mb-3 relative" style="font-family: Georgia, serif;">
                         <span class="relative z-10"> Avisos Importantes</span>
@@ -52,23 +62,39 @@
                     <p class="text-gray-500 italic">Fique por dentro das últimas notícias e comunicados</p>
                 </div>
             </div>
-            <div class="container mx-auto px-4 py-6">
-                <!-- MURAL DE AVISOS - Versão Compacta -->
-                <div v-if="avisos && avisos.length > 0" class="">
-                    <div class="max-w-5xl mx-auto space-y-3">
-                        <div v-for="aviso in avisos" :key="aviso.id"
-                             class="bg-amber-50 border-l-4 border-amber-500 rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow">
 
-                            <div class="flex items-start justify-between gap-4">
-                                <!-- Conteúdo -->
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-bold text-gray-900 mb-1 text-lg">
-                                        {{ aviso.nome }}
-                                    </h3>
-                                    <p class="text-gray-700 text-sm leading-relaxed">
-                                        {{ aviso.descricao }}
-                                    </p>
+            <div class="container mx-auto px-4 py-6">
+                <!-- MURAL DE AVISOS COM IMAGEM - Layout em Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <!-- Coluna de Avisos (2/3 da largura) -->
+                    <div class="lg:col-span-3">
+                        <div class="space-y-3">
+                            <div v-for="aviso in avisos" :key="aviso.id"
+                                 class="bg-amber-50 border-l-4 border-amber-500 rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-start justify-between gap-4">
+                                    <!-- Conteúdo -->
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-bold text-gray-900 mb-1 text-lg">
+                                            {{ aviso.nome }}
+                                        </h3>
+                                        <p class="text-gray-700 text-sm leading-relaxed">
+                                            {{ aviso.descricao }}
+                                        </p>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coluna da Imagem (1/3 da largura) -->
+                    <div class="lg:col-span-1">
+                        <div class="sticky top-4">
+                            <div class=" overflow-hidden">
+                                <img
+                                    src="/images/jesus-2.png"
+                                    alt="Jesus Cristo"
+                                    class="border bg-white rounded-xl shadow-lg items-center w-60 h-auto object-cover"
+                                />
                             </div>
                         </div>
                     </div>
@@ -281,7 +307,7 @@
                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div v-for="integrante in comissao.integrantes"
                      :key="integrante.id"
-                     class="bg-gradient-to-br from-amber-50 to-white rounded-lg p-6 border-l-4 border-amber-500 shadow hover:shadow-md transition-shadow">
+                     class="bg-gradient-to-br  rounded-lg p-6 border-l-4 border-amber-500 shadow hover:shadow-md transition-shadow">
                     <div class="flex items-center mb-3">
                         <div
                             class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-xl mr-4">
@@ -304,7 +330,7 @@
             </div>
         </div>
         <!-- Cards de Acesso Rápido -->
-        <div class="bg-gradient-to-b from-amber-50 to-white py-12">
+        <div class="">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl font-bold text-gray-700" style="font-family: Georgia, serif;">
