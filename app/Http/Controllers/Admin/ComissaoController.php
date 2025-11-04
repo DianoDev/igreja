@@ -63,7 +63,7 @@ class ComissaoController extends Controller
 
     public function update(ComissaoRequest $request, int $id): JsonResponse
     {
-        $params = $request->validated();
+        $params = $request->except('_token');
         $this->comissaoRepository->update($id, $params);
         return response()->json(['success' => true, 'message' => 'Comissão atualizada com sucesso!']);
     }

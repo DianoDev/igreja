@@ -46,7 +46,7 @@ class CargoController extends Controller
 
     public function update(CargoRequest $request, int $id): JsonResponse
     {
-        $params = $request->validated();
+        $params = $request->except('_token');
         $this->cargoRepository->update($id, $params);
         return response()->json(['success' => true, 'message' => 'Cargo atualizado com sucesso!']);
     }

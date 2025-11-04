@@ -52,7 +52,7 @@ class PessoaController extends Controller
 
     public function update(PessoaRequest $request, int $id): JsonResponse
     {
-        $params = $request->validated();
+        $params = $request->except('_token');
         $this->pessoaRepository->update($id, $params);
         return response()->json(['success' => true, 'message' => 'Pessoa atualizado com sucesso!']);
     }

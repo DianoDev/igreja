@@ -22,10 +22,12 @@
                         Acompanhe nossos eventos, atividades.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <Link href="/publico/eventos" class="bg-amber-400 hover:bg-amber-500 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transform transition hover:scale-105">
+                        <Link href="/publico/eventos"
+                              class="bg-amber-400 hover:bg-amber-500 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg transform transition hover:scale-105">
                             📅 Ver Eventos
                         </Link>
-                        <Link href="/publico/sobre" class="bg-white/80 backdrop-blur hover:bg-white/90 text-gray-800 px-8 py-4 rounded-lg font-bold text-lg shadow-lg border-2 border-amber-300 transform transition hover:scale-105">
+                        <Link href="/publico/sobre"
+                              class="bg-white/80 backdrop-blur hover:bg-white/90 text-gray-800 px-8 py-4 rounded-lg font-bold text-lg shadow-lg border-2 border-amber-300 transform transition hover:scale-105">
                             ℹ️ Sobre Nós
                         </Link>
                     </div>
@@ -35,11 +37,44 @@
             <!-- Scroll Indicator -->
             <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
                 <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                 </svg>
             </div>
         </div>
+        <div v-if="avisos && avisos.length > 0" class="mt-4">
+            <div class="text-center ">
+                <div class="inline-block">
+                    <h2 class="text-4xl font-bold text-gray-700 mb-3 relative" style="font-family: Georgia, serif;">
+                        <span class="relative z-10"> Avisos Importantes</span>
+                        <div class="absolute bottom-0 left-0 w-full h-3 bg-red-200 opacity-50 -z-0"></div>
+                    </h2>
+                    <p class="text-gray-500 italic">Fique por dentro das últimas notícias e comunicados</p>
+                </div>
+            </div>
+            <div class="container mx-auto px-4 py-6">
+                <!-- MURAL DE AVISOS - Versão Compacta -->
+                <div v-if="avisos && avisos.length > 0" class="">
+                    <div class="max-w-5xl mx-auto space-y-3">
+                        <div v-for="aviso in avisos" :key="aviso.id"
+                             class="bg-amber-50 border-l-4 border-amber-500 rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow">
 
+                            <div class="flex items-start justify-between gap-4">
+                                <!-- Conteúdo -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-bold text-gray-900 mb-1 text-lg">
+                                        {{ aviso.nome }}
+                                    </h3>
+                                    <p class="text-gray-700 text-sm leading-relaxed">
+                                        {{ aviso.descricao }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Próximos Eventos em Destaque -->
         <div class="container mx-auto px-4 py-12">
             <!-- Título da Seção -->
@@ -80,7 +115,8 @@
                                  alt="Evento da Manhã"
                                  class="w-full h-full object-cover"
                                  @error="(e) => imagemEventoErro(e, 2)">
-                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-900/70 to-transparent p-4">
+                            <div
+                                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-900/70 to-transparent p-4">
                                 <div class="text-white">
                                     <div class="text-3xl font-bold mb-1">{{ getDia(eventoManha.data) }}</div>
                                     <div class="text-sm">{{ getMesAno(eventoManha.data) }}</div>
@@ -105,7 +141,8 @@
                                 </div>
                             </div>
 
-                            <button class="w-full bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-md">
+                            <button
+                                class="w-full bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-md">
                                 Ver Detalhes →
                             </button>
                         </div>
@@ -135,7 +172,8 @@
                                  alt="Evento da Noite"
                                  class="w-full h-full object-cover"
                                  @error="(e) => imagemEventoErro(e, 3)">
-                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-indigo-900/70 to-transparent p-4">
+                            <div
+                                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-indigo-900/70 to-transparent p-4">
                                 <div class="text-white">
                                     <div class="text-3xl font-bold mb-1">{{ getDia(eventoNoite.data) }}</div>
                                     <div class="text-sm">{{ getMesAno(eventoNoite.data) }}</div>
@@ -160,7 +198,8 @@
                                 </div>
                             </div>
 
-                            <button class="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-md">
+                            <button
+                                class="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-md">
                                 Ver Detalhes →
                             </button>
                         </div>
@@ -169,7 +208,8 @@
 
                 <!-- Eventos Secundários (Cards Menores) -->
                 <div v-if="outrosEventos.length > 0">
-                    <h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center" style="font-family: Georgia, serif;">
+                    <h3 class="text-2xl font-bold text-gray-700 mb-6 flex items-center"
+                        style="font-family: Georgia, serif;">
                         <span class="mr-2">📌</span>
                         Outros Eventos Próximos
                     </h3>
@@ -186,8 +226,10 @@
                                      alt="Evento"
                                      class="w-full h-full object-cover"
                                      @error="(e) => imagemEventoErro(e, index + 4)">
-                                <div class="absolute top-0 left-0 right-0 bg-gradient-to-b from-white/30 to-transparent p-3">
-                                    <span class="bg-amber-400 text-white px-3 py-1 rounded-full text-xs font-medium shadow">
+                                <div
+                                    class="absolute top-0 left-0 right-0 bg-gradient-to-b from-white/30 to-transparent p-3">
+                                    <span
+                                        class="bg-amber-400 text-white px-3 py-1 rounded-full text-xs font-medium shadow">
                                         {{ diasAteEvento(evento.data) }}
                                     </span>
                                 </div>
@@ -210,7 +252,8 @@
                                     </div>
                                 </div>
 
-                                <button class="w-full bg-gray-50 hover:bg-amber-400 hover:text-white text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm">
+                                <button
+                                    class="w-full bg-gray-50 hover:bg-amber-400 hover:text-white text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm">
                                     Ver mais →
                                 </button>
                             </div>
@@ -240,7 +283,8 @@
                      :key="integrante.id"
                      class="bg-gradient-to-br from-amber-50 to-white rounded-lg p-6 border-l-4 border-amber-500 shadow hover:shadow-md transition-shadow">
                     <div class="flex items-center mb-3">
-                        <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-xl mr-4">
+                        <div
+                            class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-xl mr-4">
                             <i class="fa fa-user"></i>
                         </div>
                         <div>
@@ -270,25 +314,31 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <Link href="/publico/atas" class="group">
-                        <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-blue-300">
+                        <div
+                            class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-blue-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📝</div>
-                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Atas</h3>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">
+                                Atas</h3>
                             <p class="text-gray-500">Acesse as atas das reuniões e assembleias da paróquia</p>
                         </div>
                     </Link>
 
                     <Link href="/publico/regimes-internos" class="group">
-                        <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-amber-300">
+                        <div
+                            class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-amber-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📋</div>
-                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Regime Interno</h3>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">
+                                Regimento Interno</h3>
                             <p class="text-gray-500">Consulte nossos regimentos e normas institucionais</p>
                         </div>
                     </Link>
 
                     <Link href="/publico/estatutos" class="group">
-                        <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-green-300">
+                        <div
+                            class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-green-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">⚖️</div>
-                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">Estatuto</h3>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">
+                                Estatuto</h3>
                             <p class="text-gray-500">Veja nosso estatuto e documentos oficiais</p>
                         </div>
                     </Link>
@@ -300,8 +350,8 @@
 
 <script setup>
 import LayoutPublico from '@/Layouts/LayoutPublico.vue';
-import { Link, router } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import {Link, router} from '@inertiajs/vue3';
+import {computed} from 'vue';
 
 const props = defineProps({
     proximosEventos: {
@@ -309,6 +359,10 @@ const props = defineProps({
         default: () => []
     },
     comissao: {
+        type: Object,
+        default: null
+    },
+    avisos: {
         type: Object,
         default: null
     }

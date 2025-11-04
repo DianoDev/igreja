@@ -46,7 +46,7 @@
                         <Link href="/publico/regimes-internos"
                               :class="isActive('/publico/regimes-internos') ? 'bg-amber-500 text-white' : 'text-blue-100 hover:bg-blue-700'"
                               class="px-4 py-2 rounded transition-all duration-200">
-                            📋 Regime Interno
+                            📋 Regimento Interno
                         </Link>
                         <Link href="/publico/estatutos"
                               :class="isActive('/publico/estatutos') ? 'bg-amber-500 text-white' : 'text-blue-100 hover:bg-blue-700'"

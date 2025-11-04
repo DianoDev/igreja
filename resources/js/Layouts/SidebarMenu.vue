@@ -54,6 +54,15 @@
                                 <span class="menu-title">Eventos</span>
                             </a>
                         </li>
+                        <li class="menu-item" :class="{ 'active': isActive('avisos') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/avisos`)" class="menu-link"
+                               :data-tooltip="collapsed ? 'avisos' : ''">
+                                <span class="menu-icon">
+                                    <i class="fa fa-message"></i>
+                                </span>
+                                <span class="menu-title">Avisos</span>
+                            </a>
+                        </li>
                         <li class="menu-item" :class="{ 'active': isActive('comissao') }">
                             <a href="#" @click.prevent="router.visit(`/admin/comissao`)" class="menu-link"
                                :data-tooltip="collapsed ? 'Eventos' : ''">
@@ -69,7 +78,7 @@
                                 <span class="menu-icon">
                                     <i class="fa fa-file-contract"></i>
                                 </span>
-                                <span class="menu-title">Regime Interno</span>
+                                <span class="menu-title">Regimento Interno</span>
                             </a>
                         </li>
                         <li class="menu-item" :class="{ 'active': isActive('estatuto') }">
@@ -203,6 +212,8 @@ onMounted(() => {
         activeItem.value = 'cardapio';
     }else if (path.includes('comissao')) {
         activeItem.value = 'comissao';
+    }else if (path.includes('avisos')) {
+        activeItem.value = 'avisos';
     }
 
     nextTick(() => {

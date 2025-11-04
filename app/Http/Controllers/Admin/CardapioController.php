@@ -93,7 +93,7 @@ class CardapioController extends Controller
 
     public function update(CardapioRequest $request, int $id): JsonResponse
     {
-        $params = $request->validated();
+        $params = $request->except('_token');
         $this->cardapioRepository->update($id, $params);
         return response()->json(['success' => true, 'message' => 'Cardapio atualizado com sucesso!']);
     }

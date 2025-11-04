@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AvisosController;
 use App\Http\Controllers\Admin\ComissaoController;
 use App\Http\Controllers\Admin\CardapioController;
 use App\Http\Controllers\Admin\CardapioEventoController;
@@ -190,4 +191,13 @@ Route::prefix('admin/comissao-pessoa')->group(function () {
     Route::get('/comissao/{idComissao}', [ComissaoPessoaController::class, 'listarPorComissao'])->name('comissao-pessoa.listar-comissao');
     Route::post('/adicionar', [ComissaoPessoaController::class, 'adicionar'])->name('comissao-pessoa.adicionar');
     Route::delete('/{id}', [ComissaoPessoaController::class, 'remover'])->name('comissao-pessoa.remover');
+});
+
+Route::group(['prefix' => 'admin/avisos'], function () {
+    Route::get('/', [AvisosController::class, 'index'])->name('admin.avisos.index');
+    Route::get('/list', [AvisosController::class, 'list'])->name('admin.avisos.list');
+    Route::get('/{id}', [AvisosController::class, 'edit'])->name('admin.avisos.edit');
+    Route::post('/', [AvisosController::class, 'create'])->name('admin.avisos.create');
+    Route::post('/{id}', [AvisosController::class, 'update'])->name('admin.avisos.update');
+    Route::delete('/{id}', [AvisosController::class, 'delete'])->name('admin.avisos.delete');
 });

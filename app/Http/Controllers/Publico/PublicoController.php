@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Publico;
 
+use App\Databases\Models\Avisos;
 use App\Databases\Models\Comissao;
 use App\Http\Controllers\Controller;
 use App\Databases\Models\Eventos;
@@ -31,7 +32,14 @@ class PublicoController extends Controller
         $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
             ->where('ano', $anoAtual)
             ->first();
-
+// Buscar avisos ativos que não expiraram
+        $avisos = Avisos::where('ativo', true)
+            ->where(function($query) {
+                $query->where('data_expiração', '>=', Carbon::now())
+                    ->orWhereNull('data_expiração');
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
         // Se não existir comissão do ano atual, buscar do ano anterior
         if (!$comissao) {
             $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
@@ -41,7 +49,8 @@ class PublicoController extends Controller
 
         return Inertia::render('Publico/Index', [
             'proximosEventos' => $proximosEventos,
-            'comissao' => $comissao
+            'comissao' => $comissao,
+            'avisos' => $avisos,
         ]);
     }
 
