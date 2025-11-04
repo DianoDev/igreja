@@ -201,7 +201,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
-const acao = ref('/admin/regime-interno/');
+const acao = ref('/admin/regime-interno/create');
 const events = inject('events');
 const toast = useToast();
 const errors = ref({});
@@ -348,6 +348,7 @@ function handleError(msg) {
 
 const loadData = async () => {
     try {
+        acao.value = '/admin/regime-interno/'
         const response = await axios.get(`/admin/regime-interno/${props.data.id}`);
         Object.keys(form.value).forEach(key => {
             if (response.data[key] !== undefined) {

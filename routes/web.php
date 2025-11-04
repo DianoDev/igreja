@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [PessoaController::class, 'index'])->name('admin.pessoas.index');
         Route::get('/list', [PessoaController::class, 'list'])->name('admin.pessoas.list');
         Route::get('/{id}', [PessoaController::class, 'edit'])->name('admin.pessoas.edit');
-        Route::post('/', [PessoaController::class, 'create'])->name('admin.pessoas.create');
+        Route::post('/create', [PessoaController::class, 'create'])->name('admin.pessoas.create');
         Route::post('/{id}', [PessoaController::class, 'update'])->name('admin.pessoas.update');
         Route::delete('/{id}', [PessoaController::class, 'delete'])->name('admin.pessoas.delete');
     });
@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CargoController::class, 'index'])->name('admin.cargo.index');
         Route::get('/list', [CargoController::class, 'list'])->name('admin.cargo.list');
         Route::get('/{id}', [CargoController::class, 'edit'])->name('admin.cargo.edit');
-        Route::post('/', [CargoController::class, 'create'])->name('admin.cargo.create');
+        Route::post('/create', [CargoController::class, 'create'])->name('admin.cargo.create');
         Route::post('/{id}', [CargoController::class, 'update'])->name('admin.cargo.update');
         Route::delete('/{id}', [CargoController::class, 'delete'])->name('admin.cargo.delete');
     });
@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [RegimeInternoController::class, 'index'])->name('admin.regime_interno.index');
         Route::get('/list', [RegimeInternoController::class, 'list'])->name('admin.regime_interno.list');
         Route::get('/{id}', [RegimeInternoController::class, 'edit'])->name('admin.regime_interno.edit');
-        Route::post('/', [RegimeInternoController::class, 'create'])->name('admin.regime_interno.create');
+        Route::post('/create', [RegimeInternoController::class, 'create'])->name('admin.regime_interno.create');
         Route::post('/{id}', [RegimeInternoController::class, 'update'])->name('admin.regime_interno.update');
         Route::delete('/{id}', [RegimeInternoController::class, 'delete'])->name('admin.regime_interno.delete');
     });
@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [EstatutoController::class, 'index'])->name('admin.estatuto.index');
         Route::get('/list', [EstatutoController::class, 'list'])->name('admin.estatuto.list');
         Route::get('/{id}', [EstatutoController::class, 'edit'])->name('admin.estatuto.edit');
-        Route::post('/', [EstatutoController::class, 'create'])->name('admin.estatuto.create');
+        Route::post('/create', [EstatutoController::class, 'create'])->name('admin.estatuto.create');
         Route::post('/{id}', [EstatutoController::class, 'update'])->name('admin.estatuto.update');
         Route::delete('/{id}', [EstatutoController::class, 'delete'])->name('admin.estatuto.delete');
     });
@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [AtaController::class, 'index'])->name('admin.atas.index');
         Route::get('/list', [AtaController::class, 'list'])->name('admin.atas.list');
         Route::get('/{id}', [AtaController::class, 'edit'])->name('admin.atas.edit');
-        Route::post('/', [AtaController::class, 'create'])->name('admin.atas.create');
+        Route::post('/create', [AtaController::class, 'create'])->name('admin.atas.create');
         Route::post('/{id}', [AtaController::class, 'update'])->name('admin.atas.update');
         Route::delete('/{id}', [AtaController::class, 'delete'])->name('admin.atas.delete');
     });
@@ -91,7 +91,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/list', [EventosController::class, 'list'])->name('admin.eventos.list');
         Route::get('/{id}', [EventosController::class, 'edit'])->name('admin.eventos.edit');
         Route::get('/{id}/info', [EventosController::class, 'info'])->name('admin.eventos.info');
-        Route::post('/', [EventosController::class, 'create'])->name('admin.eventos.create');
+        Route::post('/create', [EventosController::class, 'create'])->name('admin.eventos.create');
         Route::post('/{id}', [EventosController::class, 'update'])->name('admin.eventos.update');
         Route::delete('/{id}', [EventosController::class, 'delete'])->name('admin.eventos.delete');
     });
@@ -104,7 +104,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [CardapioController::class, 'edit'])->name('admin.cardapio.edit');
         Route::get('/{id}/ingredientes/edit', [CardapioController::class, 'getIngredientes']);
         Route::post('/{id}/ingredientes', [CardapioController::class, 'saveIngredientes']);
-        Route::post('/', [CardapioController::class, 'create'])->name('admin.cardapio.create');
+        Route::post('/create', [CardapioController::class, 'create'])->name('admin.cardapio.create');
         Route::post('/{id}', [CardapioController::class, 'update'])->name('admin.cardapio.update');
         Route::delete('/{id}', [CardapioController::class, 'delete'])->name('admin.cardapio.delete');
     });

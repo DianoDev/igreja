@@ -73,7 +73,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
-const acao = ref('/admin/comissao/');
+const acao = ref('/admin/comissao/create');
 const events = inject('events');
 const toast = useToast();
 const errors = ref({});
@@ -129,6 +129,7 @@ function handleError(msg) {
 
 const loadData = async () => {
     try {
+        acao.value = '/admin/comissao/'
         const response = await axios.get(`/admin/comissao/${props.data.id}`);
         Object.keys(form.value).forEach(key => {
             if (response.data[key] !== undefined) {
