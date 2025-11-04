@@ -59,20 +59,51 @@ class PublicoController extends Controller
      */
     public function eventos(): Response
     {
-        $eventos = Eventos::orderBy('data', 'asc')
-            ->orderBy('hora', 'desc')
+        // Buscar apenas eventos futuros (a partir de hoje)
+        $eventos = Eventos::whereDate('data', '>=', Carbon::today())
+            ->orderBy('data', 'asc')
+            ->orderBy('hora', 'asc')
             ->get();
+
         // Buscar comissão do ano atual
         $anoAtual = Carbon::now()->year;
         $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
             ->where('ano', $anoAtual)
             ->first();
+
         if (!$comissao) {
             $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
                 ->where('ano', $anoAtual - 1)
                 ->first();
         }
+
         return Inertia::render('Publico/Eventos', [
+            'eventos' => $eventos,
+            'comissao' => $comissao,
+        ]);
+    }
+
+    public function antigos(): Response
+    {
+        // Buscar apenas eventos passados (antes de hoje)
+        $eventos = Eventos::whereDate('data', '<', Carbon::today())
+            ->orderBy('data', 'desc')
+            ->orderBy('hora', 'desc')
+            ->get();
+
+        // Buscar comissão do ano atual
+        $anoAtual = Carbon::now()->year;
+        $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+            ->where('ano', $anoAtual)
+            ->first();
+
+        if (!$comissao) {
+            $comissao = Comissao::with(['integrantes.pessoa', 'integrantes.cargo'])
+                ->where('ano', $anoAtual - 1)
+                ->first();
+        }
+
+        return Inertia::render('Publico/EventosAntigos', [
             'eventos' => $eventos,
             'comissao' => $comissao,
         ]);

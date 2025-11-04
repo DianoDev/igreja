@@ -16,8 +16,8 @@
             <div class="bg-white rounded-lg shadow-lg p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                        <span class="mr-2">📅</span>
-                        Próximos Eventos
+                        <span class="fa fa-calendar-minus mr-4"></span>
+                        Eventos Antigos
                     </h2>
                 </div>
 
@@ -40,9 +40,6 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
-                                Em {{ diasAteEvento(evento.data) }}
-                            </span>
                             </div>
                         </div>
                     </div>

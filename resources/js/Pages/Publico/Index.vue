@@ -338,14 +338,14 @@
                     </h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                     <Link href="/publico/atas" class="group">
                         <div
                             class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-all transform hover:-translate-y-2 border-t-4 border-blue-300">
                             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📝</div>
                             <h3 class="text-2xl font-bold text-gray-700 mb-3" style="font-family: Georgia, serif;">
                                 Atas</h3>
-                            <p class="text-gray-500">Acesse as atas das reuniões e assembleias da paróquia</p>
+                            <p class="text-gray-500">Acesse as atas das reuniões e assembleias</p>
                         </div>
                     </Link>
 

@@ -141,8 +141,14 @@ Route::get('/', [PublicoController::class, 'index'])->name('publico.index');
 // Eventos públicos
 Route::prefix('publico/eventos')->group(function () {
     Route::get('/', [PublicoController::class, 'eventos'])->name('publico.eventos');
+    Route::get('/antigos', [PublicoController::class, 'antigos'])->name('publico.eventos');
     Route::get('/{id}', [PublicoController::class, 'eventoDetalhes'])->name('publico.eventos.detalhes');
 });
+
+Route::prefix('publico/antigos')->group(function () {
+    Route::get('/', [PublicoController::class, 'antigos'])->name('publico.eventos');
+});
+
 
 // Atas públicas
 Route::prefix('publico/atas')->group(function () {
