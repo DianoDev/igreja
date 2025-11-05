@@ -146,7 +146,7 @@ Route::prefix('publico/eventos')->group(function () {
 });
 
 Route::prefix('publico/antigos')->group(function () {
-    Route::get('/', [PublicoController::class, 'antigos'])->name('publico.eventos');
+    Route::get('/', [PublicoController::class, 'antigos'])->name('publico.eventosantigoss');
 });
 
 
