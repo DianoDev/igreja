@@ -27,6 +27,32 @@
                         </p>
                     </div>
                 </div>
+                <div  class="mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        Pároco
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-l-4 border-green-300 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
+                            <div class="flex items-start gap-4">
+                                <!-- Avatar -->
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-green-200 to-green-300 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Informações -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1 leading-tight">
+                                        Pe. Pedro Canísio Schroeder sj
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div v-if="comissao.integrantes && comissao.integrantes.filter(i => i.cargo.nome !== 'Festeiro de Promessa').length > 0" class="mb-6">
                     <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
                         Integrantes da Comissão
