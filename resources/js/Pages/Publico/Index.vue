@@ -12,7 +12,7 @@
             </div>
 
             <!-- Conteúdo do Banner -->
-            <div class="relative z-10 w-full px-4 h-full flex items-center">
+            <div class="relative z-10 w-full px-4 h-full flex items-center container ">
                 <div class="text-gray-800 ml-10 w-full">
                     <h1 class="text-5xl md:text-6xl font-bold text-white mb-4" style="font-family: Georgia, serif;">
                         Bem-vindo! <br><span class="text-amber-400">Comissão de Festa de São Benedito</span><br><span class="text-amber-400">2025/2026</span>
@@ -52,7 +52,7 @@
                 </svg>
             </div>
         </div>
-        <div v-if="avisos && avisos.length > 0" class="mt-4">
+        <div v-if="avisos && avisos.length > 0" class="container mx-auto px-4 py-12">
             <div class="text-center">
                 <div class="inline-block">
                     <h2 class="text-4xl font-bold text-gray-700 mb-3 relative" style="font-family: Georgia, serif;">
