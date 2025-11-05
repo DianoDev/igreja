@@ -235,12 +235,12 @@
     "/build/assets/LayoutPrincipal-CAUoXYcT.css"
   ],
   "resources/js/Layouts/LayoutPublico.vue": [
-    "/build/assets/LayoutPublico-D7hYXjdx.js",
-    "/build/assets/LayoutPublico-B7CUSwLj.css"
+    "/build/assets/LayoutPublico-BZL66lkV.js",
+    "/build/assets/LayoutPublico-WsQuTHoa.css"
   ],
-  "resources/js/Layouts/LayoutPublico.vue?vue&type=style&index=0&scoped=9607cef6&lang.css": [
-    "/build/assets/LayoutPublico-D7hYXjdx.js",
-    "/build/assets/LayoutPublico-B7CUSwLj.css"
+  "resources/js/Layouts/LayoutPublico.vue?vue&type=style&index=0&scoped=455da4e6&lang.css": [
+    "/build/assets/LayoutPublico-BZL66lkV.js",
+    "/build/assets/LayoutPublico-WsQuTHoa.css"
   ],
   "resources/js/Layouts/SidebarMenu.vue": [
     "/build/assets/LayoutPrincipal-Croj-ldp.js",
@@ -396,96 +396,96 @@
     "/build/assets/UpdateProfileInformationForm-B9WCgNE6.js"
   ],
   "resources/js/Pages/Publico/Atas.vue": [
-    "/build/assets/Atas-C7SSUbuv.js"
+    "/build/assets/Atas-DpvBHdRM.js"
   ],
   "resources/js/Pages/Publico/AtasDetalhes.vue": [
-    "/build/assets/AtasDetalhes-DVnpdssy.js",
+    "/build/assets/AtasDetalhes-pVV0WbCe.js",
     "/build/assets/AtasDetalhes-D6QZPUjy.css"
   ],
   "resources/js/Pages/Publico/AtasDetalhes.vue?vue&type=style&index=0&scoped=1887b198&lang.css": [
-    "/build/assets/AtasDetalhes-DVnpdssy.js",
+    "/build/assets/AtasDetalhes-pVV0WbCe.js",
     "/build/assets/AtasDetalhes-D6QZPUjy.css"
   ],
   "resources/js/Pages/Publico/Avisos.vue": [
-    "/build/assets/Avisos-DR7FXITR.js",
+    "/build/assets/Avisos-4xXf1PCF.js",
     "/build/assets/AutoCompletePessoa-tn0RQdqM.css"
   ],
   "resources/js/Pages/Publico/Avisos.vue?vue&type=style&index=0&scoped=8121999c&lang.css": [
-    "/build/assets/Avisos-DR7FXITR.js",
+    "/build/assets/Avisos-4xXf1PCF.js",
     "/build/assets/AutoCompletePessoa-tn0RQdqM.css"
   ],
   "resources/js/Pages/Publico/Comissao.vue": [
-    "/build/assets/Comissao-D4QaMvrh.js",
+    "/build/assets/Comissao-spL6ZMVv.js",
     "/build/assets/AutoCompletePessoa-tn0RQdqM.css"
   ],
   "resources/js/Pages/Publico/Comissao.vue?vue&type=style&index=0&scoped=4c66f0eb&lang.css": [
-    "/build/assets/Comissao-D4QaMvrh.js",
+    "/build/assets/Comissao-spL6ZMVv.js",
     "/build/assets/AutoCompletePessoa-tn0RQdqM.css"
   ],
   "resources/js/Pages/Publico/EstatutoDetalhes.vue": [
-    "/build/assets/EstatutoDetalhes-DTraX2lV.js",
+    "/build/assets/EstatutoDetalhes-CRgPFTnN.js",
     "/build/assets/EstatutoDetalhes-B_rhhHpT.css"
   ],
   "resources/js/Pages/Publico/EstatutoDetalhes.vue?vue&type=style&index=0&scoped=a227b5dc&lang.css": [
-    "/build/assets/EstatutoDetalhes-DTraX2lV.js",
+    "/build/assets/EstatutoDetalhes-CRgPFTnN.js",
     "/build/assets/EstatutoDetalhes-B_rhhHpT.css"
   ],
   "resources/js/Pages/Publico/Estatutos.vue": [
-    "/build/assets/Estatutos-D9tNMf4G.js"
+    "/build/assets/Estatutos-BtOwUjfc.js"
   ],
   "resources/js/Pages/Publico/EventoDetalhes.vue": [
-    "/build/assets/EventoDetalhes-BKz0-m4j.js",
+    "/build/assets/EventoDetalhes-Bs7gEALk.js",
     "/build/assets/EventoDetalhes-CcgiAFat.css"
   ],
   "resources/js/Pages/Publico/EventoDetalhes.vue?vue&type=style&index=0&scoped=09aace96&lang.css": [
-    "/build/assets/EventoDetalhes-BKz0-m4j.js",
+    "/build/assets/EventoDetalhes-Bs7gEALk.js",
     "/build/assets/EventoDetalhes-CcgiAFat.css"
   ],
   "resources/js/Pages/Publico/Eventos.vue": [
-    "/build/assets/Eventos-C_y-Zga0.js",
+    "/build/assets/Eventos-LHCh7Y8g.js",
     "/build/assets/Eventos-Bd7opaTq.css"
   ],
   "resources/js/Pages/Publico/Eventos.vue?vue&type=style&index=0&scoped=236414dd&lang.css": [
-    "/build/assets/Eventos-C_y-Zga0.js",
+    "/build/assets/Eventos-LHCh7Y8g.js",
     "/build/assets/Eventos-Bd7opaTq.css"
   ],
   "resources/js/Pages/Publico/EventosAntigos.vue": [
-    "/build/assets/EventosAntigos-PYn0o4H3.js",
+    "/build/assets/EventosAntigos-XWqjmd2V.js",
     "/build/assets/EventosAntigos-DXFTkcpe.css"
   ],
   "resources/js/Pages/Publico/EventosAntigos.vue?vue&type=style&index=0&scoped=b0d8bcf4&lang.css": [
-    "/build/assets/EventosAntigos-PYn0o4H3.js",
+    "/build/assets/EventosAntigos-XWqjmd2V.js",
     "/build/assets/EventosAntigos-DXFTkcpe.css"
   ],
   "resources/js/Pages/Publico/Fotos.vue": [
-    "/build/assets/Fotos-8rzG3KiM.js",
+    "/build/assets/Fotos-DKEY9t1u.js",
     "/build/assets/AutoCompletePessoa-tn0RQdqM.css"
   ],
   "resources/js/Pages/Publico/Fotos.vue?vue&type=style&index=0&scoped=a3f6f624&lang.css": [
-    "/build/assets/Fotos-8rzG3KiM.js",
+    "/build/assets/Fotos-DKEY9t1u.js",
     "/build/assets/AutoCompletePessoa-tn0RQdqM.css"
   ],
   "resources/js/Pages/Publico/Index.vue": [
-    "/build/assets/Index-AYwUGpQ9.js",
-    "/build/assets/Index-CBc73JeI.css"
+    "/build/assets/Index-D1Uwka9y.js",
+    "/build/assets/Index-D1uUufIf.css"
   ],
-  "resources/js/Pages/Publico/Index.vue?vue&type=style&index=0&scoped=dda5c4c3&lang.css": [
-    "/build/assets/Index-AYwUGpQ9.js",
-    "/build/assets/Index-CBc73JeI.css"
+  "resources/js/Pages/Publico/Index.vue?vue&type=style&index=0&scoped=088d90c3&lang.css": [
+    "/build/assets/Index-D1Uwka9y.js",
+    "/build/assets/Index-D1uUufIf.css"
   ],
   "resources/js/Pages/Publico/RegimeInternoDetalhes.vue": [
-    "/build/assets/RegimeInternoDetalhes-CxWMlK4q.js",
+    "/build/assets/RegimeInternoDetalhes-WsOeZDmm.js",
     "/build/assets/RegimeInternoDetalhes-IsOwRxbt.css"
   ],
   "resources/js/Pages/Publico/RegimeInternoDetalhes.vue?vue&type=style&index=0&scoped=4aae2305&lang.css": [
-    "/build/assets/RegimeInternoDetalhes-CxWMlK4q.js",
+    "/build/assets/RegimeInternoDetalhes-WsOeZDmm.js",
     "/build/assets/RegimeInternoDetalhes-IsOwRxbt.css"
   ],
   "resources/js/Pages/Publico/RegimesInternos.vue": [
-    "/build/assets/RegimesInternos-hzPg2FbW.js"
+    "/build/assets/RegimesInternos-DyYvpyu_.js"
   ],
   "resources/js/Pages/Publico/Sobre.vue": [
-    "/build/assets/Sobre-dxp90JvU.js"
+    "/build/assets/Sobre-BCIPpNvm.js"
   ],
   "resources/js/Pages/Welcome.vue": [
     "/build/assets/Welcome-DMaBece4.js"
