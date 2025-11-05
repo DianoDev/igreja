@@ -27,16 +27,13 @@
                         </p>
                     </div>
                 </div>
-
-                <!-- Grid de Integrantes -->
-                <div v-if="comissao.integrantes && comissao.integrantes.length > 0">
+                <div v-if="comissao.integrantes && comissao.integrantes.filter(i => i.cargo.nome !== 'Festeiro de Promessa').length > 0" class="mb-6">
                     <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="mr-2">👨‍👩‍👧‍👦</span>
                         Integrantes da Comissão
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div v-for="integrante in comissao.integrantes"
+                        <div v-for="integrante in comissao.integrantes.filter(i => i.cargo.nome !== 'Festeiro de Promessa')"
                              :key="integrante.id"
                              class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-l-4 border-amber-300 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
                             <div class="flex items-start gap-4">
@@ -60,6 +57,40 @@
                         </div>
                     </div>
                 </div>
+                <!-- Grid de Integrantes -->
+                <div v-if="comissao.integrantes && comissao.integrantes.filter(i => i.cargo.nome === 'Festeiro de Promessa').length > 0" class="mb-10">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        Festeiros de Promessa
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-for="integrante in comissao.integrantes.filter(i => i.cargo.nome === 'Festeiro de Promessa')"
+                             :key="integrante.id"
+                             class="bg-gradient-to-br  rounded-xl p-6 border-l-4 border-purple-500 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
+                            <div class="flex items-start gap-4">
+                                <!-- Avatar -->
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Informações -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1 leading-tight">
+                                        {{ integrante.pessoa.nome }}
+                                    </h4>
+                                    <p class="text-purple-800 font-semibold text-sm mb-2">
+                                        {{ integrante.cargo.nome }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demais Integrantes da Comissão -->
+
 
                 <!-- Mensagem quando não há integrantes -->
                 <div v-else class="text-center py-12 bg-gray-50 rounded-lg">
