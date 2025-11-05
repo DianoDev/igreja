@@ -18,7 +18,7 @@
                         Bem-vindo! <br><span class="text-amber-400">Comissão de Festa de São Benedito</span><br><span class="text-amber-400">2025/2026</span>
                     </h1>
                     <p class="text-xl md:text-2xl text-white mb-8 leading-relaxed">
-                        Uma comunidade de fé, amor e transparência.<br>
+                        Uma equipe de fé, amor e transparência.<br>
                         Acompanhe nossos eventos, atividades.
                     </p>
                     <div class="flex flex-wrap gap-3">
