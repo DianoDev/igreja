@@ -72,7 +72,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
-const acao = ref('/admin/cardapio/');
+const acao = ref('/admin/cardapio/create');
 const events = inject('events');
 const toast = useToast();
 const errors = ref({});
