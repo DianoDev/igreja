@@ -6,6 +6,7 @@ use App\Databases\Models\Eventos;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -54,7 +55,7 @@ class EventosRepository implements EventosContract
         try {
             $eventos = new Eventos([
                 'nome' => $params['nome'],
-                'data' => $params['data'],
+                'data' => Carbon::parse($params['data'])->format('Y-m-d H:i:s'),
                 'hora' => $params['hora'],
                 'valor_gasto' => 0,
                 'valor_arrecadado' => 0
@@ -74,6 +75,9 @@ class EventosRepository implements EventosContract
         $autoCommit && DB::beginTransaction();
         try {
             $eventos = $this->getById($id);
+            if (isset($params['data'])) {
+                $params['data'] = Carbon::parse($params['data'])->format('Y-m-d H:i:s');
+            }
             $eventos->update($params);
 
             $autoCommit && DB::commit();
