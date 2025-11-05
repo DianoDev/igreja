@@ -4,7 +4,7 @@
             @submenu-clicked="handleSubmenuClick" />
         <div class="main-content">
 
-            <header class="app-header">
+            <header class="app-header bg-gradient-to-b from-blue-900 via-blue-800 to-blue-900 ">
                 <div class="header-container">
                     <div class="flex">
 
@@ -213,7 +213,7 @@ onMounted(() => {
 }
 
 .app-header {
-    background: linear-gradient(135deg, #2489c4 0%, #2595D8 100%);
+
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     padding: 0 1.5rem;
     min-height: 70px;

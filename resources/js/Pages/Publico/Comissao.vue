@@ -38,11 +38,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div v-for="integrante in comissao.integrantes"
                              :key="integrante.id"
-                             class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-l-4 border-amber-500 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
+                             class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-l-4 border-amber-300 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
                             <div class="flex items-start gap-4">
                                 <!-- Avatar -->
                                 <div class="flex-shrink-0">
-                                    <div class="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
@@ -52,13 +52,9 @@
                                     <h4 class="font-bold text-gray-900 text-lg mb-1 leading-tight">
                                         {{ integrante.pessoa.nome }}
                                     </h4>
-                                    <p class="text-amber-600 font-semibold text-sm mb-2">
+                                    <p class="text-gray-900 font-semibold text-sm mb-2">
                                         {{ integrante.cargo.nome }}
                                     </p>
-                                    <div v-if="integrante.pessoa.telefone" class="text-gray-600 text-sm flex items-center gap-1">
-                                        <i class="fa fa-phone text-xs"></i>
-                                        {{ integrante.pessoa.telefone }}
-                                    </div>
                                 </div>
                             </div>
                         </div>

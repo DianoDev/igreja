@@ -28,7 +28,7 @@
                     :class="isActive('/publico') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="text-xl">🏠</span>
+                    <i class="fa-solid fa-house text-xl"></i>
                     <span class="font-medium">Início</span>
                 </Link>
 
@@ -38,25 +38,27 @@
                     :class="isActive('/publico/eventos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="text-xl">📅</span>
+                    <i class="fa-solid fa-calendar-days text-xl"></i>
                     <span class="font-medium">Próximos Eventos</span>
                 </Link>
+
                 <Link
                     href="/publico/antigos"
                     @click="menuLateralAberto = false"
                     :class="isActive('/publico/antigos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="fa fa-calendar-minus"></span>
+                    <i class="fa-solid fa-calendar-minus text-xl"></i>
                     <span class="font-medium">Eventos Passados</span>
                 </Link>
+
                 <Link
                     href="/publico/atas"
                     @click="menuLateralAberto = false"
                     :class="isActive('/publico/atas') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="text-xl">📝</span>
+                    <i class="fa-solid fa-pen-to-square text-xl"></i>
                     <span class="font-medium">Atas</span>
                 </Link>
 
@@ -66,7 +68,7 @@
                     :class="isActive('/publico/regimes-internos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="text-xl">📋</span>
+                    <i class="fa-solid fa-clipboard-list text-xl"></i>
                     <span class="font-medium">Regimento Interno</span>
                 </Link>
 
@@ -76,46 +78,52 @@
                     :class="isActive('/publico/estatutos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="text-xl">⚖️</span>
+                    <i class="fa-solid fa-scale-balanced text-xl"></i>
                     <span class="font-medium">Estatuto</span>
                 </Link>
+
                 <Link
                     href="/publico/fotos"
                     @click="menuLateralAberto = false"
                     :class="isActive('/publico/fotos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="fa fa-camera-retro"></span>
+                    <i class="fa-solid fa-camera-retro text-xl"></i>
                     <span class="font-medium">Fotos</span>
                 </Link>
+
                 <Link
                     href="/publico/avisos"
                     @click="menuLateralAberto = false"
                     :class="isActive('/publico/avisos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="fa fa-message"></span>
+                    <i class="fa-solid fa-bullhorn text-xl"></i>
                     <span class="font-medium">Avisos</span>
                 </Link>
+
                 <Link
                     href="/publico/comissao"
                     @click="menuLateralAberto = false"
                     :class="isActive('/publico/comissao') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="fa fa-people-robbery"></span>
+                    <i class="fa-solid fa-people-group text-xl"></i>
                     <span class="font-medium">Comissão</span>
                 </Link>
+
                 <Link
+                    v-if="sobre"
                     href="/publico/sobre"
                     @click="menuLateralAberto = false"
                     :class="isActive('/publico/sobre') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <span class="text-xl">ℹ️</span>
+                    <i class="fa-solid fa-circle-info text-xl"></i>
                     <span class="font-medium">Sobre</span>
                 </Link>
             </nav>
+
         </aside>
 
         <!-- Overlay escuro (apenas mobile) -->
@@ -152,7 +160,7 @@
                             </div>
                             <div>
                                 <h1 class="text-xl lg:text-2xl font-bold text-amber-300" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                                    Paróquia São Benedito
+                                    Comissão de Festa de São Benedito
                                 </h1>
                                 <p class="text-blue-100 text-xs italic hidden sm:block">
                                     Arquidiocese de Cuiabá - Nossa Senhora do Rosário e São Benedito
@@ -249,7 +257,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
-
+const sobre = ref(false)
 const menuLateralAberto = ref(false);
 const page = usePage();
 

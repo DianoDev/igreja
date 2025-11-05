@@ -1,7 +1,7 @@
 <template>
     <aside id="sidebar" :class="['sidebar', { 'collapsed': collapsed, 'toggled': toggled }]">
         <div class="sidebar-layout">
-            <div class="sidebar-header">
+            <div class="sidebar-header bg-gradient-to-b from-blue-900 via-blue-800 to-blue-900">
                 <div v-show="!collapsed" class="logo-full">
                     <a href="#" class="text-white" @click.prevent="router.visit(`/admin/dashboard`)">
                         IGREJA
@@ -258,7 +258,6 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     height: 70px;
-    background: linear-gradient(135deg, #1D79AF 0%, #2595D8 100%);
     position: relative;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }

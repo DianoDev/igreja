@@ -15,7 +15,7 @@
             <div class="relative z-10 container mx-auto px-4 h-full flex items-center">
                 <div class="text-gray-800 max-w-3xl">
                     <h1 class="text-5xl md:text-6xl font-bold text-white mb-4" style="font-family: Georgia, serif;">
-                        Bem-vindo festeiros da <span class="text-amber-400 ">Paróquia São Benedito</span>
+                        Bem-vindo! <span class="text-amber-400 ">Comissão de Festa de São Benedito</span>
                     </h1>
                     <p class="text-xl md:text-2xl text-white mb-8 leading-relaxed text-gray-700">
                         Uma comunidade de fé, amor e transparência.<br>
