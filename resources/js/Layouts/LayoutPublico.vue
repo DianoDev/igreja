@@ -30,27 +30,15 @@
                 >
                     <i class="fa-solid fa-house text-xl"></i>
                     <span class="font-medium">Início</span>
-                </Link>
-
-                <Link
-                    href="/publico/eventos"
-                    @click="menuLateralAberto = false"
-                    :class="isActive('/publico/eventos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
-                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
-                >
-                    <i class="fa-solid fa-calendar-days text-xl"></i>
-                    <span class="font-medium">Próximos Eventos</span>
-                </Link>
-
-                <Link
-                    href="/publico/antigos"
-                    @click="menuLateralAberto = false"
-                    :class="isActive('/publico/antigos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
-                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
-                >
-                    <i class="fa-solid fa-calendar-minus text-xl"></i>
-                    <span class="font-medium">Eventos Passados</span>
-                </Link>
+                </Link><Link
+                href="/publico/comissao"
+                @click="menuLateralAberto = false"
+                :class="isActive('/publico/comissao') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
+            >
+                <i class="fa-solid fa-people-group text-xl"></i>
+                <span class="font-medium">Comissão</span>
+            </Link>
 
                 <Link
                     href="/publico/atas"
@@ -81,7 +69,6 @@
                     <i class="fa-solid fa-scale-balanced text-xl"></i>
                     <span class="font-medium">Estatuto</span>
                 </Link>
-
                 <Link
                     href="/publico/fotos"
                     @click="menuLateralAberto = false"
@@ -101,15 +88,24 @@
                     <i class="fa-solid fa-bullhorn text-xl"></i>
                     <span class="font-medium">Avisos</span>
                 </Link>
-
                 <Link
-                    href="/publico/comissao"
+                    href="/publico/eventos"
                     @click="menuLateralAberto = false"
-                    :class="isActive('/publico/comissao') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                    :class="isActive('/publico/eventos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
                     class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
                 >
-                    <i class="fa-solid fa-people-group text-xl"></i>
-                    <span class="font-medium">Comissão</span>
+                    <i class="fa-solid fa-calendar-days text-xl"></i>
+                    <span class="font-medium">Próximos Eventos</span>
+                </Link>
+
+                <Link
+                    href="/publico/antigos"
+                    @click="menuLateralAberto = false"
+                    :class="isActive('/publico/antigos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
+                >
+                    <i class="fa-solid fa-calendar-minus text-xl"></i>
+                    <span class="font-medium">Eventos Passados</span>
                 </Link>
 
                 <Link

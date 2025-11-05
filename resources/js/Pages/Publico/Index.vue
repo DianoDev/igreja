@@ -21,26 +21,6 @@
                         Uma equipe de fé, amor e transparência.<br>
                         Acompanhe nossos eventos, atividades.
                     </p>
-                    <div class="flex flex-wrap gap-3">
-                        <Link href="/publico/eventos"
-                              class="group bg-white hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium text-base shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:border-gray-300">
-                <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-gray-500 group-hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    Ver Eventos
-                </span>
-                        </Link>
-                        <Link href="/publico/sobre"
-                              class="group bg-white hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium text-base shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md hover:border-gray-300">
-                <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-gray-500 group-hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    Sobre Nós
-                </span>
-                        </Link>
-                    </div>
                 </div>
             </div>
 
