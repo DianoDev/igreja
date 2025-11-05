@@ -106,111 +106,107 @@
             </div>
 
             <!-- Comissão do Evento (quando não há cargos específicos) -->
-            <div v-if="comissao && (!evento.cargos || evento.cargos.length === 0)" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-lg p-8 mb-8 border border-amber-200">
-                <div class="text-center mb-8">
-                    <div class="inline-block bg-white rounded-full p-4 shadow-md mb-4">
-                        <i class="fa fa-users text-4xl text-amber-600"></i>
-                    </div>
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2" style="font-family: Georgia, serif;">
-                        {{ comissao.nome }}
-                    </h2>
-                    <p class="text-amber-700 font-medium">Ano {{ comissao.ano }}</p>
-                </div>
-
-                <div v-if="comissao.integrantes && comissao.integrantes.length > 0"
-                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div v-for="integrante in comissao.integrantes"
-                         :key="integrante.id"
-                         class="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-all border border-amber-100">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
-                                <i class="fa fa-user text-white text-xl"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="font-bold text-gray-800 text-base truncate">
-                                    {{ integrante.pessoa.nome }}
-                                </p>
-                                <p class="text-sm text-amber-600 font-medium truncate">
-                                    {{ integrante.cargo.nome }}
-                                </p>
-                            </div>
+            <div v-if="comissao" class="mb-8">
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mb-8 border-l-4 border-blue-500">
+                    <div class="text-center">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-3" style="font-family: Georgia, serif;">
+                            {{ comissao.nome }}
+                        </h2>
+                        <div class="inline-block">
+                            <span class="bg-blue-600 text-white px-6 py-2 rounded-full text-xl font-semibold">
+                                Ano {{ comissao.ano }}
+                            </span>
                         </div>
+                        <p v-if="comissao.descricao" class="text-gray-700 mt-4 max-w-3xl mx-auto">
+                            {{ comissao.descricao }}
+                        </p>
                     </div>
                 </div>
+                <div  class="mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        Pároco
+                    </h3>
 
-                <div v-else class="text-center py-8 text-gray-500">
-                    <i class="fa fa-info-circle text-3xl mb-2"></i>
-                    <p>Nenhum integrante cadastrado nesta comissão</p>
-                </div>
-            </div>
-
-            <!-- Grid Principal: Cargos e Doações -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-
-                <!-- Cargos Específicos do Evento -->
-                <div v-if="evento.cargos && evento.cargos.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
-                        <span class="text-4xl mr-3">👥</span>
-                        Cargos e Responsáveis
-                    </h2>
-
-                    <div class="space-y-4">
-                        <div
-                            v-for="cargo in evento.cargos"
-                            :key="cargo.id"
-                            class="border-l-4 border-amber-500 pl-5 py-4 bg-gradient-to-r from-amber-50 to-transparent rounded-r-lg hover:shadow-md transition-all"
-                        >
-                            <p class="font-bold text-lg text-gray-800 mb-1">
-                                {{ cargo.cargo?.nome || 'Cargo não definido' }}
-                            </p>
-                            <p class="text-gray-700 flex items-center">
-                                <i class="fa fa-user mr-2 text-amber-600"></i>
-                                {{ cargo.pessoa?.nome || 'Pessoa não definida' }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Doações -->
-                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
-                        <span class="text-4xl mr-3">🎁</span>
-                        Doações Recebidas
-                    </h2>
-
-                    <div v-if="evento.doacoes && evento.doacoes.length > 0" class="space-y-4">
-                        <div
-                            v-for="doacao in evento.doacoes"
-                            :key="doacao.id"
-                            class="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-transparent border-l-4 border-green-500 rounded-r-lg hover:shadow-md transition-all"
-                        >
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                                    <i class="fa fa-gift text-green-600"></i>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-l-4 border-green-300 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
+                            <div class="flex items-start gap-4">
+                                <!-- Avatar -->
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-green-200 to-green-300 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
+                                        <i class="fa fa-user"></i>
+                                    </div>
                                 </div>
-                                <p class="text-gray-800 font-medium">
-                                    {{ doacao.pessoa?.nome || 'Doador não identificado' }}
-                                </p>
-                            </div>
-                            <p class="text-xl font-bold text-green-600">
-                                {{ formatarMoeda(doacao.valor) }}
-                            </p>
-                        </div>
 
-                        <!-- Total de Doações -->
-                        <div class="mt-6 pt-6 border-t-2 border-gray-200">
-                            <div class="flex justify-between items-center bg-green-100 rounded-lg p-4">
-                                <p class="text-lg font-semibold text-gray-800">Total em Doações:</p>
-                                <p class="text-2xl font-bold text-green-600">
-                                    {{ formatarMoeda(totalDoacoes) }}
-                                </p>
+                                <!-- Informações -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1 leading-tight">
+                                        Pe. Pedro Canísio Schroeder sj
+                                    </h4>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div v-else class="text-center py-12 text-gray-500">
-                        <div class="text-6xl mb-4">🎁</div>
-                        <p class="text-lg">Nenhuma doação registrada para este evento.</p>
+                <div v-if="comissao.integrantes && comissao.integrantes.filter(i => i.cargo.nome !== 'Festeiro de Promessa').length > 0" class="mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        Integrantes da Comissão
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-for="integrante in comissao.integrantes.filter(i => i.cargo.nome !== 'Festeiro de Promessa')"
+                             :key="integrante.id"
+                             class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-l-4 border-amber-300 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
+                            <div class="flex items-start gap-4">
+                                <!-- Avatar -->
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-amber-200 to-amber-300 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Informações -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1 leading-tight">
+                                        {{ integrante.pessoa.nome }}
+                                    </h4>
+                                    <p class="text-gray-900 font-semibold text-sm mb-2">
+                                        {{ integrante.cargo.nome }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Grid de Integrantes -->
+                <div v-if="comissao.integrantes && comissao.integrantes.filter(i => i.cargo.nome === 'Festeiro de Promessa').length > 0" class="mb-10">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        Festeiros de Promessa
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-for="integrante in comissao.integrantes.filter(i => i.cargo.nome === 'Festeiro de Promessa')"
+                             :key="integrante.id"
+                             class="bg-gradient-to-br  rounded-xl p-6 border-l-4 border-purple-500 shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1">
+                            <div class="flex items-start gap-4">
+                                <!-- Avatar -->
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Informações -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 text-lg mb-1 leading-tight">
+                                        {{ integrante.pessoa.nome }}
+                                    </h4>
+                                    <p class="text-purple-800 font-semibold text-sm mb-2">
+                                        {{ integrante.cargo.nome }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
