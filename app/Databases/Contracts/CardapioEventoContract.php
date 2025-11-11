@@ -2,11 +2,17 @@
 
 namespace App\Databases\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface CardapioEventoContract
 {
-    public function getByEvento(int $idEvento): Collection;
-    public function syncCardapios(int $idEvento, array $cardapioIds): bool;
-    public function getValorTotalEvento(int $idEvento): float;
+    public function getById(int $id);
+    public function getByEvento(int $idEvento);
+    public function paginate(array $pagination = []): LengthAwarePaginator;
+    public function create(array $params, bool $autoCommit = true): bool;
+    public function update(int $id, array $params, bool $autoCommit = true): bool;
+    public function destroy(int $id, bool $autoCommit = true): bool;
+    public function importarCardapio(int $idEvento, int $idCardapio): bool;
+    public function associarPessoa(int $idCardapioEvento, ?int $idPessoa): bool;
+    public function recalcularValorTotal(int $idCardapioEvento): void;
 }

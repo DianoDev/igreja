@@ -16,6 +16,9 @@
                         <p class="text-2xl font-bold text-red-900">
                             R$ {{ formatarValor(props.evento.valor_gasto || 0) }}
                         </p>
+                        <p class="text-xs text-red-600 mt-1">
+                            Ingredientes sem responsável
+                        </p>
                     </div>
                     <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
                         <p class="text-sm text-green-700 font-medium">Valor Arrecadado</p>
@@ -34,77 +37,146 @@
 
             <!-- Grid com 2 colunas -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Coluna 1: Cargos do Evento -->
+                <!-- Coluna 1: Cardápios do Evento -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-xl font-semibold">Cargos do Evento</h3>
+                        <h3 class="text-xl font-semibold">Cardápios do Evento</h3>
                     </div>
                     <div class="card-body">
-                        <!-- Formulário para adicionar cargo -->
+                        <!-- Formulário para importar cardápio -->
                         <div class="mb-4 p-4 bg-gray-50 rounded-lg">
-                            <h4 class="font-semibold mb-3">Adicionar Cargo</h4>
+                            <h4 class="font-semibold mb-3">Importar Cardápio</h4>
                             <div class="space-y-3">
-                                <!-- Autocomplete de Pessoa -->
+                                <!-- Select de Cardápio Modelo -->
                                 <div>
-                                    <InputLabel for="pessoa_cargo" value="Buscar Pessoa" class="required" />
-                                    <AutocompletePessoa
-                                        v-model="novoCargo.id_pessoa"
-                                        placeholder="Digite o nome da pessoa..."
-                                        @update:modelValue="onPessoaCargoSelecionada"
-                                    />
-                                    <InputError :message="errors.id_pessoa_cargo" />
-                                </div>
-
-                                <!-- Select de Cargo -->
-                                <div>
-                                    <InputLabel for="cargo" value="Cargo" class="required" />
+                                    <InputLabel for="cardapio_modelo" value="Cardápio Modelo" class="required" />
                                     <select
-                                        id="cargo"
-                                        v-model="novoCargo.id_cargo"
+                                        id="cardapio_modelo"
+                                        v-model="cardapioSelecionado"
                                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                                     >
-                                        <option value="">Selecione um cargo</option>
-                                        <option v-for="cargo in props.cargos" :key="cargo.id" :value="cargo.id">
-                                            {{ cargo.nome }}
+                                        <option value="">Selecione um cardápio</option>
+                                        <option
+                                            v-for="cardapio in cardapiosModelo"
+                                            :key="cardapio.id"
+                                            :value="cardapio.id"
+                                        >
+                                            {{ cardapio.nome }}
                                         </option>
                                     </select>
-                                    <InputError :message="errors.id_cargo" />
+                                    <InputError :message="errors.cardapio_modelo" />
                                 </div>
 
-                                <!-- Botão Adicionar -->
+                                <!-- Botão Importar -->
                                 <button
-                                    @click="adicionarCargo"
-                                    :disabled="processing"
+                                    @click="importarCardapio"
+                                    :disabled="processing || !cardapioSelecionado"
                                     class="btn btn-primary w-full"
                                 >
-                                    <i class="fa fa-plus mr-2"></i>
-                                    Adicionar Cargo
+                                    <i class="fa fa-download mr-2"></i>
+                                    Importar Cardápio
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Lista de cargos atribuídos -->
-                        <div class="space-y-2">
-                            <h4 class="font-semibold mb-3">Cargos Atribuídos</h4>
+                        <!-- Lista de cardápios importados -->
+                        <div class="space-y-4">
+                            <h4 class="font-semibold mb-3">Cardápios Importados</h4>
                             <div
-                                v-for="cargoEvento in cargosEvento"
-                                :key="cargoEvento.id"
-                                class="flex items-center justify-between p-3 bg-white border rounded-lg hover:bg-gray-50"
+                                v-for="cardapio in cardapiosEvento"
+                                :key="cardapio.id"
+                                class="p-4 bg-white border rounded-lg"
                             >
-                                <div>
-                                    <p class="font-medium">{{ cargoEvento.pessoa.nome }}</p>
-                                    <p class="text-sm text-gray-600">{{ cargoEvento.cargo.nome }}</p>
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex-1">
+                                        <p class="font-medium text-lg">{{ cardapio.nome }}</p>
+                                        <p v-if="cardapio.descricao" class="text-sm text-gray-600 mt-1">
+                                            {{ cardapio.descricao }}
+                                        </p>
+                                        <p class="text-sm font-semibold text-blue-700 mt-2">
+                                            Valor Total: R$ {{ formatarValor(cardapio.valor_total) }}
+                                        </p>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button
+                                            @click="editarCardapio(cardapio)"
+                                            class="text-blue-600 hover:text-blue-800"
+                                            title="Editar"
+                                        >
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button
+                                            @click="removerCardapio(cardapio.id)"
+                                            class="text-red-600 hover:text-red-800"
+                                            title="Remover"
+                                        >
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <button
-                                    @click="removerCargo(cargoEvento.id)"
-                                    class="text-red-600 hover:text-red-800"
-                                    title="Remover"
-                                >
-                                    <i class="fa fa-trash"></i>
-                                </button>
+
+                                <!-- Lista de ingredientes -->
+                                <div v-if="cardapio.ingredientes && cardapio.ingredientes.length > 0" class="mt-3 pt-3 border-t">
+                                    <p class="text-sm font-medium text-gray-700 mb-2">Ingredientes:</p>
+                                    <div class="space-y-2">
+                                        <div
+                                            v-for="ingrediente in cardapio.ingredientes"
+                                            :key="ingrediente.id"
+                                            class="p-3 bg-gray-50 rounded border"
+                                            :class="ingrediente.id_pessoa ? 'border-green-200 bg-green-50' : 'border-gray-200'"
+                                        >
+                                            <div class="flex justify-between items-start mb-2">
+                                                <div class="flex-1">
+                                                    <p class="font-medium text-sm">{{ ingrediente.nome }}</p>
+                                                    <p class="text-xs text-gray-600">
+                                                        {{ ingrediente.quantidade }} {{ ingrediente.unidade_medida }}
+                                                        × R$ {{ formatarValor(ingrediente.valor_unitario) }}
+                                                    </p>
+                                                </div>
+                                                <p class="text-sm font-bold" :class="ingrediente.id_pessoa ? 'text-green-700' : 'text-gray-700'">
+                                                    R$ {{ formatarValor(ingrediente.valor_total) }}
+                                                </p>
+                                            </div>
+
+                                            <!-- Associar Pessoa ao Ingrediente -->
+                                            <div class="mt-2">
+                                                <div class="flex items-center gap-2">
+                                                    <div class="flex-1">
+                                                        <AutocompletePessoa
+                                                            :modelValue="ingrediente.id_pessoa"
+                                                            placeholder="Pessoa responsável..."
+                                                            @update:modelValue="(pessoa) => associarPessoaIngrediente(ingrediente.id, pessoa)"
+                                                            class="text-sm"
+                                                        />
+                                                    </div>
+                                                    <button
+                                                        v-if="ingrediente.id_pessoa"
+                                                        @click="removerPessoaIngrediente(ingrediente.id)"
+                                                        class="text-red-600 hover:text-red-800 text-sm"
+                                                        title="Remover pessoa"
+                                                    >
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="mt-1">
+                                                    <p v-if="ingrediente.pessoa" class="text-xs text-green-600">
+                                                        ✓ {{ ingrediente.pessoa.nome }} - Valor não entra no gasto do evento
+                                                    </p>
+                                                    <p v-else class="text-xs text-yellow-600">
+                                                        ⚠️ Sem responsável - Valor entra no gasto do evento
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div v-else class="text-sm text-gray-500 text-center py-2">
+                                    Nenhum ingrediente neste cardápio
+                                </div>
                             </div>
-                            <div v-if="cargosEvento.length === 0" class="text-center text-gray-500 py-4">
-                                Nenhum cargo atribuído ainda
+                            <div v-if="cardapiosEvento.length === 0" class="text-center text-gray-500 py-4">
+                                Nenhum cardápio importado ainda
                             </div>
                         </div>
                     </div>
@@ -203,11 +275,12 @@
                 </button>
             </div>
         </div>
+
     </LayoutPrincipal>
 </template>
 
 <script setup>
-import { ref, inject, computed } from 'vue';
+import { ref, inject, computed, onMounted } from 'vue';
 import LayoutPrincipal from '@/Layouts/LayoutPrincipal.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
@@ -222,14 +295,6 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    cargos: {
-        type: Array,
-        default: () => []
-    },
-    cargosEvento: {
-        type: Array,
-        default: () => []
-    },
     doacoesEvento: {
         type: Array,
         default: () => []
@@ -237,20 +302,18 @@ const props = defineProps({
 });
 
 const toast = useToast();
-const events = inject('events');
 const processing = ref(false);
 const errors = ref({});
 
 // Estado local para as listas
-const cargosEvento = ref([...props.cargosEvento]);
+const cardapiosEvento = ref([]);
+const cardapiosModelo = ref([]);
 const doacoesEvento = ref([...props.doacoesEvento]);
+const cardapioSelecionado = ref('');
 
-// Formulário novo cargo
-const novoCargo = ref({
-    id_pessoa: null,
-    id_cargo: '',
-    id_evento: props.evento.id
-});
+// Modal de edição
+const modalEditarAberto = ref(false);
+const cardapioEditando = ref(null);
 
 // Formulário nova doação
 const novaDoacao = ref({
@@ -286,69 +349,156 @@ const saldoTextClass = computed(() => {
     return 'text-gray-900';
 });
 
-// Callbacks para seleção de pessoa
-function onPessoaCargoSelecionada(pessoa) {
-    novoCargo.value.id_pessoa = pessoa ? pessoa.id : null;
+// Carregar dados ao montar componente
+onMounted(() => {
+    carregarCardapiosModelo();
+    carregarCardapiosEvento();
+});
+
+// Carregar cardápios modelo
+async function carregarCardapiosModelo() {
+    try {
+        const response = await axios.get('/admin/cardapio-evento/cardapios-modelo');
+        cardapiosModelo.value = response.data;
+    } catch (error) {
+        console.error('Erro ao carregar cardápios modelo:', error);
+    }
 }
 
-function onPessoaDoacaoSelecionada(pessoa) {
-    novaDoacao.value.id_pessoa = pessoa ? pessoa.id : null;
+// Carregar cardápios do evento
+async function carregarCardapiosEvento() {
+    try {
+        const response = await axios.get(`/admin/cardapio-evento/evento/${props.evento.id}`);
+        cardapiosEvento.value = response.data;
+    } catch (error) {
+        console.error('Erro ao carregar cardápios do evento:', error);
+    }
 }
 
-// Adicionar cargo
-async function adicionarCargo() {
+// Importar cardápio
+async function importarCardapio() {
     errors.value = {};
 
-    if (!novoCargo.value.id_pessoa) {
-        errors.value.id_pessoa_cargo = 'Selecione uma pessoa';
-        return;
-    }
-
-    if (!novoCargo.value.id_cargo) {
-        errors.value.id_cargo = 'Selecione um cargo';
+    if (!cardapioSelecionado.value) {
+        errors.value.cardapio_modelo = 'Selecione um cardápio';
         return;
     }
 
     processing.value = true;
 
     try {
-        const response = await axios.post('/admin/cargo-evento/adicionar', novoCargo.value);
+        const response = await axios.post('/admin/cardapio-evento/importar', {
+            id_evento: props.evento.id,
+            id_cardapio: cardapioSelecionado.value
+        });
 
         if (response.data.success) {
             toast.success(response.data.message);
-            await recarregarCargos();
-            novoCargo.value = {
-                id_pessoa: null,
-                id_cargo: '',
-                id_evento: props.evento.id
-            };
+            await carregarCardapiosEvento();
+            router.reload({ only: ['evento'] });
+            cardapioSelecionado.value = '';
         }
     } catch (error) {
-        toast.error('Erro ao adicionar cargo');
+        toast.error('Erro ao importar cardápio');
         console.error(error);
     } finally {
         processing.value = false;
     }
 }
 
-// Remover cargo
-async function removerCargo(id) {
-
+// Associar pessoa ao ingrediente
+async function associarPessoaIngrediente(idIngrediente, pessoa) {
     processing.value = true;
 
     try {
-        const response = await axios.delete(`/admin/cargo-evento/${id}`);
+        const response = await axios.post(
+            `/admin/cardapio-evento/ingrediente/${idIngrediente}/associar-pessoa`,
+            {
+                id_pessoa: pessoa ? pessoa.id : null
+            }
+        );
 
         if (response.data.success) {
             toast.success(response.data.message);
-            await recarregarCargos();
+            await carregarCardapiosEvento();
+            router.reload({ only: ['evento'] });
         }
     } catch (error) {
-        toast.error('Erro ao remover cargo');
+        toast.error('Erro ao associar pessoa');
         console.error(error);
     } finally {
         processing.value = false;
     }
+}
+
+// Remover pessoa do ingrediente
+async function removerPessoaIngrediente(idIngrediente) {
+    await associarPessoaIngrediente(idIngrediente, null);
+}
+
+// Editar cardápio
+function editarCardapio(cardapio) {
+    cardapioEditando.value = { ...cardapio };
+    modalEditarAberto.value = true;
+}
+
+// Fechar modal de edição
+function fecharModalEditar() {
+    modalEditarAberto.value = false;
+    cardapioEditando.value = null;
+}
+
+// Salvar edição do cardápio
+async function salvarEdicaoCardapio(cardapioAtualizado) {
+    processing.value = true;
+
+    try {
+        const response = await axios.put(
+            `/admin/cardapio-evento/${cardapioAtualizado.id}`,
+            cardapioAtualizado
+        );
+
+        if (response.data.success) {
+            toast.success(response.data.message);
+            await carregarCardapiosEvento();
+            router.reload({ only: ['evento'] });
+            fecharModalEditar();
+        }
+    } catch (error) {
+        toast.error('Erro ao atualizar cardápio');
+        console.error(error);
+    } finally {
+        processing.value = false;
+    }
+}
+
+// Remover cardápio
+async function removerCardapio(id) {
+    if (!confirm('Tem certeza que deseja remover este cardápio?')) {
+        return;
+    }
+
+    processing.value = true;
+
+    try {
+        const response = await axios.delete(`/admin/cardapio-evento/${id}`);
+
+        if (response.data.success) {
+            toast.success(response.data.message);
+            await carregarCardapiosEvento();
+            router.reload({ only: ['evento'] });
+        }
+    } catch (error) {
+        toast.error('Erro ao remover cardápio');
+        console.error(error);
+    } finally {
+        processing.value = false;
+    }
+}
+
+// Callbacks para seleção de pessoa (doação)
+function onPessoaDoacaoSelecionada(pessoa) {
+    novaDoacao.value.id_pessoa = pessoa ? pessoa.id : null;
 }
 
 // Adicionar doação
@@ -373,7 +523,6 @@ async function adicionarDoacao() {
         if (response.data.success) {
             toast.success(response.data.message);
             await recarregarDoacoes();
-            // Recarregar página para atualizar os valores
             router.reload({ only: ['evento'] });
             novaDoacao.value = {
                 id_pessoa: null,
@@ -388,14 +537,13 @@ async function adicionarDoacao() {
         processing.value = false;
     }
 }
+
+// Formatar data
 const formatarData = (data) => {
     if (!data) return '-';
 
     try {
-        // Se a data vier como string ISO (YYYY-MM-DD ou YYYY-MM-DD HH:mm:ss)
         const date = new Date(data);
-
-        // Verificar se a data é válida
         if (isNaN(date.getTime())) return data;
 
         const dia = String(date.getDate()).padStart(2, '0');
@@ -408,6 +556,7 @@ const formatarData = (data) => {
         return data;
     }
 };
+
 // Remover doação
 async function removerDoacao(id) {
     processing.value = true;
@@ -418,7 +567,6 @@ async function removerDoacao(id) {
         if (response.data.success) {
             toast.success(response.data.message);
             await recarregarDoacoes();
-            // Recarregar página para atualizar os valores
             router.reload({ only: ['evento'] });
         }
     } catch (error) {
@@ -429,16 +577,7 @@ async function removerDoacao(id) {
     }
 }
 
-// Recarregar listas
-async function recarregarCargos() {
-    try {
-        const response = await axios.get(`/admin/cargo-evento/evento/${props.evento.id}`);
-        cargosEvento.value = response.data;
-    } catch (error) {
-        console.error('Erro ao recarregar cargos:', error);
-    }
-}
-
+// Recarregar doações
 async function recarregarDoacoes() {
     try {
         const response = await axios.get(`/admin/doacao-evento/evento/${props.evento.id}`);

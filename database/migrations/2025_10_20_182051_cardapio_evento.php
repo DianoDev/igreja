@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('cardapio_evento', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_evento')->constrained('evento')->onDelete('cascade');
+            $table->foreignId('id_evento')->constrained('eventos')->onDelete('cascade');
             $table->string('nome', 255);
             $table->string('descricao')->nullable();
             $table->decimal('valor_total', 15, 2);

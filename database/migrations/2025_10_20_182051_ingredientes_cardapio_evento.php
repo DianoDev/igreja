@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('ingredientes_cardapio_evento', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_cardapio_evento')->constrained('eventos')->onDelete('cascade');
-            $table->foreignId('id_pessoa')->constrained('pessoas')->onDelete('cascade');
+            $table->integer('id_pessoa')->nullable();
             $table->string('nome', 255);
             $table->string('quantidade')->nullable();
             $table->string('unidade_medida');

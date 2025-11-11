@@ -127,9 +127,26 @@ Route::middleware('auth')->group(function () {
     });
 
     // Rotas Admin - Cardápio Evento
-    Route::prefix('admin/cardapio-evento')->group(function () {
-        Route::get('/{idEvento}/edit', [CardapioEventoController::class, 'edit'])->name('cardapio-evento.edit');
-        Route::post('/{idEvento}', [CardapioEventoController::class, 'salvar'])->name('cardapio-evento.salvar');
+    Route::prefix('admin/cardapio-evento')->middleware(['auth'])->group(function () {
+        // Listar cardápios modelo disponíveis
+        Route::get('/cardapios-modelo', [CardapioEventoController::class, 'listarCardapiosModelo']);
+
+        // Listar cardápios de um evento
+        Route::get('/evento/{idEvento}', [CardapioEventoController::class, 'listarPorEvento']);
+
+        // Importar cardápio modelo para evento
+        Route::post('/importar', [CardapioEventoController::class, 'importar']);
+
+        Route::post('/ingrediente/{idIngrediente}/associar-pessoa', [CardapioEventoController::class, 'associarPessoaIngrediente']);
+
+        // Detalhes de um cardápio
+        Route::get('/{id}', [CardapioEventoController::class, 'detalhes']);
+
+        // Atualizar cardápio
+        Route::put('/{id}', [CardapioEventoController::class, 'atualizar']);
+
+        // Remover cardápio
+        Route::delete('/{id}', [CardapioEventoController::class, 'remover']);
     });
 });
 
