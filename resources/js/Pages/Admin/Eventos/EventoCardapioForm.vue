@@ -99,7 +99,6 @@ onMounted(() => {
                 quantidade: ing.quantidade || '',
                 unidade_medida: ing.unidade_medida || '',
                 valor_unitario: ing.valor_unitario || '',
-                id_pessoa: ing.id_pessoa || null
             })) || []
         };
     }

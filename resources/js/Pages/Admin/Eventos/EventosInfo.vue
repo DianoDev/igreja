@@ -8,7 +8,6 @@
                     <p><strong>Data:</strong> {{ formatarData(props.evento.data) }}</p>
                     <p><strong>Hora:</strong> {{ props.evento.hora }}</p>
                 </div>
-
                 <!-- Card de resumo financeiro -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div class="p-4 bg-red-50 border border-red-200 rounded-lg">

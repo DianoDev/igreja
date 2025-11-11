@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -15,44 +16,6 @@ class CardapioEventoController extends Controller
     ) {
     }
 
-    public function edit(int $idEvento): JsonResponse
-    {
-        // Lista todos os cardápios disponíveis
-        $cardapios = $this->cardapioRepository->getAll();
-
-        // Lista os cardápios já selecionados para este evento
-        $cardapiosSelecionados = $this->cardapioEventoRepository->getByEvento($idEvento);
-        $idsSelecionados = $cardapiosSelecionados->pluck('id_cardapio')->toArray();
-
-        // Calcula o valor total do evento
-        $valorTotal = $this->cardapioEventoRepository->getValorTotalEvento($idEvento);
-
-        return response()->json([
-            'cardapios' => $cardapios,
-            'selecionados' => $idsSelecionados,
-            'valor_total' => $valorTotal,
-            'id_evento' => $idEvento
-        ]);
-    }
-
-    public function salvar(Request $request, int $idEvento): JsonResponse
-    {
-        $request->validate([
-            'cardapios' => 'required|array',
-            'cardapios.*' => 'integer|exists:cardapio,id'
-        ]);
-
-        $this->cardapioEventoRepository->syncCardapios($idEvento, $request->cardapios);
-
-        $valorTotal = $this->cardapioEventoRepository->getValorTotalEvento($idEvento);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Cardápios do evento atualizados com sucesso!',
-            'valor_total' => $valorTotal
-        ]);
-    }
-
     /**
      * Lista cardápios de um evento
      */
@@ -63,94 +26,21 @@ class CardapioEventoController extends Controller
     }
 
     /**
-     * Associa ou remove uma pessoa de um ingrediente
+     * Cria um novo cardápio para o evento
      */
-    public function associarPessoaIngrediente(Request $request, int $idIngrediente): JsonResponse
+    public function criar(Request $request): JsonResponse
     {
-        $request->validate([
-            'id_pessoa' => 'nullable|integer',
-        ]);
-
         try {
-            $this->cardapioEventoRepository->associarPessoaIngrediente($idIngrediente, $request->id_pessoa);
-
-            $mensagem = $request->id_pessoa
-                ? 'Pessoa associada ao ingrediente com sucesso!'
-                : 'Pessoa removida do ingrediente com sucesso!';
+            $this->cardapioEventoRepository->create($request->all());
 
             return response()->json([
                 'success' => true,
-                'message' => $mensagem
+                'message' => 'Cardápio criado com sucesso!'
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erro ao associar pessoa: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Lista cardápios modelo disponíveis para importar
-     */
-    public function listarCardapiosModelo(): JsonResponse
-    {
-        $cardapios = $this->cardapioRepository->getAll();
-        return response()->json($cardapios);
-    }
-
-    /**
-     * Importa um cardápio modelo para o evento
-     */
-    public function importar(Request $request): JsonResponse
-    {
-        $request->validate([
-            'id_evento' => 'required|integer',
-            'id_cardapio' => 'required|integer',
-        ]);
-
-        try {
-            $this->cardapioEventoRepository->importarCardapio(
-                $request->id_evento,
-                $request->id_cardapio
-            );
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Cardápio importado com sucesso!'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao importar cardápio: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Associa ou remove uma pessoa de um cardápio
-     */
-    public function associarPessoa(Request $request, int $id): JsonResponse
-    {
-        $request->validate([
-            'id_pessoa' => 'nullable|integer',
-        ]);
-
-        try {
-            $this->cardapioEventoRepository->associarPessoa($id, $request->id_pessoa);
-
-            $mensagem = $request->id_pessoa
-                ? 'Pessoa associada ao cardápio com sucesso!'
-                : 'Pessoa removida do cardápio com sucesso!';
-
-            return response()->json([
-                'success' => true,
-                'message' => $mensagem
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao associar pessoa: ' . $e->getMessage()
+                'message' => 'Erro ao criar cardápio: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -160,16 +50,6 @@ class CardapioEventoController extends Controller
      */
     public function atualizar(Request $request, int $id): JsonResponse
     {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'ingredientes' => 'nullable|array',
-            'ingredientes.*.nome' => 'required|string',
-            'ingredientes.*.quantidade' => 'required|numeric|min:0',
-            'ingredientes.*.unidade_medida' => 'required|string',
-            'ingredientes.*.valor_unitario' => 'required|numeric|min:0',
-        ]);
-
         try {
             $this->cardapioEventoRepository->update($id, $request->all());
 
@@ -218,6 +98,197 @@ class CardapioEventoController extends Controller
                 'success' => false,
                 'message' => 'Cardápio não encontrado'
             ], 404);
+        }
+    }
+
+    /**
+     * Lista cardápios modelo disponíveis para importar
+     */
+    public function listarCardapiosModelo(): JsonResponse
+    {
+        $cardapios = $this->cardapioRepository->getAll();
+        return response()->json($cardapios);
+    }
+
+    /**
+     * Importa um cardápio modelo para o evento
+     */
+    public function importar(Request $request): JsonResponse
+    {
+
+        try {
+            $this->cardapioEventoRepository->importarCardapio(
+                $request->id_evento,
+                $request->id_cardapio
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Cardápio importado com sucesso!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao importar cardápio: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Associa ou remove uma pessoa de um cardápio
+     */
+    public function associarPessoa(Request $request, int $id): JsonResponse
+    {
+        try {
+            $this->cardapioEventoRepository->associarPessoa($id, $request->id_pessoa);
+
+            $mensagem = $request->id_pessoa
+                ? 'Pessoa associada ao cardápio com sucesso!'
+                : 'Pessoa removida do cardápio com sucesso!';
+
+            return response()->json([
+                'success' => true,
+                'message' => $mensagem
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao associar pessoa: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Associa ou remove uma pessoa de um ingrediente
+     */
+    public function associarPessoaIngrediente(Request $request, int $idIngrediente): JsonResponse
+    {
+
+        try {
+            $this->cardapioEventoRepository->associarPessoaIngrediente($idIngrediente, $request->id_pessoa);
+
+            $mensagem = $request->id_pessoa
+                ? 'Pessoa associada ao ingrediente com sucesso!'
+                : 'Pessoa removida do ingrediente com sucesso!';
+
+            return response()->json([
+                'success' => true,
+                'message' => $mensagem
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao associar pessoa: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Cria um novo ingrediente para um cardápio
+     */
+    public function criarIngrediente(Request $request): JsonResponse
+    {
+
+        try {
+            $valorTotal = $request->quantidade * $request->valor_unitario;
+
+            $ingrediente = \App\Databases\Models\IngredienteCardapioEvento::create([
+                'id_cardapio_evento' => $request->id_cardapio_evento,
+                'nome' => $request->nome,
+                'quantidade' => $request->quantidade,
+                'unidade_medida' => $request->unidade_medida,
+                'valor_unitario' => $request->valor_unitario,
+                'valor_total' => $valorTotal,
+                'id_pessoa' => $request->id_pessoa,
+            ]);
+
+            // Recalcular valor total do cardápio
+            $this->cardapioEventoRepository->recalcularValorTotal($request->id_cardapio_evento);
+
+            // Atualizar valor gasto do evento
+            $cardapioEvento = $this->cardapioEventoRepository->getById($request->id_cardapio_evento);
+            $this->cardapioEventoRepository->atualizarValorGastoEvento($cardapioEvento->id_evento);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ingrediente criado com sucesso!',
+                'data' => $ingrediente
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao criar ingrediente: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Atualiza um ingrediente
+     */
+    public function atualizarIngrediente(Request $request, int $id): JsonResponse
+    {
+
+        try {
+            $ingrediente = \App\Databases\Models\IngredienteCardapioEvento::findOrFail($id);
+
+            $valorTotal = $request->quantidade * $request->valor_unitario;
+
+            $ingrediente->update([
+                'nome' => $request->nome,
+                'quantidade' => $request->quantidade,
+                'unidade_medida' => $request->unidade_medida,
+                'valor_unitario' => $request->valor_unitario,
+                'valor_total' => $valorTotal,
+                'id_pessoa' => $request->id_pessoa,
+            ]);
+
+            // Recalcular valor total do cardápio
+            $this->cardapioEventoRepository->recalcularValorTotal($ingrediente->id_cardapio_evento);
+
+            // Atualizar valor gasto do evento
+            $cardapioEvento = $ingrediente->cardapioEvento;
+            $this->cardapioEventoRepository->atualizarValorGastoEvento($cardapioEvento->id_evento);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ingrediente atualizado com sucesso!',
+                'data' => $ingrediente
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar ingrediente: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Remove um ingrediente
+     */
+    public function removerIngrediente(int $id): JsonResponse
+    {
+        try {
+            $ingrediente = \App\Databases\Models\IngredienteCardapioEvento::findOrFail($id);
+            $idCardapioEvento = $ingrediente->id_cardapio_evento;
+            $cardapioEvento = $ingrediente->cardapioEvento;
+
+            $ingrediente->delete();
+
+            // Recalcular valor total do cardápio
+            $this->cardapioEventoRepository->recalcularValorTotal($idCardapioEvento);
+
+            // Atualizar valor gasto do evento
+            $this->cardapioEventoRepository->atualizarValorGastoEvento($cardapioEvento->id_evento);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ingrediente removido com sucesso!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao remover ingrediente: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

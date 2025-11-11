@@ -40,8 +40,8 @@ class IngredienteCardapioEvento extends Model
     /**
      * Relacionamento com Ingrediente (modelo original)
      */
-    public function ingredienteOriginal(): BelongsTo
+    public function pessoa(): BelongsTo
     {
-        return $this->belongsTo(Ingrediente::class, 'id_ingrediente_original');
+        return $this->belongsTo(Pessoa::class, 'id_pessoa');
     }
 }

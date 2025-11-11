@@ -16,19 +16,19 @@ class CardapioEventoRepository implements CardapioEventoContract
 {
     public function getById(int $id)
     {
-        return CardapioEvento::with(['pessoa', 'ingredientes'])->findOrFail($id);
+        return CardapioEvento::with(['pessoa', 'ingredientes.pessoa'])->findOrFail($id);
     }
 
     public function getByEvento(int $idEvento)
     {
-        return CardapioEvento::with(['pessoa', 'ingredientes'])
+        return CardapioEvento::with(['pessoa', 'ingredientes.pessoa'])
             ->where('id_evento', $idEvento)
             ->get();
     }
 
     public function paginate(array $pagination = [], array $columns = ['*']): LengthAwarePaginator
     {
-        $query = CardapioEvento::with(['pessoa', 'ingredientes', 'evento']);
+        $query = CardapioEvento::with(['pessoa', 'ingredientes.pessoa', 'evento']);
 
         // Filtros
         if (isset($pagination['id_evento'])) {
@@ -67,6 +67,7 @@ class CardapioEventoRepository implements CardapioEventoContract
                         'unidade_medida' => $ingrediente['unidade_medida'],
                         'valor_unitario' => $ingrediente['valor_unitario'] ?? 0,
                         'valor_total' => ($ingrediente['quantidade'] * ($ingrediente['valor_unitario'] ?? 0)),
+                        'id_pessoa' => $ingrediente['id_pessoa'] ?? null,
                     ]);
                 }
             }
@@ -74,10 +75,8 @@ class CardapioEventoRepository implements CardapioEventoContract
             // Recalcular valor total do cardápio
             $this->recalcularValorTotal($cardapioEvento->id);
 
-            // Se tem pessoa associada, atualizar o valor gasto do evento
-            if ($cardapioEvento->id_pessoa) {
-                $this->atualizarValorGastoEvento($cardapioEvento->id_evento);
-            }
+            // Atualizar valor gasto do evento
+            $this->atualizarValorGastoEvento($cardapioEvento->id_evento);
 
             $autoCommit && DB::commit();
             return true;
@@ -92,12 +91,10 @@ class CardapioEventoRepository implements CardapioEventoContract
         $autoCommit && DB::beginTransaction();
         try {
             $cardapioEvento = $this->getById($id);
-            $idPessoaAntigo = $cardapioEvento->id_pessoa;
 
             $cardapioEvento->update([
                 'nome' => $params['nome'] ?? $cardapioEvento->nome,
                 'descricao' => $params['descricao'] ?? $cardapioEvento->descricao,
-                'id_pessoa' => $params['id_pessoa'] ?? $cardapioEvento->id_pessoa,
             ]);
 
             // Se houver ingredientes para atualizar
@@ -114,6 +111,7 @@ class CardapioEventoRepository implements CardapioEventoContract
                         'unidade_medida' => $ingrediente['unidade_medida'],
                         'valor_unitario' => $ingrediente['valor_unitario'] ?? 0,
                         'valor_total' => ($ingrediente['quantidade'] * ($ingrediente['valor_unitario'] ?? 0)),
+                        'id_pessoa' => $ingrediente['id_pessoa'] ?? null,
                     ]);
                 }
             }
@@ -121,10 +119,8 @@ class CardapioEventoRepository implements CardapioEventoContract
             // Recalcular valor total
             $this->recalcularValorTotal($id);
 
-            // Se mudou a pessoa ou foi removida/adicionada, atualizar valor gasto do evento
-            if ($idPessoaAntigo != $cardapioEvento->id_pessoa) {
-                $this->atualizarValorGastoEvento($cardapioEvento->id_evento);
-            }
+            // Atualizar valor gasto do evento
+            $this->atualizarValorGastoEvento($cardapioEvento->id_evento);
 
             $autoCommit && DB::commit();
             return true;
@@ -140,7 +136,6 @@ class CardapioEventoRepository implements CardapioEventoContract
         try {
             $cardapioEvento = $this->getById($id);
             $idEvento = $cardapioEvento->id_evento;
-            $tinhaPessoa = !is_null($cardapioEvento->id_pessoa);
 
             // Deletar ingredientes
             IngredienteCardapioEvento::where('id_cardapio_evento', $id)->delete();
@@ -148,10 +143,8 @@ class CardapioEventoRepository implements CardapioEventoContract
             // Deletar cardápio
             $cardapioEvento->delete();
 
-            // Se tinha pessoa associada, atualizar valor gasto do evento
-
-                $this->atualizarValorGastoEvento($idEvento);
-
+            // Atualizar valor gasto do evento
+            $this->atualizarValorGastoEvento($idEvento);
 
             $autoCommit && DB::commit();
             return true;
@@ -191,11 +184,13 @@ class CardapioEventoRepository implements CardapioEventoContract
                     'valor_total' => $ingredienteModelo->quantidade * ($ingredienteModelo->valor_unitario ?? 0),
                 ]);
             }
+
             // Recalcular valor total
             $this->recalcularValorTotal($cardapioEvento->id);
 
             // Atualizar valor gasto do evento
             $this->atualizarValorGastoEvento($idEvento);
+
             DB::commit();
             return true;
         } catch (Exception $ex) {
@@ -226,6 +221,9 @@ class CardapioEventoRepository implements CardapioEventoContract
         }
     }
 
+    /**
+     * Associa ou desassocia uma pessoa a um ingrediente
+     */
     public function associarPessoaIngrediente(int $idIngrediente, ?int $idPessoa): bool
     {
         DB::beginTransaction();
@@ -248,6 +246,7 @@ class CardapioEventoRepository implements CardapioEventoContract
 
     /**
      * Recalcula o valor total do cardápio baseado nos ingredientes
+     * MÉTODO PÚBLICO para ser usado pelo Controller
      */
     public function recalcularValorTotal(int $idCardapioEvento): void
     {
@@ -260,9 +259,10 @@ class CardapioEventoRepository implements CardapioEventoContract
     }
 
     /**
-     * Atualiza o valor_gasto do evento baseado nos cardápios SEM pessoa associada
+     * Atualiza o valor_gasto do evento baseado nos cardápios e ingredientes SEM pessoa associada
+     * MÉTODO PÚBLICO para ser usado pelo Controller
      */
-    private function atualizarValorGastoEvento(int $idEvento): void
+    public function atualizarValorGastoEvento(int $idEvento): void
     {
         // Buscar todos os cardápios do evento
         $cardapiosIds = CardapioEvento::where('id_evento', $idEvento)->pluck('id');

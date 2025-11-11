@@ -134,9 +134,16 @@ Route::middleware('auth')->group(function () {
         // Listar cardápios de um evento
         Route::get('/evento/{idEvento}', [CardapioEventoController::class, 'listarPorEvento']);
 
+        // Criar novo cardápio
+        Route::post('/', [CardapioEventoController::class, 'criar']);
+
         // Importar cardápio modelo para evento
         Route::post('/importar', [CardapioEventoController::class, 'importar']);
 
+        // Associar pessoa ao cardápio
+        Route::post('/{id}/associar-pessoa', [CardapioEventoController::class, 'associarPessoa']);
+
+        // Associar pessoa ao ingrediente
         Route::post('/ingrediente/{idIngrediente}/associar-pessoa', [CardapioEventoController::class, 'associarPessoaIngrediente']);
 
         // Detalhes de um cardápio
@@ -147,6 +154,17 @@ Route::middleware('auth')->group(function () {
 
         // Remover cardápio
         Route::delete('/{id}', [CardapioEventoController::class, 'remover']);
+
+        // === ROTAS DE INGREDIENTES ===
+
+        // Criar novo ingrediente
+        Route::post('/ingrediente', [CardapioEventoController::class, 'criarIngrediente']);
+
+        // Atualizar ingrediente
+        Route::put('/ingrediente/{id}', [CardapioEventoController::class, 'atualizarIngrediente']);
+
+        // Remover ingrediente
+        Route::delete('/ingrediente/{id}', [CardapioEventoController::class, 'removerIngrediente']);
     });
 });
 
