@@ -117,7 +117,16 @@
 
                                 <!-- Lista de ingredientes -->
                                 <div v-if="cardapio.ingredientes && cardapio.ingredientes.length > 0" class="mt-3 pt-3 border-t">
-                                    <p class="text-sm font-medium text-gray-700 mb-2">Ingredientes:</p>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <p class="text-sm font-medium text-gray-700">Ingredientes:</p>
+                                        <button
+                                            @click="adicionarIngredienteAoCardapio(cardapio.id)"
+                                            class="text-sm text-blue-600 hover:text-blue-800"
+                                        >
+                                            <i class="fa fa-plus mr-1"></i>
+                                            Adicionar Ingrediente
+                                        </button>
+                                    </div>
                                     <div class="space-y-2">
                                         <div
                                             v-for="ingrediente in cardapio.ingredientes"
@@ -133,9 +142,18 @@
                                                         × R$ {{ formatarValor(ingrediente.valor_unitario) }}
                                                     </p>
                                                 </div>
-                                                <p class="text-sm font-bold" :class="ingrediente.id_pessoa ? 'text-green-700' : 'text-gray-700'">
-                                                    R$ {{ formatarValor(ingrediente.valor_total) }}
-                                                </p>
+                                                <div class="flex items-center gap-2">
+                                                    <p class="text-sm font-bold" :class="ingrediente.id_pessoa ? 'text-green-700' : 'text-gray-700'">
+                                                        R$ {{ formatarValor(ingrediente.valor_total) }}
+                                                    </p>
+                                                    <button
+                                                        @click="editarIngrediente(ingrediente, cardapio.id)"
+                                                        class="text-blue-600 hover:text-blue-800"
+                                                        title="Editar"
+                                                    >
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <!-- Associar Pessoa ao Ingrediente -->
@@ -289,7 +307,7 @@ import AutocompletePessoa from '@/Components/AutoCompletePessoa.vue';
 import { useToast } from 'vue-toastification';
 import { router } from '@inertiajs/vue3';
 import axios from 'axios';
-
+const events = inject('events');
 const props = defineProps({
     evento: {
         type: Object,
@@ -436,11 +454,6 @@ async function removerPessoaIngrediente(idIngrediente) {
     await associarPessoaIngrediente(idIngrediente, null);
 }
 
-// Editar cardápio
-function editarCardapio(cardapio) {
-    cardapioEditando.value = { ...cardapio };
-    modalEditarAberto.value = true;
-}
 
 // Fechar modal de edição
 function fecharModalEditar() {
@@ -537,7 +550,69 @@ async function adicionarDoacao() {
         processing.value = false;
     }
 }
+function abrirNovoCardapio() {
+    events.emit('popup', {
+        title: 'Novo Cardápio',
+        component: 'EventoCardapioForm',
+        data: {
+            idEvento: props.evento.id,
+            onSuccess: () => {
+                carregarCardapiosEvento();
+            }
+        },
+        size: 'lg',
+        id: 'form-cardapio'
+    });
+}
 
+// Modificar a função editarCardapio
+function editarCardapio(cardapio) {
+    events.emit('popup', {
+        title: 'Editar Cardápio',
+        component: 'EventoCardapioForm',
+        data: {
+            cardapio: cardapio,
+            idEvento: props.evento.id,
+            onSuccess: () => {
+                carregarCardapiosEvento();
+            }
+        },
+        size: 'lg',
+        id: 'form-cardapio'
+    });
+}
+
+// Adicionar novo ingrediente a um cardápio
+function adicionarIngredienteAoCardapio(cardapioId) {
+    events.emit('popup', {
+        title: 'Adicionar Ingrediente',
+        component: 'EventoCardapioIngredienteForm',
+        data: {
+            idCardapioEvento: cardapioId,
+            onSuccess: () => {
+                carregarCardapiosEvento();
+            }
+        },
+        size: 'md',
+        id: 'form-ingrediente'
+    });
+}
+
+// Editar ingrediente
+function editarIngrediente(ingrediente, cardapioId) {
+    events.emit('popup', {
+        title: 'Editar Ingrediente',
+        component: 'EventoCardapioIngredienteForm',
+        data: {
+            ingrediente: ingrediente,
+            idCardapioEvento: cardapioId,
+            onSuccess: () => {
+                carregarCardapiosEvento();}
+        },
+        size: 'md',
+        id: 'form-ingrediente'
+    });
+}
 // Formatar data
 const formatarData = (data) => {
     if (!data) return '-';

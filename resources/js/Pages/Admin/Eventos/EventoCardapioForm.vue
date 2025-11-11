@@ -1,211 +1,207 @@
 <template>
-    <div class="p-6">
-        <div v-if="loading" class="flex justify-center items-center py-8">
-            <i class="fa fa-spinner fa-spin text-3xl text-blue-600"></i>
-        </div>
-
-        <div v-else>
-            <!-- Informações do valor total -->
-            <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <p class="text-lg font-semibold text-blue-900">
-                    Valor Total do Evento: R$ {{ formatarValor(valorTotal) }}
-                </p>
+    <div class="">
+        <form @submit.prevent="salvar" class="space-y-4">
+            <!-- Nome -->
+            <div>
+                <InputLabel for="nome" value="Nome" class="required" />
+                <TextInput
+                    id="nome"
+                    v-model="form.nome"
+                    type="text"
+                    placeholder="Nome do cardápio"
+                    class="mt-1 block w-full"
+                    autofocus
+                />
+                <InputError :message="errors.nome" />
             </div>
 
-            <!-- Lista de cardápios com checkboxes -->
-            <div class="space-y-3 max-h-96 overflow-y-auto">
-                <div
-                    v-for="cardapio in cardapios"
-                    :key="cardapio.id"
-                    class="flex items-start p-4 border rounded-lg hover:bg-gray-50 transition-colors"
-                    :class="{
-                        'bg-blue-50 border-blue-300': cardapiosSelecionados.includes(cardapio.id),
-                        'bg-white border-gray-200': !cardapiosSelecionados.includes(cardapio.id)
-                    }"
-                >
-                    <input
-                        :id="`cardapio-${cardapio.id}`"
-                        type="checkbox"
-                        :value="cardapio.id"
-                        v-model="cardapiosSelecionados"
-                        @change="calcularValorTotal"
-                        class="mt-1 h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    />
-                    <label
-                        :for="`cardapio-${cardapio.id}`"
-                        class="ml-3 flex-1 cursor-pointer"
-                    >
-                        <div class="flex justify-between items-start">
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-900">{{ cardapio.nome }}</p>
-                                <p v-if="cardapio.descricao" class="text-sm text-gray-600 mt-1">
-                                    {{ cardapio.descricao }}
-                                </p>
-                            </div>
-                            <div class="ml-4 text-right">
-                                <p class="font-bold text-green-600">
-                                    R$ {{ formatarValor(cardapio.valor_total) }}
-                                </p>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-
-                <div v-if="cardapios.length === 0" class="text-center text-gray-500 py-8">
-                    <i class="fa fa-utensils text-4xl mb-3"></i>
-                    <p>Nenhum cardápio cadastrado</p>
-                </div>
+            <!-- Descrição -->
+            <div>
+                <InputLabel for="descricao" value="Descrição" />
+                <textarea
+                    id="descricao"
+                    v-model="form.descricao"
+                    rows="3"
+                    placeholder="Descrição do cardápio"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                ></textarea>
+                <InputError :message="errors.descricao" />
             </div>
 
-            <!-- Mensagem de erro -->
-            <div v-if="errors.cardapios" class="mt-3 text-sm text-red-600">
-                {{ errors.cardapios }}
-            </div>
-
-            <!-- Botões de ação -->
-            <div class="mt-6 flex justify-end space-x-3">
+            <!-- Botões -->
+            <div class="flex justify-end gap-2 pt-4 border-t">
                 <button
                     type="button"
                     @click="fechar"
-                    class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition"
+                    class="btn btn-secondary"
                     :disabled="processing"
                 >
                     Cancelar
                 </button>
                 <button
-                    type="button"
-                    @click="salvar"
-                    class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:bg-blue-300"
-                    :disabled="processing || cardapiosSelecionados.length === 0"
+                    type="submit"
+                    class="btn btn-primary"
+                    :disabled="processing"
                 >
-                    <i v-if="processing" class="fa fa-spinner fa-spin mr-2"></i>
-                    <i v-else class="fa fa-save mr-2"></i>
-                    {{ processing ? 'Salvando...' : 'Salvar Cardápios' }}
+                    <i class="fa fa-save mr-2"></i>
+                    {{ cardapio?.id ? 'Atualizar' : 'Salvar' }}
                 </button>
             </div>
-        </div>
+        </form>
     </div>
 </template>
 
 <script setup>
-import { ref, inject, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import TextInput from '@/Components/TextInput.vue';
 import { useToast } from 'vue-toastification';
 import axios from 'axios';
 
 const props = defineProps({
-    data: {
+    cardapio: {
+        type: Object,
+        default: null
+    },
+    idEvento: {
         type: Number,
-        required: true
+        required: false
+    },
+    onSuccess: {
+        type: Function,
+        default: () => {}
+    },
+    onClose: {
+        type: Function,
+        default: () => {}
     }
 });
 
-const emit = defineEmits(['close']);
-
 const toast = useToast();
-const events = inject('events');
-
-const loading = ref(true);
 const processing = ref(false);
 const errors = ref({});
-const cardapios = ref([]);
-const cardapiosSelecionados = ref([]);
-const valorTotal = ref(0);
 
-// Calcular valor total baseado nos cardápios selecionados
-function calcularValorTotal() {
-    valorTotal.value = cardapios.value
-        .filter(c => cardapiosSelecionados.value.includes(c.id))
-        .reduce((total, c) => total + parseFloat(c.valor_total || 0), 0);
-}
+const form = ref({
+    nome: '',
+    descricao: '',
+    ingredientes: []
+});
 
-// Carregar dados do evento
-async function carregarDados() {
-    loading.value = true;
-    try {
-        const response = await axios.get(`/admin/cardapio-evento/${props.data.id}/edit`);
-        cardapios.value = response.data.cardapios;
-        cardapiosSelecionados.value = response.data.selecionados;
-        valorTotal.value = response.data.valor_total;
-    } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-        toast.error('Erro ao carregar os cardápios');
-    } finally {
-        loading.value = false;
+onMounted(() => {
+    if (props.cardapio) {
+        form.value = {
+            nome: props.cardapio.nome || '',
+            descricao: props.cardapio.descricao || '',
+            ingredientes: props.cardapio.ingredientes?.map(ing => ({
+                id: ing.id,
+                nome: ing.nome || '',
+                quantidade: ing.quantidade || '',
+                unidade_medida: ing.unidade_medida || '',
+                valor_unitario: ing.valor_unitario || '',
+                id_pessoa: ing.id_pessoa || null
+            })) || []
+        };
     }
-}
+});
 
-// Salvar cardápios selecionados
+function adicionarIngrediente() {
+    form.value.ingredientes.push({
+        nome: '',
+        quantidade: '',
+        unidade_medida: '',
+        valor_unitario: '',
+        id_pessoa: null
+    });
+}
 async function salvar() {
-    if (cardapiosSelecionados.value.length === 0) {
-        errors.value.cardapios = 'Selecione pelo menos um cardápio';
+    errors.value = {};
+
+    // Validações
+    if (!form.value.nome?.trim()) {
+        errors.value.nome = 'O nome é obrigatório';
         return;
     }
 
+    if (form.value.ingredientes.length === 0) {
+        toast.warning('Adicione pelo menos um ingrediente');
+        return;
+    }
+
+    // Validar ingredientes
+    for (let i = 0; i < form.value.ingredientes.length; i++) {
+        const ing = form.value.ingredientes[i];
+        if (!ing.nome?.trim()) {
+            toast.error(`Ingrediente ${i + 1}: Nome é obrigatório`);
+            return;
+        }
+        if (!ing.quantidade || parseFloat(ing.quantidade) <= 0) {
+            toast.error(`Ingrediente ${i + 1}: Quantidade inválida`);
+            return;
+        }
+        if (!ing.unidade_medida) {
+            toast.error(`Ingrediente ${i + 1}: Unidade de medida é obrigatória`);
+            return;
+        }
+        if (!ing.valor_unitario || parseFloat(ing.valor_unitario) <= 0) {
+            toast.error(`Ingrediente ${i + 1}: Valor unitário inválido`);
+            return;
+        }
+    }
+
     processing.value = true;
-    errors.value = {};
 
     try {
-        const response = await axios.post(`/admin/cardapio-evento/${props.data.id}`, {
-            cardapios: cardapiosSelecionados.value
-        });
+        const dados = {
+            ...form.value,
+            id_evento: props.idEvento
+        };
+
+        let response;
+        if (props.cardapio?.id) {
+            // Editar
+            response = await axios.put(`/admin/cardapio-evento/${props.cardapio.id}`, dados);
+        } else {
+            // Criar
+            response = await axios.post('/admin/cardapio-evento', dados);
+        }
 
         if (response.data.success) {
             toast.success(response.data.message);
-            events.emit('datatable-reload', 'eventos');
+            props.onSuccess();
             fechar();
         }
     } catch (error) {
-        console.error('Erro ao salvar:', error);
-
         if (error.response?.data?.errors) {
             errors.value = error.response.data.errors;
-        } else {
-            toast.error('Erro ao salvar os cardápios');
         }
+        toast.error(error.response?.data?.message || 'Erro ao salvar cardápio');
+        console.error(error);
     } finally {
         processing.value = false;
     }
 }
 
-// Fechar modal
 function fechar() {
-    emit('close');
+    props.onClose();
 }
-
-// Formatar valor
-function formatarValor(valor) {
-    return parseFloat(valor || 0).toFixed(2).replace('.', ',');
-}
-
-onMounted(() => {
-    console.log(props.id)
-    carregarDados();
-});
 </script>
 
 <style scoped>
-/* Customização do checkbox */
-input[type="checkbox"]:checked {
-    background-color: #2563eb;
-    border-color: #2563eb;
+.required::after {
+    content: " *";
+    color: red;
 }
 
-/* Scroll customizado */
-.overflow-y-auto::-webkit-scrollbar {
-    width: 8px;
+.btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
 }
 
-.overflow-y-auto::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
+.btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed;
 }
 
-.overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.btn-secondary {
+    @apply bg-gray-600 text-white hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed;
 }
 </style>
