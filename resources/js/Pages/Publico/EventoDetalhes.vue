@@ -1,6 +1,4 @@
 <template>
-    <Head :title="`Evento: ${evento.nome}`"/>
-
     <LayoutPublico>
         <div class="container mx-auto px-4 py-8 max-w-7xl">
 
@@ -212,30 +210,157 @@
             </div>
 
             <!-- Cardápio -->
+            <!-- Cardápio -->
             <div v-if="evento.cardapios && evento.cardapios.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
                     <span class="text-4xl mr-3">🍽️</span>
                     Cardápio do Evento
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div
-                        v-for="item in evento.cardapios"
-                        :key="item.id"
-                        class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-gradient-to-br from-orange-50 to-white"
-                    >
-                        <div class="flex items-center gap-3">
-                            <div class="text-3xl">🍴</div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">
-                                    {{ item.cardapio?.nome || 'Item não definido' }}
-                                </p>
-                                <p v-if="item.cardapio?.descricao" class="text-sm text-gray-600 mt-1">
-                                    {{ item.cardapio.descricao }}
-                                </p>
+                <div v-for="cardapio in evento.cardapios" :key="cardapio.id" class="mb-6 last:mb-0">
+                    <!-- Cabeçalho do Cardápio -->
+                    <div class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg p-4 mb-4 border-l-4 border-orange-400">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">{{ cardapio.nome }}</h3>
+                                <p v-if="cardapio.descricao" class="text-gray-600 text-sm mt-1">{{ cardapio.descricao }}</p>
+                            </div>
+                            <div class="flex gap-6">
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-500 font-medium">Valor Total</p>
+                                    <p class="text-xl font-bold text-orange-600">{{ formatarMoeda(cardapio.valor_total) }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-500 font-medium">Sem Responsável</p>
+                                    <p class="text-xl font-bold text-red-600">{{ formatarMoeda(calcularValorSemResponsavel(cardapio)) }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Lista de Ingredientes -->
+                    <div v-if="cardapio.ingredientes && cardapio.ingredientes.length > 0" class="space-y-3">
+                        <div
+                            v-for="ingrediente in cardapio.ingredientes"
+                            :key="ingrediente.id"
+                            class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors border border-gray-200"
+                        >
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                <!-- Info do Ingrediente -->
+                                <div class="flex-1">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fa fa-utensils text-orange-600"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold text-gray-800 text-lg">{{ ingrediente.nome }}</h4>
+
+                                            <!-- Responsável -->
+                                            <div v-if="ingrediente.pessoa" class="mt-2 flex items-center gap-2">
+                                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                                    <i class="fa fa-user text-green-600 text-xs"></i>
+                                                </div>
+                                                <span class="text-sm text-gray-600">
+                                        Responsável: <span class="font-medium text-green-700">{{ ingrediente.pessoa.nome }}</span>
+                                    </span>
+                                            </div>
+                                            <div v-else class="mt-2 flex items-center gap-2">
+                                                <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                                                    <i class="fa fa-user-slash text-gray-500 text-xs"></i>
+                                                </div>
+                                                <span class="text-sm text-gray-500 italic">Sem responsável definido</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quantidades e Valores -->
+                                <div class="flex flex-wrap gap-4 md:gap-6">
+                                    <div class="text-center">
+                                        <p class="text-xs text-gray-500 font-medium">Quantidade</p>
+                                        <p class="font-bold text-gray-800">
+                                            {{ ingrediente.quantidade }} {{ ingrediente.unidade_medida }}
+                                        </p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-xs text-gray-500 font-medium">Valor Unit.</p>
+                                        <p class="font-semibold text-gray-700">{{ formatarMoeda(ingrediente.valor_unitario) }}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-xs text-gray-500 font-medium">Valor Total</p>
+                                        <p class="font-bold text-orange-600">{{ formatarMoeda(ingrediente.valor_total) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mensagem se não houver ingredientes -->
+                    <div v-else class="text-center py-6 text-gray-500">
+                        <i class="fa fa-info-circle text-2xl mb-2"></i>
+                        <p>Nenhum ingrediente cadastrado para este cardápio</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doações -->
+            <div v-if="evento.doacoes && evento.doacoes.length > 0" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
+                    <span class="text-4xl mr-3">💰</span>
+                    Doações Recebidas
+                </h2>
+
+                <!-- Resumo das Doações -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 mb-6 border-l-4 border-green-400">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-600 font-medium">Total de Doações</p>
+                            <p class="text-2xl font-bold text-green-700">{{ formatarMoeda(totalDoacoes) }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-600 font-medium">Quantidade</p>
+                            <p class="text-2xl font-bold text-gray-700">{{ evento.doacoes.length }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Doações -->
+                <div class="space-y-3">
+                    <div
+                        v-for="doacao in evento.doacoes"
+                        :key="doacao.id"
+                        class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors border border-gray-200"
+                    >
+                        <div class="flex items-center justify-between gap-4">
+                            <!-- Info do Doador -->
+                            <div class="flex items-center gap-3 flex-1">
+                                <div class="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                                    <i class="fa fa-heart text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">{{ doacao.pessoa.nome }}</h4>
+                                </div>
+                            </div>
+
+                            <!-- Valor da Doação -->
+                            <div class="text-right">
+                                <p class="text-xs text-gray-500 font-medium mb-1">Valor Doado</p>
+                                <p class="text-2xl font-bold text-green-600">{{ formatarMoeda(doacao.valor) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensagem se não houver doações -->
+            <div v-else class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center" style="font-family: Georgia, serif;">
+                    <span class="text-4xl mr-3">💰</span>
+                    Doações Recebidas
+                </h2>
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fa fa-info-circle text-3xl mb-3"></i>
+                    <p class="text-lg">Nenhuma doação registrada para este evento</p>
                 </div>
             </div>
 
@@ -338,7 +463,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import {ref, computed, onMounted} from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import LayoutPublico from '@/Layouts/LayoutPublico.vue';
 
@@ -356,7 +481,9 @@ const props = defineProps({
         default: null
     }
 });
-
+onMounted(() => {
+    console.log(props.evento,'vento')
+})
 // Estado do modal de fotos
 const modalAberto = ref(false);
 const fotoSelecionada = ref(null);
@@ -393,6 +520,18 @@ const totalDoacoes = computed(() => {
         return total + parseFloat(doacao.valor || 0);
     }, 0);
 });
+
+// Função para calcular o valor total dos itens sem responsável
+function calcularValorSemResponsavel(cardapio) {
+    if (!cardapio.ingredientes) return 0;
+
+    return cardapio.ingredientes.reduce((total, ingrediente) => {
+        if (!ingrediente.pessoa) {
+            return total + parseFloat(ingrediente.valor_total || 0);
+        }
+        return total;
+    }, 0);
+}
 
 // Formatadores
 function formatarData(data) {

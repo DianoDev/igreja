@@ -118,7 +118,7 @@ class PublicoController extends Controller
             'cargos.pessoa',
             'cargos.cargo',
             'doacoes.pessoa',
-            'cardapios.cardapio',
+            'cardapios.ingredientes.pessoa',
             'fotos'
         ])->findOrFail($id);
 
