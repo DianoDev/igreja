@@ -3,17 +3,17 @@
         <div class="page-content">
             <!-- Cabeçalho com informações do evento -->
             <div class="mb-6">
-                <h2 class="text-2xl font-semibold text-primary mb-2">{{ props.evento.nome }}</h2>
+                <h2 class="text-2xl font-semibold text-primary mb-2">{{ evento.nome }}</h2>
                 <div class="text-gray-600 mb-4">
-                    <p><strong>Data:</strong> {{ formatarData(props.evento.data) }}</p>
-                    <p><strong>Hora:</strong> {{ props.evento.hora }}</p>
+                    <p><strong>Data:</strong> {{ formatarData(evento.data) }}</p>
+                    <p><strong>Hora:</strong> {{ evento.hora }}</p>
                 </div>
                 <!-- Card de resumo financeiro -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
                         <p class="text-sm text-red-700 font-medium">Valor Gasto</p>
                         <p class="text-2xl font-bold text-red-900">
-                            R$ {{ formatarValor(props.evento.valor_gasto || 0) }}
+                            R$ {{ formatarValor(evento.valor_gasto || 0) }}
                         </p>
                         <p class="text-xs text-red-600 mt-1">
                             Ingredientes sem responsável
@@ -22,7 +22,7 @@
                     <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
                         <p class="text-sm text-green-700 font-medium">Valor Arrecadado</p>
                         <p class="text-2xl font-bold text-green-900">
-                            R$ {{ formatarValor(props.evento.valor_arrecadado || 0) }}
+                            R$ {{ formatarValor(evento.valor_arrecadado || 0) }}
                         </p>
                     </div>
                     <div class="p-4 border rounded-lg" :class="saldoClass">
@@ -324,6 +324,7 @@ const errors = ref({});
 
 // Estado local para as listas
 const cardapiosEvento = ref([]);
+const evento = ref([]);
 const cardapiosModelo = ref([]);
 const doacoesEvento = ref([...props.doacoesEvento]);
 const cardapioSelecionado = ref('');
@@ -348,8 +349,8 @@ const totalDoacoes = computed(() => {
 
 // Computed para saldo (arrecadado - gasto)
 const saldo = computed(() => {
-    const arrecadado = parseFloat(props.evento.valor_arrecadado || 0);
-    const gasto = parseFloat(props.evento.valor_gasto || 0);
+    const arrecadado = parseFloat(evento.value.valor_arrecadado || 0);
+    const gasto = parseFloat(evento.value.valor_gasto || 0);
     return arrecadado - gasto;
 });
 
@@ -370,13 +371,29 @@ const saldoTextClass = computed(() => {
 onMounted(() => {
     carregarCardapiosModelo();
     carregarCardapiosEvento();
+    carregarEvento();
+    events.on('recarrega-evento', carregarTudo);
 });
 
+function carregarTudo() {
+    carregarCardapiosEvento();
+    recarregarDoacoes();
+    carregarEvento();
+}
 // Carregar cardápios modelo
 async function carregarCardapiosModelo() {
     try {
         const response = await axios.get('/admin/cardapio-evento/cardapios-modelo');
         cardapiosModelo.value = response.data;
+    } catch (error) {
+        console.error('Erro ao carregar cardápios modelo:', error);
+    }
+}
+
+async function carregarEvento() {
+    try {
+        const response = await axios.get(`/admin/eventos/${props.evento.id}`);
+        evento.value = response.data;
     } catch (error) {
         console.error('Erro ao carregar cardápios modelo:', error);
     }
@@ -412,7 +429,6 @@ async function importarCardapio() {
         if (response.data.success) {
             toast.success(response.data.message);
             await carregarCardapiosEvento();
-            router.reload({ only: ['evento'] });
             cardapioSelecionado.value = '';
         }
     } catch (error) {
@@ -437,8 +453,7 @@ async function associarPessoaIngrediente(idIngrediente, pessoa) {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            await carregarCardapiosEvento();
-            router.reload({ only: ['evento'] });
+            await carregarTudo();
         }
     } catch (error) {
         toast.error('Erro ao associar pessoa');
@@ -451,6 +466,7 @@ async function associarPessoaIngrediente(idIngrediente, pessoa) {
 // Remover pessoa do ingrediente
 async function removerPessoaIngrediente(idIngrediente) {
     await associarPessoaIngrediente(idIngrediente, null);
+    await carregarTudo();
 }
 
 
@@ -497,8 +513,7 @@ async function removerCardapio(id) {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            await carregarCardapiosEvento();
-            router.reload({ only: ['evento'] });
+            await carregarTudo();
         }
     } catch (error) {
         toast.error('Erro ao remover cardápio');
@@ -534,8 +549,7 @@ async function adicionarDoacao() {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            await recarregarDoacoes();
-            router.reload({ only: ['evento'] });
+            await carregarTudo();
             novaDoacao.value = {
                 id_pessoa: null,
                 valor: '',
@@ -589,7 +603,7 @@ function adicionarIngredienteAoCardapio(cardapioId) {
         data: {
             idCardapioEvento: cardapioId,
             onSuccess: () => {
-                carregarCardapiosEvento();
+                carregarTudo();
             }
         },
         size: 'md',
@@ -640,7 +654,7 @@ async function removerDoacao(id) {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            await recarregarDoacoes();
+            await carregarTudo();
             router.reload({ only: ['evento'] });
         }
     } catch (error) {

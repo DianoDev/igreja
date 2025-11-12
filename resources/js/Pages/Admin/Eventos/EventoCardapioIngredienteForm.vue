@@ -103,14 +103,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, inject} from 'vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AutocompletePessoa from '@/Components/AutoCompletePessoa.vue';
 import { useToast } from 'vue-toastification';
 import axios from 'axios';
-
+const events = inject('events');
 const props = defineProps({
     ingrediente: {
         type: Object,
@@ -211,7 +211,7 @@ async function salvar() {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            props.onSuccess();
+            events.emit('recarrega-evento', true);
             fechar();
         }
     } catch (error) {
