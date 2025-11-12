@@ -251,3 +251,6 @@ Route::get('/publico/comissao', [PublicoController::class, 'comissao'])->name('p
 
 // Galeria de fotos pública
 Route::get('/publico/fotos', [PublicoController::class, 'fotos'])->name('publico.fotos');
+
+Route::get('/publico/evento/{id}/pdf', [PublicoController::class, 'eventoDetalhesPdf'])
+    ->name('publico.evento.pdf');

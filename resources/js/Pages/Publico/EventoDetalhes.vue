@@ -40,13 +40,15 @@
                         </div>
 
                         <!-- Botão Voltar -->
-                        <Link
-                            href="/publico/eventos"
-                            class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-3 rounded-xl font-medium transition-all flex items-center gap-2 shadow-sm"
+                        <!-- Adicione este botão no cabeçalho, ao lado do botão "Voltar" -->
+                        <a
+                        :href="`/publico/evento/${evento.id}/pdf`"
+                        target="_blank"
+                        class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-medium transition-all flex items-center gap-2 shadow-sm"
                         >
-                            <i class="fa fa-arrow-left"></i>
-                            <span>Voltar</span>
-                        </Link>
+                        <i class="fa fa-file-pdf"></i>
+                        <span>Baixar PDF</span>
+                        </a>
                     </div>
                 </div>
             </div>

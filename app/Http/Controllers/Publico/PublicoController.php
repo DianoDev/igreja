@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Carbon\Carbon;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class PublicoController extends Controller
 {
     /**
@@ -139,7 +139,52 @@ class PublicoController extends Controller
             'comissao' => $comissao,
         ]);
     }
+    public function eventoDetalhesPdf(int $id)
+    {
+        $evento = Eventos::with([
+            'cargos.pessoa',
+            'cargos.cargo',
+            'doacoes.pessoa',
+            'cardapios.ingredientes.pessoa',
+            'fotos'
+        ])->findOrFail($id);
 
+        $arquivos = DB::table('arquivo')
+            ->where('tabela', 'eventos')
+            ->where('chave', $id)
+            ->whereNull('deleted_at')
+            ->get();
+
+        $comissao = $evento->cargos->isNotEmpty()
+            ? null
+            : $this->buscarComissaoAno();
+
+        // Calcular saldo
+        $saldo = $evento->valor_arrecadado - $evento->valor_gasto;
+
+        // Calcular valor total a pagar (ingredientes sem responsável)
+        $valor_a_pagar = 0;
+
+        foreach ($evento->cardapios as $cardapio) {
+            foreach ($cardapio->ingredientes as $ingrediente) {
+                if (is_null($ingrediente->id_pessoa)) {
+                    $valor_a_pagar += floatval($ingrediente->valor_total);
+                }
+            }
+        }
+
+        $pdf = Pdf::loadView('pdf.evento-detalhes', [
+            'evento' => $evento,
+            'arquivos' => $arquivos,
+            'comissao' => $comissao,
+            'saldo' => $saldo,
+            'valor_a_pagar' => $valor_a_pagar,
+        ]);
+
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download('evento-' . $evento->id . '-' . ($evento->nome) . '.pdf');
+    }
     private function buscarComissaoAno(): ?Comissao
     {
         $anoAtual = Carbon::now()->year;

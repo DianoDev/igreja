@@ -60,24 +60,22 @@ const columns = ref([
         formatter: (val, row) => [
             {
                 type: 'anchor',
-                icon: 'fa-tag',
+                icon: 'fa-utensils',
                 href: `/admin/eventos/${row.id}/info`,
-                text: 'Responsáveis e Doações',
+                text: 'Cardapio e Doações',
+            },
+            {
+                type: 'anchor',
+                icon: 'fa-download',
+                href: `/publico/evento/${row.id}/pdf`,
+                text: 'Download PDF',
+                openNewTab: true,
             },
             {
                 type: 'anchor',
                 icon: 'fa-tag',
                 href: `/admin/evento/${row.id}/galeria`,
                 text: 'Galeria de Fotos',
-            },
-            {
-                type: 'modal',
-                icon: 'fa-utensils',
-                dataSize: 'lg',
-                dataComponent: 'EventoCardapioForm',
-                dataTitle: 'Cardápios do Evento',
-                dataJson: { id: row.id },
-                text: 'Gerenciar Cardápios'
             },
             {
                 type: 'modal',
