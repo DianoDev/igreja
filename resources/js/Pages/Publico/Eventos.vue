@@ -52,33 +52,6 @@
                     <p>Nenhum evento próximo agendado no momento.</p>
                 </div>
             </div>
-
-            <!-- Cards de Acesso Rápido -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <Link href="/publico/atas" class="card-link">
-                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-                        <div class="text-4xl mb-4">📝</div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Atas</h3>
-                        <p class="text-gray-600">Acesse as atas das reuniões e assembleias</p>
-                    </div>
-                </Link>
-
-                <Link href="/publico/regimes-internos" class="card-link">
-                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-                        <div class="text-4xl mb-4">📋</div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Regimento Interno</h3>
-                        <p class="text-gray-600">Consulte nossos regimentos e normas</p>
-                    </div>
-                </Link>
-
-                <Link href="/publico/estatutos" class="card-link">
-                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-                        <div class="text-4xl mb-4">⚖️</div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Estatuto</h3>
-                        <p class="text-gray-600">Veja nossos estatutos oficiais</p>
-                    </div>
-                </Link>
-            </div>
         </div>
     </LayoutPublico>
 </template>
