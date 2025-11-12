@@ -152,6 +152,13 @@
                                                     >
                                                         <i class="fa fa-edit"></i>
                                                     </button>
+                                                    <button
+                                                        @click="removerIngrediente(ingrediente.id)"
+                                                        class="text-red-600 hover:text-red-800"
+                                                        title="Remover"
+                                                    >
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
                                                 </div>
                                             </div>
 
@@ -374,7 +381,23 @@ onMounted(() => {
     carregarEvento();
     events.on('recarrega-evento', carregarTudo);
 });
+async function removerIngrediente(idIngrediente) {
+    processing.value = true;
 
+    try {
+        const response = await axios.delete(`/admin/cardapio-evento/ingrediente/${idIngrediente}`);
+
+        if (response.data.success) {
+            toast.success(response.data.message);
+            await carregarTudo();
+        }
+    } catch (error) {
+        toast.error('Erro ao remover ingrediente');
+        console.error(error);
+    } finally {
+        processing.value = false;
+    }
+}
 function carregarTudo() {
     carregarCardapiosEvento();
     recarregarDoacoes();
@@ -428,7 +451,7 @@ async function importarCardapio() {
 
         if (response.data.success) {
             toast.success(response.data.message);
-            await carregarCardapiosEvento();
+            await carregarTudo();
             cardapioSelecionado.value = '';
         }
     } catch (error) {
