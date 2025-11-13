@@ -44,7 +44,6 @@
 
         .section {
             margin-bottom: 30px;
-            page-break-inside: avoid;
         }
 
         .section-title {
