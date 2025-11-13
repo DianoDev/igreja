@@ -10,7 +10,7 @@ class CargoSeeder extends Seeder
     public function run(): void
     {
         $cargos = [
-            ['nome' => 'Festeiro Titular'],
+            ['nome' => 'Rei'],
             ['nome' => 'Rainha'],
             ['nome' => 'Juiz de Vara'],
             ['nome' => 'Juíza de Vara'],
@@ -19,13 +19,6 @@ class CargoSeeder extends Seeder
             ['nome' => 'Juizinho de Ramalhete'],
             ['nome' => 'Juizinha de Ramalhete'],
             ['nome' => 'Festeiro de Promessa'],
-            ['nome' => 'Festeira de Promessa'],
-            ['nome' => 'Coordenador Geral'],
-            ['nome' => 'Tesoureiro'],
-            ['nome' => 'Secretário'],
-            ['nome' => 'Responsável pela Cozinha'],
-            ['nome' => 'Responsável pelo Cardápio'],
-            ['nome' => 'Responsável pelas Compras'],
         ];
 
         foreach ($cargos as $cargo) {

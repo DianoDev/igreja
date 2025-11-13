@@ -15,15 +15,6 @@ class DatabaseSeeder extends Seeder
             // Tabelas básicas
             PessoaSeeder::class,
             CargoSeeder::class,
-            CardapioSeeder::class,
-
-            // Eventos
-            EventosSeeder::class,
-
-            // Documentos
-            RegimeInternoSeeder::class,
-            EstatutoSeeder::class,
-            AtasSeeder::class,
         ]);
 
         $this->command->info('✅ Seeders executados com sucesso!');
