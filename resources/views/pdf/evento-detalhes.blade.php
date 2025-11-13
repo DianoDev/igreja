@@ -280,86 +280,10 @@
         </div>
     </div>
 </div>
-
-<!-- INFORMAÇÕES DA COMISSÃO -->
-@if($comissao)
-    <div class="section">
-        <div class="section-title">Comissão do Evento</div>
-
-        <div class="info-box">
-            <strong>{{ $comissao->nome }}</strong> - Ano {{ $comissao->ano }}
-            @if($comissao->descricao)
-                <br><span style="color: #4a5568; font-size: 13px;">{{ $comissao->descricao }}</span>
-            @endif
-        </div>
-
-        <!-- PÁROCO -->
-        <div class="info-box" style="border-left-color: #2d3748;">
-            <strong>Pároco:</strong> Pe. Pedro Canísio Schroeder sj
-        </div>
-
-        <!-- INTEGRANTES DA COMISSÃO -->
-        @php
-            $integrantesComissao = $comissao->integrantes->filter(function($i) {
-                return $i->cargo->nome !== 'Festeiro de Promessa';
-            });
-        @endphp
-
-        @if($integrantesComissao->count() > 0)
-            <div style="margin-top: 20px;">
-                <div class="subsection-title">Integrantes da Comissão</div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th style="width: 60%;">Nome</th>
-                        <th style="width: 40%;">Cargo</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($integrantesComissao as $integrante)
-                        <tr>
-                            <td style="font-weight: 600;">{{ $integrante->pessoa->nome }}</td>
-                            <td>{{ $integrante->cargo->nome }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
-
-        <!-- FESTEIROS DE PROMESSA -->
-        @php
-            $festeiros = $comissao->integrantes->filter(function($i) {
-                return $i->cargo->nome === 'Festeiro de Promessa';
-            });
-        @endphp
-
-        @if($festeiros->count() > 0)
-            <div style="margin-top: 20px;">
-                <div class="subsection-title">Festeiros de Promessa</div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($festeiros as $festeiro)
-                        <tr>
-                            <td style="font-weight: 600;">{{ $festeiro->pessoa->nome }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
-    </div>
-@endif
-
 <!-- CARDÁPIO -->
 @if($evento->cardapios && $evento->cardapios->count() > 0)
     <div class="section">
-        <div class="section-title">Cardápio do Evento</div>
+        <div class="section-title">Prestação de Contas do Evento</div>
 
         @foreach($evento->cardapios as $cardapio)
             <div style="margin-bottom: 25px;">
@@ -446,6 +370,80 @@
         <div class="sem-dados">Nenhuma doação registrada para este evento</div>
     @endif
 </div>
+<!-- INFORMAÇÕES DA COMISSÃO -->
+@if($comissao)
+    <div class="section">
+        <div class="section-title">Comissão do Evento</div>
+
+        <div class="info-box">
+            <strong>{{ $comissao->nome }}</strong> - Ano {{ $comissao->ano }}
+            @if($comissao->descricao)
+                <br><span style="color: #4a5568; font-size: 13px;">{{ $comissao->descricao }}</span>
+            @endif
+        </div>
+
+        <!-- PÁROCO -->
+        <div class="info-box" style="border-left-color: #2d3748;">
+            <strong>Pároco:</strong> Pe. Pedro Canísio Schroeder sj
+        </div>
+
+        <!-- INTEGRANTES DA COMISSÃO -->
+        @php
+            $integrantesComissao = $comissao->integrantes->filter(function($i) {
+                return $i->cargo->nome !== 'Festeiro de Promessa';
+            });
+        @endphp
+
+        @if($integrantesComissao->count() > 0)
+            <div style="margin-top: 20px;">
+                <div class="subsection-title">Integrantes da Comissão</div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th style="width: 60%;">Nome</th>
+                        <th style="width: 40%;">Cargo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($integrantesComissao as $integrante)
+                        <tr>
+                            <td style="font-weight: 600;">{{ $integrante->pessoa->nome }}</td>
+                            <td>{{ $integrante->cargo->nome }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+
+        <!-- FESTEIROS DE PROMESSA -->
+        @php
+            $festeiros = $comissao->integrantes->filter(function($i) {
+                return $i->cargo->nome === 'Festeiro de Promessa';
+            });
+        @endphp
+
+        @if($festeiros->count() > 0)
+            <div style="margin-top: 20px;">
+                <div class="subsection-title">Festeiros de Promessa</div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($festeiros as $festeiro)
+                        <tr>
+                            <td style="font-weight: 600;">{{ $festeiro->pessoa->nome }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </div>
+@endif
 
 <!-- ARQUIVOS ANEXOS -->
 @if($arquivos && $arquivos->count() > 0)

@@ -109,6 +109,16 @@ class PublicoController extends Controller
         ]);
     }
 
+    public function contas(): Response
+    {
+        // Buscar apenas eventos passados (antes de hoje)
+        $eventos = Eventos::query()->get();
+
+        return Inertia::render('Publico/Contas', [
+            'eventos' => $eventos,
+        ]);
+    }
+
     /**
      * Detalhes de um evento específico com arquivos anexos
      */

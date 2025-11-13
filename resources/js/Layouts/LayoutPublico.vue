@@ -80,15 +80,6 @@
                 </Link>
 
                 <Link
-                    href="/publico/avisos"
-                    @click="menuLateralAberto = false"
-                    :class="isActive('/publico/avisos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
-                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
-                >
-                    <i class="fa-solid fa-bullhorn text-xl"></i>
-                    <span class="font-medium">Avisos</span>
-                </Link>
-                <Link
                     href="/publico/eventos"
                     @click="menuLateralAberto = false"
                     :class="isActive('/publico/eventos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
@@ -106,6 +97,24 @@
                 >
                     <i class="fa-solid fa-calendar-minus text-xl"></i>
                     <span class="font-medium">Eventos Passados</span>
+                </Link>
+                <Link
+                    href="/publico/contas"
+                    @click="menuLateralAberto = false"
+                    :class="isActive('/publico/contas') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
+                >
+                    <i class="fa-solid fa-dollar text-xl"></i>
+                    <span class="font-medium">Prestação de Contas</span>
+                </Link>
+                <Link
+                    href="/publico/avisos"
+                    @click="menuLateralAberto = false"
+                    :class="isActive('/publico/avisos') ? 'bg-amber-500 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700'"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group"
+                >
+                    <i class="fa-solid fa-bullhorn text-xl"></i>
+                    <span class="font-medium">Avisos</span>
                 </Link>
 
                 <Link

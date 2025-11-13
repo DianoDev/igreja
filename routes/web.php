@@ -249,6 +249,9 @@ Route::get('/publico/avisos', [PublicoController::class, 'avisos'])->name('publi
 // Comissão pública
 Route::get('/publico/comissao', [PublicoController::class, 'comissao'])->name('publico.comissao');
 
+// Comissão pública
+Route::get('/publico/contas', [PublicoController::class, 'contas'])->name('publico.contas');
+
 // Galeria de fotos pública
 Route::get('/publico/fotos', [PublicoController::class, 'fotos'])->name('publico.fotos');
 

@@ -1,16 +1,6 @@
 <template>
     <LayoutPublico>
         <div class="p-8">
-            <!-- Hero Section -->
-            <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-                <h1 class="text-4xl font-bold text-gray-800 mb-4">
-                    Bem-vindo à Paróquia São Benedito
-                </h1>
-                <p class="text-lg text-gray-600 mb-6">
-                    Acompanhe nossos eventos, atas das reuniões e documentos oficiais.
-                    Promovemos a transparência em todas as atividades da nossa comunidade.
-                </p>
-            </div>
 
             <!-- Próximos Eventos -->
             <div class="bg-white rounded-lg shadow-lg p-6">
@@ -24,7 +14,7 @@
                 <div v-if="eventos && eventos.length > 0" class="space-y-4">
                     <div v-for="evento in eventos" :key="evento.id"
                          class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
-                         @click="$inertia.visit(`/publico/eventos/${evento.id}`)">
+                         >
                         <div class="flex justify-between items-start">
                             <div class="flex-1">
                                 <h3 class="text-lg font-semibold text-gray-800 mb-2">
@@ -40,9 +30,11 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
+
+                                <span class="inline-block bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
                                 Em {{ diasAteEvento(evento.data) }}
                             </span>
+                                <button class="btn btn-primary btn-sm ms-4" @click="$inertia.visit(`/publico/eventos/${evento.id}`)">Ver Detalhes</button>
                             </div>
                         </div>
                     </div>
