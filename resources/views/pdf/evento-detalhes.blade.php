@@ -266,7 +266,7 @@
 <!-- RESUMO FINANCEIRO -->
 <div class="resumo-financeiro">
     <div class="resumo-item">
-        <div class="resumo-label">Valor Gasto</div>
+        <div class="resumo-label">Valor de Gasto Previsto</div>
         <div class="resumo-valor negativo">R$ {{ number_format($evento->valor_gasto, 2, ',', '.') }}</div>
     </div>
     <div class="resumo-item">
