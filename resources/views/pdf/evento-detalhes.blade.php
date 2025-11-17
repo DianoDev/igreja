@@ -324,7 +324,7 @@
 @endif
 
 <!-- DOAÇÕES -->
-<div class="section">
+<div class="section" style="page-break-before: always;">
     <div class="section-title">Doações Recebidas</div>
 
     @if($evento->doacoes && $evento->doacoes->count() > 0)
@@ -360,8 +360,7 @@
 <div class="resumo-financeiro">
     <div class="resumo-item">
         <div class="resumo-label">Valor de Gasto Previsto</div>
-        <div class="resumo-valor negativo">R$ {{ number_format($cardapio->ingredientes->sum('valor_total'), 2, ',', '.') }}</div>
-    </div>
+        R$ {{ number_format($evento->cardapios && $evento->cardapios->count() > 0 ? $evento->cardapios->sum(function($cardapio) { return $cardapio->ingredientes->sum('valor_total'); }) : 0, 2, ',', '.') }}    </div>
     <div class="resumo-item">
         <div class="resumo-label">Valor Arrecadado em Dinheiro $</div>
         <div class="resumo-valor positivo">R$ {{ number_format($evento->valor_arrecadado, 2, ',', '.') }}</div>
