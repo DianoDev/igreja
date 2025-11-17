@@ -363,11 +363,11 @@
         <div class="resumo-valor negativo">R$ {{ number_format($cardapio->ingredientes->sum('valor_total'), 2, ',', '.') }}</div>
     </div>
     <div class="resumo-item">
-        <div class="resumo-label">Valor Arrecadado (Doações)</div>
+        <div class="resumo-label">Valor Arrecadado em Dinheiro $</div>
         <div class="resumo-valor positivo">R$ {{ number_format($evento->valor_arrecadado, 2, ',', '.') }}</div>
     </div>
     <div class="resumo-item">
-        <div class="resumo-label">Valor Ingredientes Arrecadados</div>
+        <div class="resumo-label">Valor Arrecadado em Ingredientes </div>
         <div class="resumo-valor positivo">R$ {{ number_format($valor_doacoes_comida, 2, ',', '.') }}</div>
     </div>
     <div class="resumo-item">
