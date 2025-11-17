@@ -356,14 +356,19 @@
 </div>
 
 <!-- RESUMO FINANCEIRO -->
+<!-- RESUMO FINANCEIRO -->
 <div class="resumo-financeiro">
     <div class="resumo-item">
         <div class="resumo-label">Valor de Gasto Previsto</div>
-        <div class="resumo-valor negativo">R$ {{ number_format($evento->valor_gasto, 2, ',', '.') }}</div>
+        <div class="resumo-valor negativo">R$ {{ number_format($cardapio->ingredientes->sum('valor_total'), 2, ',', '.') }}</div>
     </div>
     <div class="resumo-item">
-        <div class="resumo-label">Valor Arrecadado</div>
+        <div class="resumo-label">Valor Arrecadado (Doações)</div>
         <div class="resumo-valor positivo">R$ {{ number_format($evento->valor_arrecadado, 2, ',', '.') }}</div>
+    </div>
+    <div class="resumo-item">
+        <div class="resumo-label">Valor Ingredientes Arrecadados</div>
+        <div class="resumo-valor positivo">R$ {{ number_format($valor_doacoes_comida, 2, ',', '.') }}</div>
     </div>
     <div class="resumo-item">
         <div class="resumo-label">Saldo</div>

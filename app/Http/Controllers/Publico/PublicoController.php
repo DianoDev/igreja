@@ -174,11 +174,14 @@ class PublicoController extends Controller
 
         // Calcular valor total a pagar (ingredientes sem responsável)
         $valor_a_pagar = 0;
+        $valor_doacoes_comida = 0;
 
         foreach ($evento->cardapios as $cardapio) {
             foreach ($cardapio->ingredientes as $ingrediente) {
                 if (is_null($ingrediente->id_pessoa)) {
                     $valor_a_pagar += floatval($ingrediente->valor_total);
+                }else{
+                    $valor_doacoes_comida  += floatval($ingrediente->valor_total);
                 }
             }
         }
@@ -188,6 +191,7 @@ class PublicoController extends Controller
             'arquivos' => $arquivos,
             'comissao' => $comissao,
             'saldo' => $saldo,
+            'valor_doacoes_comida' => $valor_doacoes_comida,
             'valor_a_pagar' => $valor_a_pagar,
         ]);
 
