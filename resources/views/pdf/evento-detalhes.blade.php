@@ -263,23 +263,7 @@
     </div>
 </div>
 
-<!-- RESUMO FINANCEIRO -->
-<div class="resumo-financeiro">
-    <div class="resumo-item">
-        <div class="resumo-label">Valor de Gasto Previsto</div>
-        <div class="resumo-valor negativo">R$ {{ number_format($evento->valor_gasto, 2, ',', '.') }}</div>
-    </div>
-    <div class="resumo-item">
-        <div class="resumo-label">Valor Arrecadado</div>
-        <div class="resumo-valor positivo">R$ {{ number_format($evento->valor_arrecadado, 2, ',', '.') }}</div>
-    </div>
-    <div class="resumo-item">
-        <div class="resumo-label">Saldo</div>
-        <div class="resumo-valor {{ $saldo > 0 ? 'positivo' : ($saldo < 0 ? 'alerta' : '') }}">
-            R$ {{ number_format($saldo, 2, ',', '.') }}
-        </div>
-    </div>
-</div>
+
 <!-- CARDÁPIO -->
 @if($evento->cardapios && $evento->cardapios->count() > 0)
     <div class="section">
@@ -370,102 +354,24 @@
         <div class="sem-dados">Nenhuma doação registrada para este evento</div>
     @endif
 </div>
-<!-- INFORMAÇÕES DA COMISSÃO -->
-@if($comissao)
-    <div class="section">
-        <div class="section-title">Comissão do Evento</div>
 
-        <div class="info-box">
-            <strong>{{ $comissao->nome }}</strong> - Ano {{ $comissao->ano }}
-            @if($comissao->descricao)
-                <br><span style="color: #4a5568; font-size: 13px;">{{ $comissao->descricao }}</span>
-            @endif
-        </div>
-
-        <!-- PÁROCO -->
-        <div class="info-box" style="border-left-color: #2d3748;">
-            <strong>Pároco:</strong> Pe. Pedro Canísio Schroeder sj
-        </div>
-
-        <!-- INTEGRANTES DA COMISSÃO -->
-        @php
-            $integrantesComissao = $comissao->integrantes->filter(function($i) {
-                return $i->cargo->nome !== 'Festeiro de Promessa';
-            });
-        @endphp
-
-        @if($integrantesComissao->count() > 0)
-            <div style="margin-top: 20px;">
-                <div class="subsection-title">Integrantes da Comissão</div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th style="width: 60%;">Nome</th>
-                        <th style="width: 40%;">Cargo</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($integrantesComissao as $integrante)
-                        <tr>
-                            <td style="font-weight: 600;">{{ $integrante->pessoa->nome }}</td>
-                            <td>{{ $integrante->cargo->nome }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
-
-        <!-- FESTEIROS DE PROMESSA -->
-        @php
-            $festeiros = $comissao->integrantes->filter(function($i) {
-                return $i->cargo->nome === 'Festeiro de Promessa';
-            });
-        @endphp
-
-        @if($festeiros->count() > 0)
-            <div style="margin-top: 20px;">
-                <div class="subsection-title">Festeiros de Promessa</div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($festeiros as $festeiro)
-                        <tr>
-                            <td style="font-weight: 600;">{{ $festeiro->pessoa->nome }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
+<!-- RESUMO FINANCEIRO -->
+<div class="resumo-financeiro">
+    <div class="resumo-item">
+        <div class="resumo-label">Valor de Gasto Previsto</div>
+        <div class="resumo-valor negativo">R$ {{ number_format($evento->valor_gasto, 2, ',', '.') }}</div>
     </div>
-@endif
-
-<!-- ARQUIVOS ANEXOS -->
-@if($arquivos && $arquivos->count() > 0)
-    <div class="section">
-        <div class="section-title">Arquivos do Evento</div>
-        <table>
-            <thead>
-            <tr>
-                <th>Descrição do Arquivo</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($arquivos as $arquivo)
-                <tr>
-                    <td style="font-weight: 500;">{{ $arquivo->descricao ?: 'Documento' }}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+    <div class="resumo-item">
+        <div class="resumo-label">Valor Arrecadado</div>
+        <div class="resumo-valor positivo">R$ {{ number_format($evento->valor_arrecadado, 2, ',', '.') }}</div>
     </div>
-@endif
-
+    <div class="resumo-item">
+        <div class="resumo-label">Saldo</div>
+        <div class="resumo-valor {{ $saldo > 0 ? 'positivo' : ($saldo < 0 ? 'alerta' : '') }}">
+            R$ {{ number_format($saldo, 2, ',', '.') }}
+        </div>
+    </div>
+</div>
 <!-- RODAPÉ -->
 <div class="footer">
     Relatório gerado automaticamente pelo Sistema de Gestão de Eventos<br>
