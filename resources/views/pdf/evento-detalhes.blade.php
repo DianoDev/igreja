@@ -247,6 +247,27 @@
             font-weight: 700;
             color: #1a202c;
         }
+
+        /* Estilos para grupos responsáveis compactos */
+        .grupos-compacto {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .grupos-compacto .grupo-nome {
+            font-weight: 700;
+            color: #2d3748;
+            display: inline;
+        }
+
+        .grupos-compacto .grupo-integrantes {
+            color: #4a5568;
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -269,6 +290,22 @@
     <div class="section">
         <div class="section-title">Prestação de Contas do Evento</div>
 
+        <!-- GRUPOS RESPONSÁVEIS (COMPACTO) -->
+        @if($evento->grupos && $evento->grupos->count() > 0)
+            @foreach($evento->grupos as $grupo)
+                <div class="grupos-compacto">
+                    <span class="grupo-nome">{{ $grupo->nome }}:</span>
+                    <span class="grupo-integrantes">
+                        @if($grupo->pessoas && $grupo->pessoas->count() > 0)
+                            {{ $grupo->pessoas->pluck('pessoa.nome')->filter()->implode(', ') }}
+                        @else
+                            Nenhum integrante
+                        @endif
+                    </span>
+                </div>
+            @endforeach
+        @endif
+
         @foreach($evento->cardapios as $cardapio)
             <div style="margin-bottom: 25px;">
                 <div class="info-box">
@@ -282,10 +319,10 @@
                     <table>
                         <thead>
                         <tr>
-                            <th style="width: 28%;">Ingrediente</th>
-                            <th style="width: 16%;">Quantidade</th>
-                            <th style="width: 14%;" class="text-right">Valor Unit.</th>
-                            <th style="width: 14%;" class="text-right">Valor Total</th>
+                            <th style="width: 40%;">Ingrediente</th>
+                            <th style="width: 20%;">Quantidade</th>
+                            <th style="width: 20%;" class="text-right">Valor Unit.</th>
+                            <th style="width: 20%;" class="text-right">Valor Total</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -367,7 +404,7 @@
             </span>
         </div>
         <div style="margin-bottom: 10px;">
-            <strong style="color: #2d3748;">Valor Arrecadado em Ingredientes:</strong>
+            <strong style="color: #2d3748;">Valor Arrecadado em Produtos:</strong>
             <span style="float: right; font-size: 16px; font-weight: 700; color: #2f855a;">
                 R$ {{ number_format($valor_doacoes_comida, 2, ',', '.') }}
             </span>
@@ -421,47 +458,6 @@
         </div>
     </div>
 </div>
-
-<!-- GRUPOS RESPONSÁVEIS -->
-@if($evento->grupos && $evento->grupos->count() > 0)
-    <div class="section" style="page-break-before: always;">
-        <div class="section-title">Grupos Responsáveis</div>
-
-        @foreach($evento->grupos as $grupo)
-            <div class="info-box" style="margin-bottom: 20px;">
-                <div style="font-size: 16px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">
-                  {{ $grupo->nome }}
-                </div>
-
-                @if($grupo->pessoas && $grupo->pessoas->count() > 0)
-                    <div style="margin-top: 10px;">
-                        <div style="font-size: 13px; font-weight: 600; color: #4a5568; margin-bottom: 8px;">
-                            Integrantes ({{ $grupo->pessoas->count() }}):
-                        </div>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th style="width: 60%;">Nome</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($grupo->pessoas as $index => $pessoaGrupo)
-                                <tr>
-                                    <td style="font-weight: 600;">{{ $pessoaGrupo->pessoa->nome ?? 'Nome não disponível' }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @else
-                    <div class="sem-dados" style="padding: 15px;">
-                        Nenhum integrante cadastrado neste grupo
-                    </div>
-                @endif
-            </div>
-        @endforeach
-    </div>
-@endif
 
 <!-- RODAPÉ -->
 <div class="footer">
