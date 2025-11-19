@@ -22,7 +22,7 @@
                                 </h3>
                                 <div class="flex flex-wrap gap-4 text-sm text-gray-600">
                                 <span class="flex items-center">
-                                    📅 {{ formatarData(evento.data) }}
+                                     {{ formatarData(evento.data) }}
                                 </span>
                                     <span class="flex items-center">
                                     🕐 {{ evento.hora }}
