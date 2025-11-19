@@ -61,7 +61,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
-const acao = ref('/admin/grupos/');
+const acao = ref('/admin/grupos/create');
 const events = inject('events');
 const toast = useToast();
 const errors = ref({});

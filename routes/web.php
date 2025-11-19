@@ -267,7 +267,7 @@ Route::group(['prefix' => 'admin/grupos'], function () {
     Route::get('/list', [GrupoController::class, 'list'])->name('admin.grupos.list');
     Route::get('/{id}', [GrupoController::class, 'edit'])->name('admin.grupos.edit');
     Route::get('/{id}/info', [GrupoController::class, 'info'])->name('admin.grupos.info');
-    Route::post('/', [GrupoController::class, 'create'])->name('admin.grupos.create');
+    Route::post('/create', [GrupoController::class, 'create'])->name('admin.grupos.create');
     Route::post('/{id}', [GrupoController::class, 'update'])->name('admin.grupos.update');
     Route::delete('/{id}', [GrupoController::class, 'delete'])->name('admin.grupos.delete');
 });
