@@ -61,4 +61,12 @@ class Eventos extends Model
     {
         return $this->hasMany(CardapioEvento::class, 'id_evento', 'id');
     }
+
+    /**
+     * Relacionamento com grupos do evento
+     */
+    public function grupos(): HasMany
+    {
+        return $this->hasMany(GrupoEvento::class, 'id_evento', 'id');
+    }
 }

@@ -156,7 +156,8 @@ class PublicoController extends Controller
             'cargos.cargo',
             'doacoes.pessoa',
             'cardapios.ingredientes.pessoa',
-            'fotos'
+            'fotos',
+            'grupos.pessoas.pessoa'
         ])->findOrFail($id);
 
         $arquivos = DB::table('arquivo')

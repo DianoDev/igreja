@@ -283,7 +283,6 @@
                         <thead>
                         <tr>
                             <th style="width: 28%;">Ingrediente</th>
-                            <th style="width: 28%;">Responsável</th>
                             <th style="width: 16%;">Quantidade</th>
                             <th style="width: 14%;" class="text-right">Valor Unit.</th>
                             <th style="width: 14%;" class="text-right">Valor Total</th>
@@ -293,9 +292,6 @@
                         @foreach($cardapio->ingredientes as $ingrediente)
                             <tr>
                                 <td style="font-weight: 600;">{{ $ingrediente->nome }}</td>
-                                <td style="{{ !$ingrediente->pessoa ? 'color: #c53030; font-style: italic; font-weight: 600;' : 'font-weight: 500;' }}">
-                                    {{ $ingrediente->pessoa ? $ingrediente->pessoa->nome : 'Sem responsável' }}
-                                </td>
                                 <td style="font-weight: 500;">{{ $ingrediente->quantidade }} {{ $ingrediente->unidade_medida }}</td>
                                 <td class="text-right valor-monetario">
                                     R$ {{ number_format($ingrediente->valor_unitario, 2, ',', '.') }}</td>
@@ -356,26 +352,117 @@
 </div>
 
 <!-- RESUMO FINANCEIRO -->
-<!-- RESUMO FINANCEIRO -->
-<div class="resumo-financeiro">
-    <div class="resumo-item">
-        <div class="resumo-label">Valor de Gasto Previsto</div>
-        R$ {{ number_format($evento->cardapios && $evento->cardapios->count() > 0 ? $evento->cardapios->sum(function($cardapio) { return $cardapio->ingredientes->sum('valor_total'); }) : 0, 2, ',', '.') }}    </div>
-    <div class="resumo-item">
-        <div class="resumo-label">Valor Arrecadado em Dinheiro $</div>
-        <div class="resumo-valor positivo">R$ {{ number_format($evento->valor_arrecadado, 2, ',', '.') }}</div>
+<div class="section">
+    <div class="section-title">Resumo Financeiro</div>
+
+    <!-- ENTRADA -->
+    <div class="info-box" style="border-left-color: #2f855a; background: #f0fff4; margin-bottom: 20px;">
+        <div style="font-size: 15px; font-weight: 700; color: #2f855a; margin-bottom: 12px; text-transform: uppercase;">
+            ENTRADA
+        </div>
+        <div style="margin-bottom: 10px;">
+            <strong style="color: #2d3748;">Valor Arrecadado em Dinheiro:</strong>
+            <span style="float: right; font-size: 16px; font-weight: 700; color: #2f855a;">
+                R$ {{ number_format($evento->valor_arrecadado, 2, ',', '.') }}
+            </span>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <strong style="color: #2d3748;">Valor Arrecadado em Ingredientes:</strong>
+            <span style="float: right; font-size: 16px; font-weight: 700; color: #2f855a;">
+                R$ {{ number_format($valor_doacoes_comida, 2, ',', '.') }}
+            </span>
+        </div>
+        <div style="border-top: 2px solid #2f855a; margin-top: 12px; padding-top: 12px;">
+            <strong style="color: #2d3748; font-size: 15px;">TOTAL DE ENTRADA:</strong>
+            <span style="float: right; font-size: 18px; font-weight: 700; color: #2f855a;">
+                R$ {{ number_format($evento->valor_arrecadado + $valor_doacoes_comida, 2, ',', '.') }}
+            </span>
+        </div>
     </div>
-    <div class="resumo-item">
-        <div class="resumo-label">Valor Arrecadado em Ingredientes </div>
-        <div class="resumo-valor positivo">R$ {{ number_format($valor_doacoes_comida, 2, ',', '.') }}</div>
+
+    <!-- SAÍDA -->
+    <div class="info-box" style="border-left-color: #c53030; background: #fff5f5; margin-bottom: 20px;">
+        <div style="font-size: 15px; font-weight: 700; color: #c53030; margin-bottom: 12px; text-transform: uppercase;">
+            SAÍDA
+        </div>
+        <div style="margin-bottom: 10px;">
+            <strong style="color: #2d3748;">Valor Gasto Previsto:</strong>
+            <span style="float: right; font-size: 16px; font-weight: 700; color: #c53030;">
+                R$ {{ number_format($evento->cardapios && $evento->cardapios->count() > 0 ? $evento->cardapios->sum(function($cardapio) { return $cardapio->ingredientes->sum('valor_total'); }) : 0, 2, ',', '.') }}
+            </span>
+        </div>
+        <div style="border-top: 2px solid #c53030; margin-top: 12px; padding-top: 12px;">
+            <strong style="color: #2d3748; font-size: 15px;">TOTAL DE SAÍDA:</strong>
+            <span style="float: right; font-size: 18px; font-weight: 700; color: #c53030;">
+                R$ {{ number_format($evento->cardapios && $evento->cardapios->count() > 0 ? $evento->cardapios->sum(function($cardapio) { return $cardapio->ingredientes->sum('valor_total'); }) : 0, 2, ',', '.') }}
+            </span>
+        </div>
     </div>
-    <div class="resumo-item">
-        <div class="resumo-label">Saldo</div>
-        <div class="resumo-valor {{ $saldo > 0 ? 'positivo' : ($saldo < 0 ? 'alerta' : '') }}">
-            R$ {{ number_format($saldo, 2, ',', '.') }}
+
+    <!-- RESULTADO -->
+    @php
+        $total_entrada = $evento->valor_arrecadado + $valor_doacoes_comida;
+        $total_saida = $evento->cardapios && $evento->cardapios->count() > 0 ? $evento->cardapios->sum(function($cardapio) { return $cardapio->ingredientes->sum('valor_total'); }) : 0;
+        $resultado = $total_entrada - $total_saida;
+        $cor_resultado = $resultado > 0 ? '#2f855a' : ($resultado < 0 ? '#c53030' : '#4a5568');
+        $bg_resultado = $resultado > 0 ? '#f0fff4' : ($resultado < 0 ? '#fff5f5' : '#f7fafc');
+    @endphp
+    <div class="info-box" style="border-left-color: {{ $cor_resultado }}; background: {{ $bg_resultado }};">
+        <div style="font-size: 15px; font-weight: 700; color: {{ $cor_resultado }}; margin-bottom: 12px; text-transform: uppercase;">
+            RESULTADO
+        </div>
+        <div style="text-align: center; padding: 10px 0;">
+            <div style="font-size: 24px; font-weight: 700; color: {{ $cor_resultado }};">
+                R$ {{ number_format($resultado, 2, ',', '.') }}
+            </div>
+            <div style="font-size: 12px; color: #718096; margin-top: 8px; font-style: italic;">
+                {{ $resultado > 0 ? 'Saldo Positivo' : ($resultado < 0 ? 'Saldo Negativo' : 'Saldo Neutro') }}
+            </div>
         </div>
     </div>
 </div>
+
+<!-- GRUPOS RESPONSÁVEIS -->
+@if($evento->grupos && $evento->grupos->count() > 0)
+    <div class="section" style="page-break-before: always;">
+        <div class="section-title">Grupos Responsáveis</div>
+
+        @foreach($evento->grupos as $grupo)
+            <div class="info-box" style="margin-bottom: 20px;">
+                <div style="font-size: 16px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">
+                  {{ $grupo->nome }}
+                </div>
+
+                @if($grupo->pessoas && $grupo->pessoas->count() > 0)
+                    <div style="margin-top: 10px;">
+                        <div style="font-size: 13px; font-weight: 600; color: #4a5568; margin-bottom: 8px;">
+                            Integrantes ({{ $grupo->pessoas->count() }}):
+                        </div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th style="width: 60%;">Nome</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($grupo->pessoas as $index => $pessoaGrupo)
+                                <tr>
+                                    <td style="font-weight: 600;">{{ $pessoaGrupo->pessoa->nome ?? 'Nome não disponível' }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <div class="sem-dados" style="padding: 15px;">
+                        Nenhum integrante cadastrado neste grupo
+                    </div>
+                @endif
+            </div>
+        @endforeach
+    </div>
+@endif
+
 <!-- RODAPÉ -->
 <div class="footer">
     Relatório gerado automaticamente pelo Sistema de Gestão de Eventos<br>
