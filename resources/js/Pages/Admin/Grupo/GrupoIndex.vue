@@ -1,0 +1,78 @@
+<template>
+    <LayoutPrincipal>
+        <div class="page-content">
+            <div class="flex items-center justify-between mb-4 w-100">
+                <h2 class="text-2xl font-semibold text-primary"></h2>
+                <div class="flex">
+                    <popup-button
+                        id="novo-grupos"
+                        title="Novo  Grupo"
+                        size="xl"
+                        component="GrupoForm"
+                        variant="secondary"
+                    >
+                        <i class="mr-2 fa fa-plus"></i>
+                        Novo  Grupo
+                    </popup-button>
+                </div>
+            </div>
+            <div>
+                <datatable
+                    id="grupos"
+                    :columns="columns"
+                    :source="source"
+                ></datatable>
+            </div>
+        </div>
+    </LayoutPrincipal>
+</template>
+
+<script setup>
+import { ref, inject } from 'vue';
+import Datatable from '@/Components/datatable/Datatable.vue';
+import LayoutPrincipal from '@/Layouts/LayoutPrincipal.vue';
+import PopupButton from '@/Components/PopupButton.vue';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
+const events = inject('events');
+const source = ref('/admin/grupos/list');
+
+const columns = ref([
+    {name: 'nome', title: 'Nome', width: '20%', sort: 'nome', nowrap: true},
+    {
+        name: 'id',
+        title: 'Ações',
+        width: '10%',
+        nowrap: true,
+        contentClass: 'text-center',
+        headerClass: 'text-center',
+        template: 'dropdown',
+        formatter: (val, row) => [
+            {
+                type: 'anchor',
+                icon: 'fa-users',
+                href: `/admin/grupos/${row.id}/info`,
+                text: 'Pessoas',
+            },
+            {
+                type: 'modal',
+                icon: 'fa-edit',
+                dataSize: 'xl',
+                dataComponent: 'GrupoForm',
+                dataTitle: 'Editar  Grupo',
+                dataJson: { id: row.id },
+                text: 'Editar'
+            },
+            {
+                type: 'delete',
+                icon: 'fa-trash',
+                text: 'Remover',
+                deleteUrl: `/admin/grupos/${row.id}`,
+                dataTitle: 'Confirmação de Remoção',
+                dataMessage: 'Você deseja realmente excluir este registro?'
+            }
+        ]
+    }
+]);
+</script>

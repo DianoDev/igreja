@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\GrupoController;
 use App\Http\Controllers\Admin\AvisosController;
 use App\Http\Controllers\Admin\ComissaoController;
 use App\Http\Controllers\Admin\CardapioController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Admin\RegimeInternoController;
 use App\Http\Controllers\Admin\CargoController;
 use App\Http\Controllers\Admin\PessoaController;
 use App\Http\Controllers\Admin\ArquivoController;
+use App\Http\Controllers\Admin\PessoaGrupoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Publico\PublicoController;
 use Illuminate\Foundation\Application;
@@ -257,3 +259,21 @@ Route::get('/publico/fotos', [PublicoController::class, 'fotos'])->name('publico
 
 Route::get('/publico/evento/{id}/pdf', [PublicoController::class, 'eventoDetalhesPdf'])
     ->name('publico.evento.pdf');
+
+Route::group(['prefix' => 'admin/grupos'], function () {
+    Route::get('/', [GrupoController::class, 'index'])->name('admin.grupos.index');
+    Route::get('/list', [GrupoController::class, 'list'])->name('admin.grupos.list');
+    Route::get('/{id}', [GrupoController::class, 'edit'])->name('admin.grupos.edit');
+    Route::get('/{id}/info', [GrupoController::class, 'info'])->name('admin.grupos.info');
+    Route::post('/', [GrupoController::class, 'create'])->name('admin.grupos.create');
+    Route::post('/{id}', [GrupoController::class, 'update'])->name('admin.grupos.update');
+    Route::delete('/{id}', [GrupoController::class, 'delete'])->name('admin.grupos.delete');
+});
+
+// Rotas Admin - Integrantes do Grupo
+Route::prefix('admin/pessoa-grupo')->group(function () {
+    Route::get('/buscar-pessoa', [PessoaGrupoController::class, 'buscarPessoa'])->name('pessoa-grupo.buscar-pessoa');
+    Route::get('/grupo/{idGrupo}', [PessoaGrupoController::class, 'listarPorGrupo'])->name('pessoa-grupo.listar-grupo');
+    Route::post('/adicionar', [PessoaGrupoController::class, 'adicionar'])->name('pessoa-grupo.adicionar');
+    Route::delete('/{id}', [PessoaGrupoController::class, 'remover'])->name('pessoa-grupo.remover');
+});

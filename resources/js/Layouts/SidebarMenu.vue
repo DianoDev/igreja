@@ -22,9 +22,18 @@
                             <a href="#" @click.prevent="router.visit(`/admin/pessoas`)" class="menu-link"
                                 :data-tooltip="collapsed ? 'Dashboard' : ''">
                                 <span class="menu-icon">
-                                    <i class="fa fa-people-group"></i>
+                                    <i class="fa fa-user"></i>
                                 </span>
                                 <span class="menu-title">Pessoas</span>
+                            </a>
+                        </li>
+                        <li class="menu-item" :class="{ 'active': isActive('grupos') }">
+                            <a href="#" @click.prevent="router.visit(`/admin/grupos`)" class="menu-link"
+                               :data-tooltip="collapsed ? 'Cargo' : ''">
+                                <span class="menu-icon">
+                                    <i class="fa fa-people-group"></i>
+                                </span>
+                                <span class="menu-title">Grupos</span>
                             </a>
                         </li>
                         <li class="menu-item" :class="{ 'active': isActive('cargo') }">
@@ -214,6 +223,8 @@ onMounted(() => {
         activeItem.value = 'comissao';
     }else if (path.includes('avisos')) {
         activeItem.value = 'avisos';
+    }else if (path.includes('grupos')) {
+        activeItem.value = 'grupos';
     }
 
     nextTick(() => {
