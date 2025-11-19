@@ -55,7 +55,7 @@ class EventosRepository implements EventosContract
         try {
             $eventos = new Eventos([
                 'nome' => $params['nome'],
-                'data' => Carbon::parse($params['data'])->format('Y-m-d H:i:s'),
+                'data' => Carbon::parse($params['data'])->format('Y-m-d'),
                 'hora' => $params['hora'],
                 'valor_gasto' => 0,
                 'valor_arrecadado' => 0
@@ -76,7 +76,7 @@ class EventosRepository implements EventosContract
         try {
             $eventos = $this->getById($id);
             if (isset($params['data'])) {
-                $params['data'] = Carbon::parse($params['data'])->format('Y-m-d H:i:s');
+                $params['data'] = Carbon::parse($params['data'])->format('Y-m-d'); // Removido H:i:s
             }
             $eventos->update($params);
 

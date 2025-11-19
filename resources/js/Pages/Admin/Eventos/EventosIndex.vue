@@ -109,16 +109,8 @@ const formatarData = (data) => {
     if (!data) return '-';
 
     try {
-        // Se a data vier como string ISO (YYYY-MM-DD ou YYYY-MM-DD HH:mm:ss)
-        const date = new Date(data);
-
-        // Verificar se a data é válida
-        if (isNaN(date.getTime())) return data;
-
-        const dia = String(date.getDate()).padStart(2, '0');
-        const mes = String(date.getMonth() + 1).padStart(2, '0');
-        const ano = date.getFullYear();
-
+        // Usar apenas a parte da data, ignorando timezone
+        const [ano, mes, dia] = data.split(/[-T ]/);
         return `${dia}/${mes}/${ano}`;
     } catch (error) {
         console.error('Erro ao formatar data:', error);

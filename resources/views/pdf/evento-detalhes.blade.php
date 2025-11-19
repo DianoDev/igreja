@@ -279,9 +279,6 @@
         &nbsp;&nbsp;•&nbsp;&nbsp;
         <strong>Horário:</strong> {{ $evento->hora }}
     </div>
-    <div class="info" style="margin-top: 10px;">
-        Relatório gerado em {{ now()->format('d/m/Y \à\s H:i') }}
-    </div>
 </div>
 
 
@@ -462,8 +459,9 @@
 
 <!-- RODAPÉ -->
 <div class="footer">
-    Relatório gerado automaticamente pelo Sistema de Gestão de Eventos<br>
-    © {{ now()->year }} - Todos os direitos reservados
+    <div class="info" style="margin-top: 10px;">
+        Relatório gerado em {{ now()->format('d/m/Y \à\s H:i') }}
+    </div>
 </div>
 </body>
 </html>

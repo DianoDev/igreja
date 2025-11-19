@@ -183,7 +183,12 @@ const loadData = async () => {
         const response = await axios.get(`/admin/eventos/${props.data.id}`);
         Object.keys(form.value).forEach(key => {
             if (response.data[key] !== undefined) {
-                form.value[key] = response.data[key];
+                // Converter data string para objeto Date
+                if (key === 'data' && response.data[key]) {
+                    form.value[key] = new Date(response.data[key] + 'T00:00:00');
+                } else {
+                    form.value[key] = response.data[key];
+                }
             }
         });
         readOnly.value = Boolean(props.data.readOnly);
