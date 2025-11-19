@@ -292,6 +292,7 @@
 
         <!-- GRUPOS RESPONSÁVEIS (COMPACTO) -->
         @if($evento->grupos && $evento->grupos->count() > 0)
+            <div>Responsáveis:</div>
             @foreach($evento->grupos as $grupo)
                 <div class="grupos-compacto">
                     <span class="grupo-nome">{{ $grupo->nome }}:</span>
