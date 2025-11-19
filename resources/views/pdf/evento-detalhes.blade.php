@@ -337,7 +337,7 @@
                             </tr>
                         @endforeach
                         <tr class="total-row">
-                            <td colspan="4" class="text-right">SUBTOTAL</td>
+                            <td colspan="3" class="text-right">SUBTOTAL</td>
                             <td class="text-right">
                                 R$ {{ number_format($cardapio->ingredientes->sum('valor_total'), 2, ',', '.') }}</td>
                         </tr>
