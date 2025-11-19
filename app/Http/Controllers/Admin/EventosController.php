@@ -84,4 +84,13 @@ class EventosController extends Controller
         $this->eventosRepository->destroy($id);
         return response()->json(['success' => true, 'message' => 'Eventos excluído com sucesso!']);
     }
+
+    public function grupos(int $id): Response
+    {
+        $evento = $this->eventosRepository->getById($id);
+
+        return Inertia::render('Admin/Eventos/EventoGrupos', [
+            'evento' => $evento,
+        ]);
+    }
 }

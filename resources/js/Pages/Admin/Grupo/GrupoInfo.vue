@@ -29,7 +29,7 @@
             </div>
 
             <!-- Grid Principal: Integrantes -->
-            <div class="grid grid-cols-1 gap-8">
+            <div style="min-height: 500px" class="grid grid-cols-1 gap-8">
                 <!-- Integrantes do Grupo -->
                 <div class="card">
                     <div class="card-header">

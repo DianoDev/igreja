@@ -1,22 +1,23 @@
 <?php
 
-use App\Http\Controllers\Admin\GrupoController;
+use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\AvisosController;
-use App\Http\Controllers\Admin\ComissaoController;
 use App\Http\Controllers\Admin\CardapioController;
 use App\Http\Controllers\Admin\CardapioEventoController;
+use App\Http\Controllers\Admin\CargoController;
 use App\Http\Controllers\Admin\CargoEventoController;
+use App\Http\Controllers\Admin\ComissaoController;
 use App\Http\Controllers\Admin\ComissaoPessoaController;
 use App\Http\Controllers\Admin\DoacaoEventoController;
 use App\Http\Controllers\Admin\EventosController;
-use App\Http\Controllers\Admin\AtaController;
 use App\Http\Controllers\Admin\EstatutoController;
 use App\Http\Controllers\Admin\GaleriaEventoController;
-use App\Http\Controllers\Admin\RegimeInternoController;
-use App\Http\Controllers\Admin\CargoController;
+use App\Http\Controllers\Admin\GrupoController;
+use App\Http\Controllers\Admin\GrupoEventoController;
 use App\Http\Controllers\Admin\PessoaController;
-use App\Http\Controllers\Admin\ArquivoController;
 use App\Http\Controllers\Admin\PessoaGrupoController;
+use App\Http\Controllers\Admin\RegimeInternoController;
+use App\Http\Controllers\Admin\ArquivoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Publico\PublicoController;
 use Illuminate\Foundation\Application;
@@ -93,6 +94,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/list', [EventosController::class, 'list'])->name('admin.eventos.list');
         Route::get('/{id}', [EventosController::class, 'edit'])->name('admin.eventos.edit');
         Route::get('/{id}/info', [EventosController::class, 'info'])->name('admin.eventos.info');
+        Route::get('/{id}/grupos', [EventosController::class, 'grupos'])->name('admin.eventos.grupos');
         Route::post('/create', [EventosController::class, 'create'])->name('admin.eventos.create');
         Route::post('/{id}', [EventosController::class, 'update'])->name('admin.eventos.update');
         Route::delete('/{id}', [EventosController::class, 'delete'])->name('admin.eventos.delete');
@@ -276,4 +278,21 @@ Route::prefix('admin/pessoa-grupo')->group(function () {
     Route::get('/grupo/{idGrupo}', [PessoaGrupoController::class, 'listarPorGrupo'])->name('pessoa-grupo.listar-grupo');
     Route::post('/adicionar', [PessoaGrupoController::class, 'adicionar'])->name('pessoa-grupo.adicionar');
     Route::delete('/{id}', [PessoaGrupoController::class, 'remover'])->name('pessoa-grupo.remover');
+});
+
+// Rotas Admin - Grupo Evento
+Route::prefix('admin/grupo-evento')->group(function () {
+    // Rotas específicas devem vir ANTES das rotas genéricas com {id}
+    Route::get('/buscar-pessoa', [GrupoEventoController::class, 'buscarPessoa'])->name('grupo-evento.buscar-pessoa');
+    Route::get('/grupos-modelo', [GrupoEventoController::class, 'listarGruposModelo'])->name('grupo-evento.listar-modelo');
+    Route::get('/evento/{idEvento}', [GrupoEventoController::class, 'listarPorEvento'])->name('grupo-evento.listar-evento');
+    Route::post('/adicionar', [GrupoEventoController::class, 'adicionar'])->name('grupo-evento.adicionar');
+    Route::post('/importar', [GrupoEventoController::class, 'importar'])->name('grupo-evento.importar');
+    Route::post('/adicionar-pessoa', [GrupoEventoController::class, 'adicionarPessoa'])->name('grupo-evento.adicionar-pessoa');
+    Route::delete('/pessoa/{id}', [GrupoEventoController::class, 'removerPessoa'])->name('grupo-evento.remover-pessoa');
+
+    // Rotas genéricas com {id} devem vir por ÚLTIMO
+    Route::get('/detalhes/{id}', [GrupoEventoController::class, 'detalhes'])->name('grupo-evento.detalhes');
+    Route::put('/{id}', [GrupoEventoController::class, 'atualizar'])->name('grupo-evento.atualizar');
+    Route::delete('/{id}', [GrupoEventoController::class, 'remover'])->name('grupo-evento.remover');
 });

@@ -60,6 +60,12 @@ const columns = ref([
         formatter: (val, row) => [
             {
                 type: 'anchor',
+                icon: 'fa-people-group',
+                href: `/admin/eventos/${row.id}/grupos`,
+                text: 'Grupo do Evento',
+            },
+            {
+                type: 'anchor',
                 icon: 'fa-utensils',
                 href: `/admin/eventos/${row.id}/info`,
                 text: 'Cardapio e Doações',

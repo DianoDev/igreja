@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Databases\Contracts\CardapioEventoContract;
 use App\Databases\Contracts\GrupoContract;
+use App\Databases\Contracts\GrupoEventoContract;
+use App\Databases\Repositories\GrupoEventoRepository;
 use App\Databases\Repositories\GrupoRepository;
 use App\Databases\Contracts\AvisosContract;
 use App\Databases\Repositories\AvisosRepository;
@@ -14,6 +16,7 @@ use App\Databases\Contracts\DoacaoEventoContract;
 use App\Databases\Repositories\CardapioEventoRepository;
 use App\Databases\Repositories\CargoEventoRepository;
 use App\Databases\Repositories\DoacaoEventoRepository;
+use App\Http\Controllers\Admin\GrupoEventoController;
 use Illuminate\Support\Facades\Vite;
 use App\Databases\Contracts\CardapioContract;
 use App\Databases\Repositories\CardapioRepository;
@@ -59,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(CargoEventoContract::class, CargoEventoRepository::class);
         app()->bind(DoacaoEventoContract::class, DoacaoEventoRepository::class);
         app()->bind(CardapioEventoContract::class, CardapioEventoRepository::class);
+        app()->bind(GrupoEventoContract::class, GrupoEventoRepository::class);
         Vite::prefetch(concurrency: 3);
     }
 }

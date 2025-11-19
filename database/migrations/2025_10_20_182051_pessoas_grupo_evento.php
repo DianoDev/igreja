@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_grupo_evento')->constrained('grupo_evento')->onDelete('cascade');
             $table->integer('id_pessoa')->nullable();
+            $table->timestamps();
             $table->softDeletes();
         });
     }
